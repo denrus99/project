@@ -1,2 +1,0 @@
-{"@t":"2020-04-20T07:29:27.7881358Z","@m":"Running web host","@i":"ae4d1e0d"}
-{"@t":"2020-04-20T07:29:30.1031991Z","@m":"HTTP \"GET\" \"/\" responded 200 in 363.7641 ms","@i":"62d0885c","RequestMethod":"GET","RequestPath":"/","StatusCode":200,"Elapsed":363.7641,"SourceContext":"Serilog.AspNetCore.RequestLoggingMiddleware"}
