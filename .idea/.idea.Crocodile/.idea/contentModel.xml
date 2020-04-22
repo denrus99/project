@@ -121,6 +121,16 @@
           <e p="WeatherForecastController.cs" t="Include" />
         </e>
         <e p="Crocodile.csproj" t="IncludeRecursive" />
+        <e p="DataBase" t="Include">
+          <e p="GameEntity.cs" t="Include" />
+          <e p="IGameRepository.cs" t="Include" />
+          <e p="InMemoryGameRepository.cs" t="Include" />
+          <e p="IUserRepository.cs" t="Include" />
+          <e p="MongoUserRepository.cs" t="Include" />
+          <e p="Points.cs" t="Include" />
+          <e p="Status.cs" t="Include" />
+          <e p="UserEntity.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -140,6 +150,9 @@
         </e>
         <e p="Startup.cs" t="Include" />
         <e p="WeatherForecast.cs" t="Include" />
+        <e p="wwwroot" t="Include">
+          <e p="DefaultUserPhoto.png" t="Include" />
+        </e>
       </e>
       <e p="Crocodile.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
