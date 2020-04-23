@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\Денис\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Денис\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Crocodile.388621247.00" t="ExcludeRecursive" />
-    <e p="D:\repos\WebApplication" t="IncludeFlat">
+    <e p="C:\Users\Денис\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Crocodile.-820547290.00" t="ExcludeRecursive" />
+    <e p="D:\It's assemble time\Нечто\project" t="IncludeFlat">
       <e p="Crocodile" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
         <e p="appsettings.Development.json" t="Include" />
@@ -110,6 +110,7 @@
             <e p="index.js" t="Include" />
             <e p="input.js" t="Include" />
             <e p="registerServiceWorker.js" t="Include" />
+            <e p="serviceWorker.js" t="Include" />
             <e p="style.css" t="Include" />
           </e>
         </e>

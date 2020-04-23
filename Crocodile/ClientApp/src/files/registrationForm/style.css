@@ -20,10 +20,9 @@
     border: none;
 }
 
-.myButtonIn,.myButtonUp {
-    position: absolute;
-    top:21em;
-    left:2em;
+
+.button{
+    position: relative;
     box-shadow:inset 0 1px 9px -9px #97c4fe;
     background-color:#3d94f6;
     border-radius:8px;
@@ -37,11 +36,18 @@
     text-decoration:none;
     display: flex;
 }
+.button::selection{
+    background: transparent;
+}
 .myButtonUp {
     top:17em;
     left:4.5em;
 }
-.myButtonUp,.myButtonIn:hover {
+.myButtonIn {
+    top:21em;
+    left:2em;
+}
+.button:hover {
     background-color:#1e62d0;
 }
 .myButtonIn:active {
