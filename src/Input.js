@@ -46,7 +46,7 @@ export class Input extends Component {
                         </td>
                     </tr>
                 </table>
-                <a  type="submit" onClick={(parent)=>this.props.signIn()} className="myButtonIn">Войти</a>
+                <a  type="submit" onClick={(parent)=>this.props.signIn()} className="button myButtonIn">Войти</a>
                 <span style={{position: 'absolute', fontSize: '2em', left: '15em', top: '32em'}}>
         Нет аккаунта? <a onClick={(x) => {this.setState({isInput: false})}} style={{cursor:"pointer",display: 'inline-block'}}><h4
                     style={{textDecoration: 'underline'}}>Регистрация</h4></a>
@@ -74,7 +74,7 @@ export class Input extends Component {
                            defaultValue=""
                            placeholder="Подтвердите пароль"
                            required/>
-                    <a type="submit" onClick={()=>this.props.signIn()} className="myButtonUp">Подтвердить</a>
+                    <a type="submit" onClick={()=>this.props.signIn()} className="button myButtonUp">Подтвердить</a>
                 </div>
             </form>;
     }

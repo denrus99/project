@@ -36,8 +36,7 @@ export class HeaderComponent extends Component {
         <Popup trigger={
             <div className="playerContainer" style={this.linkStyle}>
                 <h1 style={this.h1Style}>{'Войти'}</h1>
-            </div>
-        } modal contentStyle={{width: "inherit", background: "none", border: "none"}}>
+            </div> } modal contentStyle={{width: "inherit", background: "none", border: "none"}}>
             {close => (
                 <div className="modal">
                     {this._closePopup = close}
