@@ -12,7 +12,7 @@ namespace Crocodile.Controllers
 
         public IActionResult Login()
         {
-            throw new Exception();
+            return Content("Hello");
         }
 
         public IActionResult Register()

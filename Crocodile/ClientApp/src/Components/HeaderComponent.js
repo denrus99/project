@@ -13,8 +13,13 @@ export class HeaderComponent extends Component {
         this._closePopup = undefined;
     }
 
-    signIn = function () {
+    signIn = async function() {
         this.setState({userIsAuth: true});
+        
+        let response =await fetch("/authentication/login");
+        let temp = await response.text();
+        console.log(temp);
+        
         this._closePopup();
     }
 
