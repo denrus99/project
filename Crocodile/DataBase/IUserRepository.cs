@@ -5,6 +5,7 @@ namespace DBProject
     {
         UserEntity Insert(UserEntity user);
         UserEntity FindByLogin(string login);
-        void UpdateStatiscicAndScore(UserEntity user);
+        void UpdateUser(UserEntity user);
+        void DeleteUser(UserEntity user);
     }
 }

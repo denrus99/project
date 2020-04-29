@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\dmitr\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\dmitr\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_Crocodile.99591107.00" t="ExcludeRecursive" />
-    <e p="C:\Users\dmitr\source\repos\Front\project" t="IncludeFlat">
+    <e p="C:\Users\aakas\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\aakas\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_Crocodile.1248899849.00" t="ExcludeRecursive" />
+    <e p="D:\project\Crocodile" t="IncludeFlat">
       <e p="Crocodile" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
         <e p="appsettings.Development.json" t="Include" />

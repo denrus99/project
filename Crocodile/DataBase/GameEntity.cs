@@ -56,6 +56,11 @@ namespace DBProject
             }
         }
 
+        public void StartGame()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
     public class Score
