@@ -1,19 +1,33 @@
 body {
     margin:0 auto;
-    background-color:rgba(242, 242, 242, 1);
+    background-color:#E1EBEE;
     font-size: 8px;
 }
 
 .headerContainer{
-    border-width:0 1px 1px 1px;
-    border-style:solid;
-    position:fixed;
+    border-width:0 0 1px 0;
+    border-style:none;
+    position:absolute;
     top: 0;
     width: 100%;
     height:7em;
     display:flex;
-    background-color:#77d24f;
-    box-sizing:border-box;
+    background: rgb(225,235,238);
     border-color:black;
+}
+
+.headerContainer:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #367588;
+    opacity: 0;
+    transition: 0.3s;
+}
+.headerContainer:hover:before{
+    opacity: 1;
 }
 

@@ -79,6 +79,7 @@
               <e p="GameMasterComponent.js" t="Include" />
               <e p="HeaderComponent.js" t="Include" />
               <e p="MainComponent.js" t="Include" />
+              <e p="mainpagestyle.css" t="Include" />
               <e p="ProfileComponent.js" t="Include" />
               <e p="UserAuthProfileComponent.js" t="Include" />
             </e>
