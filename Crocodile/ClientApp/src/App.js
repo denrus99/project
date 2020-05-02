@@ -19,7 +19,7 @@ function App() {
               <Switch>
                   <Route exact path='/' component = {Main}/>
                   <Route exact path='/Profile' component = {Profile}/>
-                  <Route exact path='/Game' component = {Game}/>
+                  <Route exact path='/Game1' component = {Game}/>
                   <Route exact path='/GameMaster' component = {GameMaster}/>
               </Switch>
           </Router>

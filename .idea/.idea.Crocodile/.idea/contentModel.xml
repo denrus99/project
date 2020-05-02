@@ -75,6 +75,7 @@
             <e p="App.js" t="Include" />
             <e p="App.test.js" t="Include" />
             <e p="components" t="Include">
+              <e p="Chat.js" t="Include" />
               <e p="GameComponent.js" t="Include" />
               <e p="GameMasterComponent.js" t="Include" />
               <e p="HeaderComponent.js" t="Include" />
@@ -86,7 +87,6 @@
             <e p="custom.css" t="Include" />
             <e p="files" t="Include">
               <e p="game" t="Include">
-                <e p="canvasPaint.js" t="Include" />
                 <e p="style.css" t="Include" />
               </e>
               <e p="index" t="Include">
