@@ -1,5 +1,5 @@
 ﻿using System;
-using DBProject;
+using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -10,10 +10,9 @@ namespace Crocodile.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUserRepository _userRepository;
 
-        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _userRepository = userRepository;
         }
 
         public IActionResult Index()

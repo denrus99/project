@@ -1,6 +1,8 @@
 ﻿using System;
+using Crocodile.DataBase.GameDB;
+using Crocodile.DataBase.UserDB;
+using Crocodile.DataBase.WordDB;
 using Microsoft.AspNetCore.Mvc;
-using DBProject;
 
 namespace Crocodile.Controllers
 {
@@ -8,6 +10,7 @@ namespace Crocodile.Controllers
     {
         private readonly IGameRepository gameRepository;
         private readonly IUserRepository userRepository;
+        private readonly IWordRepository wordRepository;
 
         public GameController(IGameRepository gameRepository, IUserRepository userRepository)
         {
@@ -22,7 +25,7 @@ namespace Crocodile.Controllers
             {
                 return NotFound(userLogin);
             }
-            var game = new GameEntity(null ,isOpen, maxRounds, user);
+            var game = new GameEntity(isOpen, maxRounds, user);
             var gameEntity = gameRepository.Insert(game);
             return Content(gameEntity.Id.ToString());
         }
@@ -59,8 +62,7 @@ namespace Crocodile.Controllers
 
         public IActionResult GetWords()
         {
-            var arr = new string[] { "УрФУ", "РтФ", "ИВТ" };
-            return Json(arr);
+            return Json(wordRepository.TakeWords().ToArray());
         }
 
         public IActionResult StartGame(Guid id)

@@ -1,14 +1,14 @@
-﻿﻿﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace DBProject
+namespace Crocodile.DataBase.GameDB
 {
     public interface IGameRepository
     {
         GameEntity Insert(GameEntity game);
         GameEntity FindById(Guid id);
         void UpdateGame(GameEntity game);
-        void DeleteGame();
+        void DeleteGame(Guid id);
         List<GameEntity> GetOpenGames();
     }
 }

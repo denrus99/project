@@ -1,5 +1,4 @@
-﻿using System;
-using DBProject;
+﻿using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crocodile.Controllers
