@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Chat} from './Chat'
+import {Input} from "reactstrap";
 
 export class GameComponent extends Component {
     render() {
@@ -55,7 +56,6 @@ class PaintArea extends Component {
     }
 
     paint(positionData) {
-        console.log("1");
         this.context.beginPath();
         this.context.moveTo(positionData.start.offsetX,positionData.start.offsetY);
         this.context.lineTo(positionData.stop.offsetX,positionData.stop.offsetY);
@@ -73,7 +73,7 @@ class PaintArea extends Component {
             <div>
                 <canvas ref={this.canvasRef} className="mainCanvas" onMouseOut={this.mouseOut} onMouseDown={this.mouseDown}
                         onMouseUp={this.mouseOut} onMouseMove={this.moveMouse}
-                        style={{height: '80em', width: '147em'}}/>
+                        style={{height: '80em', width: '147em'}}/>  
             </div>
         );
     }

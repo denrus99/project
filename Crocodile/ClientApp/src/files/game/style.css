@@ -25,6 +25,10 @@
   background-color: white;
   width: 100%;
   height: 100%;
+  margin-top: 30px;
+  margin-left: 10px;
+  overflow: auto;
+  max-height: 600px;
 }
 
 .playerContainer{
@@ -36,6 +40,78 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
+}
+
+.MessageContainer{
+  display: flex;
+  flex-direction: column;
+  margin:0 5px 0 15px;
+  width: 100%;
+  position: relative;
+  background: #88b7d5;
+  border-radius: 3px;
+}
+.MessageContainer h3{
+  text-align: right;
+  margin-right: 5px;
+  user-select: none;
+}
+.MessageContainer h2{
+  margin: 4px 0 2px 10px;
+  text-align: left;
+}
+.Message {
+  padding-left:5px ;
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0;
+}
+.MessageContainer:after {
+  right: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.MessageContainer:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-right-color: #88b7d5;
+  border-width: 10px;
+  margin-top: 10px;
+}
+.Input_Container{
+  margin: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.sendButton{
+  background-color:#599bb3;
+  border-radius:20px;
+  border: none;
+  cursor:pointer;
+  color:#ffffff;
+  font-family: Arial, serif;
+  font-size:20px;
+  text-decoration:none;
+  position: absolute;
+  padding: 5px 15px;
+  left: 75%;
+}
+.sendButton:hover {
+  background-color:#408c99;
+}
+
+.Input{
+  min-width: 60%;
+  font-size: 18px;
+  padding-right: 20px;
+  
 }
 
 
