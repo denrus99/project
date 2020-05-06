@@ -1,29 +1,41 @@
-﻿﻿﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
+using Crocodile.DataBase.UserDB;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace DBProject
+namespace Crocodile.DataBase.GameDB
 {
     public class GameEntity
     {
+        [BsonElement]
         public Guid Id;
+        [BsonElement]
         public bool IsOpen;
+        [BsonElement]
         public int MaxRounds;
+        [BsonElement]
         public List<string> Players;
+        [BsonElement]
         public int IndexPresenter;
+        [BsonElement]
         public int CurrentRound;
+        [BsonElement]
         public List<Score> Scores;
+        [BsonElement]
         private Random rnd;
+        [BsonElement]
         public Status Status;
         
-        public GameEntity(string id, bool isOpen, int maxRounds, UserEntity startUser)
+        [BsonConstructor]
+        public GameEntity(bool isOpen, int maxRounds, UserEntity startUser)
         {
             rnd = new Random();
-            Id = new Guid(id);
+            Id = new Guid();
             IsOpen = isOpen;
             MaxRounds = maxRounds;
             Players = new List<string>{startUser.Login};
             Scores = new List<Score>{new Score(startUser.Login)};
-            Status = Status.Playing;
+            Status = Status.Waiting;
             IndexPresenter = 0;
         }
 
@@ -54,6 +66,12 @@ namespace DBProject
                 Scores[i].AlmostGuessed += scores[i].AlmostGuessed;
                 Scores[i].CalculateRecord();
             }
+        }
+
+        public void StartGame()
+        {
+            Status = Status.Playing;
+            IsOpen = false;
         }
 
     }

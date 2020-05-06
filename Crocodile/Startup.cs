@@ -1,10 +1,14 @@
+using Crocodile.DataBase;
+using Crocodile.DataBase.GameDB;
+using Crocodile.DataBase.UserDB;
+using Crocodile.DataBase.WordDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace Crocodile
@@ -22,7 +26,8 @@ namespace Crocodile
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            ConfigureDB(services);
+            
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -64,6 +69,33 @@ namespace Crocodile
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+
+        public void ConfigureDB(IServiceCollection services)
+        {
+            //Настройка конфигурации UserRepository из appsettings.json
+            services.Configure<UsersDatabaseSettings>(
+                Configuration.GetSection(nameof(UsersDatabaseSettings)));
+            services.AddSingleton<IUsersDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
+            //Подключение MongoUserRepository
+            services.AddSingleton<MongoUserRepository>();
+            
+            //Настройка конфигурации GameRepository из appsettings.json 
+            services.Configure<GamesDatabaseSettings>(
+                Configuration.GetSection(nameof(GamesDatabaseSettings)));
+            services.AddSingleton<IGamesDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<GamesDatabaseSettings>>().Value);
+            //Подключение MongoGameRepository
+            services.AddSingleton<MongoGameRepository>();
+            
+            //Настройка конфигурации WordRepository из appsettings.json 
+            services.Configure<WordsDatabaseSettings>(
+                Configuration.GetSection(nameof(WordsDatabaseSettings)));
+            services.AddSingleton<IWordsDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<WordsDatabaseSettings>>().Value);
+            //Подключение MongoWordRepository
+            services.AddSingleton<MongoWordRepository>();
         }
     }
 }

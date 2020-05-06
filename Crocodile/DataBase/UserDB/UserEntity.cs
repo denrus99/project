@@ -1,10 +1,7 @@
-﻿﻿﻿﻿using System.Drawing;
-using MongoDB.Bson;
-using System.IO;
+﻿using System.IO;
 using MongoDB.Bson.Serialization.Attributes;
 
-
-namespace DBProject
+namespace Crocodile.DataBase.UserDB
 {
     public class UserEntity
     {
@@ -17,7 +14,7 @@ namespace DBProject
         [BsonElement] [BsonDefaultValue(0)] public int AlmostGuessed { get; set; }
 
         [BsonIgnore] private readonly byte[] _defaultPhoto =
-            File.ReadAllBytes("~/wwwroot/DefaultUserPhoto.png");
+            File.ReadAllBytes(@"\Crocodile\wwwroot\DefaultUserPhoto.png");
 
         [BsonConstructor]
         public UserEntity(string login, string password, byte[] photo)
@@ -36,7 +33,7 @@ namespace DBProject
         }
         public void PlusGame()
         {
-            this.CountGames++;
+            CountGames++;
         }
     }
 }

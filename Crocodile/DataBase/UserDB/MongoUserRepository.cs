@@ -1,15 +1,16 @@
-﻿﻿﻿﻿using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
-namespace DBProject
+namespace Crocodile.DataBase.UserDB
 {
     public class MongoUserRepository : IUserRepository
     {
         private readonly IMongoCollection<UserEntity> userCollection;
-        private const string CollectionName = "users";
-        
-        public MongoUserRepository(IMongoDatabase database)
+
+        public MongoUserRepository(IUsersDatabaseSettings settings)
         {
-            userCollection = database.GetCollection<UserEntity>(CollectionName);
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
+            userCollection = database.GetCollection<UserEntity>(settings.UsersCollectionName);
             var options = new CreateIndexOptions { Unique = true};
             userCollection.Indexes.CreateOne("{Login : 1}", options);
         }
@@ -23,6 +24,16 @@ namespace DBProject
         public UserEntity FindByLogin(string login)
         {
             return userCollection.Find(x => x.Login == login).SingleOrDefault();
+        }
+
+        public void UpdateUser(UserEntity user)
+        {
+            userCollection.ReplaceOne(x => x.Login == user.Login, user);
+        }
+
+        public void DeleteUser(string login)
+        {
+            userCollection.DeleteOne(x => x.Login == login);
         }
 
         public void UpdateStatiscicAndScore(UserEntity user)

@@ -1,4 +1,4 @@
-﻿﻿﻿namespace DBProject
+﻿﻿﻿namespace Crocodile.DataBase
 {
     public  enum Points
     {
