@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ﻿using Crocodile.DataBase.UserDB;
+=======
+﻿using System;
+using DBProject;
+>>>>>>> origin/Rail
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crocodile.Controllers

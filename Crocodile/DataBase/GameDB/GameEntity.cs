@@ -70,8 +70,12 @@ namespace Crocodile.DataBase.GameDB
 
         public void StartGame()
         {
+<<<<<<< HEAD:Crocodile/DataBase/GameDB/GameEntity.cs
             Status = Status.Playing;
             IsOpen = false;
+=======
+            throw new NotImplementedException();
+>>>>>>> origin/Rail:Crocodile/DataBase/GameEntity.cs
         }
 
     }
