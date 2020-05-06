@@ -42,7 +42,10 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
+<<<<<<< HEAD
+=======
 *.logs
+>>>>>>> origin/master
 [Bb]in
 [Dd]ebug*/
 *.lib
@@ -51,3 +54,8 @@ Thumbs.db
 _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/
+<<<<<<< HEAD
+#Nuget packages folder
+packages/
+=======
+>>>>>>> origin/master
