@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Popup from "reactjs-popup";
 import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
+import * as Fetchs from "../fetchs"
 
 
 export class HeaderComponent extends Component {
@@ -16,7 +17,7 @@ export class HeaderComponent extends Component {
     signIn = async function() {
         this.setState({userIsAuth: true});
         
-        let response =await fetch("/authentication/login");
+        let response =await Fetchs.loginUser("den", "123456");
         let temp = await response.text();
         console.log(temp);
         

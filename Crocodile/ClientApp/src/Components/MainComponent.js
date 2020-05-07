@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './mainpagestyle.css';
 import Popup from "reactjs-popup";
+import * as Fetchs from "../fetchs"
 import {Input} from "../Input";
 
 export class MainComponent extends Component {
@@ -46,28 +47,31 @@ class Sidebar extends Component {
                                 &times;
                             </a>
                             <h1 style={{fontSize: '18px'}}>Создать новую игру</h1>
-                            <table>
-                                <tr>
-                                    <td><h2>Раунды</h2></td>
-                                    <td><input defaultValue='5'/></td>
-                                </tr>
-                                <tr>
-                                    <td><h2>Время</h2></td>
-                                    <td><input defaultValue='5'/></td>
-                                </tr>
-                                <tr>
-                                    <td><h2>Открытая игра</h2></td>
-                                    <td><input defaultValue='true' type='checkbox'/></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button>Создать</button>
-                                    </td>
-                                    <td>
-                                        <button onClick={close}>Назад</button>
-                                    </td>
-                                </tr>
-                            </table>
+                                <table>
+                                    <tr>
+                                        <td><h2>Раунды</h2></td>
+                                        <td><input defaultValue='5'/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>Время</h2></td>
+                                        <td><input defaultValue='5'/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h2>Открытая игра</h2></td>
+                                        <td><input defaultValue='true' type='checkbox'/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button onClick={async ()=> {
+                                                let respond = await Fetchs.createGame(true, 5, null);
+                                                console.log(respond.status);
+                                            }}>Создать</button>
+                                        </td>
+                                        <td>
+                                            <button onClick={close}>Назад</button>
+                                        </td>
+                                    </tr>
+                                </table>                        
                             
                         </>
                     )}

@@ -86,6 +86,7 @@
               <e p="UserAuthProfileComponent.js" t="Include" />
             </e>
             <e p="custom.css" t="Include" />
+            <e p="fetchs.js" t="Include" />
             <e p="files" t="Include">
               <e p="game" t="Include">
                 <e p="style.css" t="Include" />

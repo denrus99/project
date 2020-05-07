@@ -8,11 +8,11 @@ namespace Crocodile.Controllers
 {
     public class GameController : Controller
     {
-        private readonly IGameRepository _gameRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IWordRepository _wordRepository;
+        private readonly MongoGameRepository _gameRepository;
+        private readonly MongoUserRepository _userRepository;
+        private readonly MongoWordRepository _wordRepository;
 
-        public GameController(IGameRepository gameRepository, IUserRepository userRepository, IWordRepository wordRepository)
+        public GameController(MongoGameRepository gameRepository, MongoUserRepository userRepository, MongoWordRepository wordRepository)
         {
             _gameRepository = gameRepository;
             _userRepository = userRepository;

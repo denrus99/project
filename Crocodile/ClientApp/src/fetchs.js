@@ -1,5 +1,5 @@
 const createGame = async function (isOpen, maxRounds, userLogin) {
-    let response = await fetch("/game/createGame", {
+    let response = await fetch("/game/creategame", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
