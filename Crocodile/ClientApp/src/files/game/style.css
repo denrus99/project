@@ -101,17 +101,109 @@
   text-decoration:none;
   position: absolute;
   padding: 5px 15px;
-  left: 75%;
+  left: calc(100% - 60px);
 }
 .sendButton:hover {
   background-color:#408c99;
 }
 
 .Input{
-  min-width: 60%;
+  width: 100%;
   font-size: 18px;
-  padding-right: 20px;
+  padding-right: 20%;
   
+}
+
+.slider{
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  color: rgb(196, 196, 196);
+  cursor: default;
+  padding: initial;
+  border: initial;
+  -webkit-transition: opacity .15s ease-in-out;
+  transition: opacity .15s ease-in-out;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  left: 10px;
+  top: 45px;
+  opacity: 30%;
+}
+.bm-burger-button:hover{
+  opacity: 1;
+}
+
+  /* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+.bm-menu-wrap {
+  position: absolute !important;
+  height: 95% !important;
+  right: auto !important;
+  left: -20px !important;
+  top: 30px;
+}
+
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  overflow: hidden !important;
+}
+
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+.bm-item {
+  display: inline-block;
+}
+
+.bm-overlay {
+  opacity: 0 !important;
+}
+.sizeSelector{
+  margin: 40px 0 0 0;
 }
 
 

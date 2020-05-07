@@ -17,6 +17,7 @@
     box-shadow: 0 2px 0 #a9a9a9;
 }
 .rowContainer{
+    position: relative;
     display: flex;
     flex-direction: row;
 }

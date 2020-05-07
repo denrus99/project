@@ -51,6 +51,7 @@
           <e p="node_modules\merge" t="IncludeRecursive" />
           <e p="node_modules\oidc-client" t="IncludeRecursive" />
           <e p="node_modules\react" t="IncludeRecursive" />
+          <e p="node_modules\react-burger-menu" t="IncludeRecursive" />
           <e p="node_modules\react-dom" t="IncludeRecursive" />
           <e p="node_modules\react-router-bootstrap" t="IncludeRecursive" />
           <e p="node_modules\react-router-dom" t="IncludeRecursive" />
@@ -99,6 +100,7 @@
             <e p="images" t="Include">
               <e p="game" t="Include">
                 <e p="account.svg" t="Include" />
+                <e p="cross.svg" t="Include" />
               </e>
               <e p="registrationForm" t="Include">
                 <e p="back.svg" t="Include" />
