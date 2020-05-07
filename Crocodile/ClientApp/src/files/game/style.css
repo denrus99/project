@@ -8,6 +8,12 @@
   flex-grow: 8;
 }
 
+.fontStyle{
+  font-size:24px;
+  color: black;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 .container{
   display: flex;

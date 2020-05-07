@@ -56,9 +56,13 @@ button,button:active,button:focus{
 .sidebarContainer{
     display: flex;
     flex-direction: column;
-    background: #4169E1;
-    height: 100em;
+    background: #b4bcbd;
+    height: 20em;
     margin-top:10em;
+}
+.serverInfo{
+    top:100px;
+    background: #b4bcbd ;
 }
 .sidebarContainer button{
     font-size: 24px;
