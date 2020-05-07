@@ -1,8 +1,17 @@
 ﻿using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 
 namespace Crocodile.Controllers
 {
+    public class UserDTO
+    {
+        public string Login { get; set; }
+        public string Password { get; set; }
+    }
+
     public class AuthenticationController : Controller
     {
         public readonly MongoUserRepository userRepository;
@@ -13,26 +22,25 @@ namespace Crocodile.Controllers
         }
 
         [HttpPost]
-        [Produces("application/json")]
-        public IActionResult Login( [FromBody] string login, [FromBody] string password)
+        public IActionResult Login([FromBody] UserDTO request)
         {
-            var user = userRepository.FindByLogin(login);
+            var user = userRepository.FindByLogin(request.Login);
             if (user == null)
             {
-                return NotFound(login);
+                return NotFound(request.Login);
             }
 
-            if (user.Password.CompareTo(password) != 0)
+            if (user.Password.CompareTo(request.Password) != 0)
             {
-                return NotFound(password);
+                return NotFound(request.Password);
             }
             
-            return Ok(login);
+            return Ok(request.Login);
         }
 
 
         [HttpPost]
-        public IActionResult Register( string login, string password, byte[] photo)
+        public IActionResult Register(string login, string password)
         {
             var user = new UserEntity(login, password, photo);
             userRepository.Insert(user);

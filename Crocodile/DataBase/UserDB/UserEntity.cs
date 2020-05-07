@@ -14,7 +14,7 @@ namespace Crocodile.DataBase.UserDB
         [BsonElement] [BsonDefaultValue(0)] public int AlmostGuessed { get; set; }
 
         [BsonIgnore] private readonly byte[] _defaultPhoto =
-            File.ReadAllBytes(@"D:\It's assemble time\Нечто\project\Crocodile\wwwroot\DefaultUserPhoto.png");
+            File.ReadAllBytes(@"D:\Data\Online Activity\Crocodile\Crocodile\wwwroot\DefaultUserPhoto.png");
 
         [BsonConstructor]
         public UserEntity(string login, string password, byte[] photo)

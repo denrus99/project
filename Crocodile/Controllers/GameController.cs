@@ -6,8 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crocodile.Controllers
 {
+    public class CreateGameDTO
+    {
+        public bool IsOpen { get; set; }
+        public int RoundsCount { get; set; }
+        public int RoundsTimeInMinuts { get; set; }
+        public string CreatorUserLogin { get; set; }
+    }
+
+    public class GameDTO
+    {
+        public Guid GameId { get; set; }
+        public string UserLogin { get; set; }
+    }
+
     public class GameController : Controller
     {
+
         private readonly MongoGameRepository _gameRepository;
         private readonly MongoUserRepository _userRepository;
         private readonly MongoWordRepository _wordRepository;
@@ -19,29 +34,29 @@ namespace Crocodile.Controllers
             _wordRepository = wordRepository;
         }
 
-        public IActionResult CreateGame([FromBody]bool isOpen, [FromBody]int maxRounds, [FromBody]string userLogin)
+        public IActionResult CreateGame([FromBody] CreateGameDTO gameDTO)
         {
-            var user = _userRepository.FindByLogin(userLogin);
+            var user = _userRepository.FindByLogin(gameDTO.CreatorUserLogin);
             if (user == null)
             {
-                return NotFound(userLogin);
+                return NotFound(gameDTO.CreatorUserLogin);
             }
-            var game = new GameEntity(isOpen, maxRounds, user);
+            var game = new GameEntity(gameDTO.IsOpen, gameDTO.RoundsCount, user);
             var gameEntity = _gameRepository.Insert(game);
             return Content(gameEntity.Id.ToString());
         }
 
-        public IActionResult JoinToGame([FromBody]string gameId, [FromBody]string userLogin)
+        public IActionResult JoinToGame([FromBody] GameDTO gameDTO)
         {
-            var user = _userRepository.FindByLogin(userLogin);
+            var user = _userRepository.FindByLogin(gameDTO.UserLogin);
             if (user == null)
             {
-                return NotFound(userLogin);
+                return NotFound(gameDTO);
             }
-            var game = _gameRepository.FindById(Guid.Parse(gameId));
+            var game = _gameRepository.FindById(gameDTO.GameId);
             if (game == null)
             {
-                return NotFound(gameId);
+                return NotFound(gameDTO);
             }
             game.AddUser(user);
             return Ok();
@@ -52,9 +67,9 @@ namespace Crocodile.Controllers
             return Json(_wordRepository.TakeWords().ToArray());
         }
 
-        public IActionResult StartGame([FromBody]string gameId)
+        public IActionResult StartGame([FromBody] Guid gameId)
         {
-            var game = _gameRepository.FindById(Guid.Parse(gameId));
+            var game = _gameRepository.FindById(gameId);
             if (game == null)
             {
                 return NotFound(gameId);
@@ -63,9 +78,9 @@ namespace Crocodile.Controllers
             return Ok();
         }
 
-        public IActionResult GetLeaderBoard([FromBody]string gameId)
+        public IActionResult GetLeaderBoard([FromBody] Guid gameId)
         {
-            var game = _gameRepository.FindById(Guid.Parse(gameId));
+            var game = _gameRepository.FindById(gameId);
             if (game == null)
             {
                 return NotFound(gameId);

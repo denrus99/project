@@ -1,14 +1,16 @@
-const createGame = async function (isOpen, maxRounds, userLogin) {
+const createGame = async function (isOpen, roundsCount, roundTime, userLogin) {
+    let gameFroRequest = {
+        isOpen,
+        roundsCount,
+        roundTime,
+        userLogin
+    };
     let response = await fetch("/game/creategame", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: {
-            isOpen,
-            maxRounds,
-            userLogin
-        }
+        body: JSON.stringify(gameFroRequest)
     });
     if (!response.ok) {
         throw new Error(response.status.toString());
@@ -18,15 +20,16 @@ const createGame = async function (isOpen, maxRounds, userLogin) {
 };
 
 const joinToGame = async function (gameId, userLogin) {
+    let gameFroRequest = {
+        gameId,
+        userLogin
+    };
     let response = await fetch("/game/joinToGame", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: {
-            gameId,
-            userLogin
-        }
+        body: JSON.stringify(gameFroRequest)
     });
     return response.ok;
 };
@@ -42,9 +45,7 @@ const startGame = async function (gameId) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: {
-            gameId
-        }
+        body: gameId
     });
     return response.ok;
 };
@@ -55,23 +56,22 @@ const getLeaderBoard = async function (gameId) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: {
-            gameId
-        }
+        body: gameId
     });
     return await response.json();
 };
 
 const loginUser = async function (login, password) {
+    let user = {
+        login,
+        password
+    };
     let response = await fetch("/authentication/login", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: {
-            login,
-            password
-        }
+        body: JSON.stringify(user)
     });
     if (!response.ok) {
         throw new Error(response.status.toString());
@@ -79,17 +79,17 @@ const loginUser = async function (login, password) {
     return response.status;
 };
 
-const register = async function (login, password, photo) {
+const register = async function (login, password) {
+    let user = {
+        login,
+        password
+    };
     let response = await fetch("/authentication/register", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: {
-            login,
-            password,
-            photo
-        }
+        body: JSON.stringify(user)
     });
     if (!response.ok) {
         throw new Error(response.status.toString());
