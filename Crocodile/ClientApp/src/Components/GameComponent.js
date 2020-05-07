@@ -6,21 +6,21 @@ import { CirclePicker } from 'react-color';
 export class GameComponent extends Component {
     render() {
         return (
-            <div className='rowContainer'>
+            <div id='gameContainer' className='rowContainer'>
                 <PaintArea/>
-                {/*<Tools/>*/}
                 <Chat/>
             </div>
         );
     }
+    // componentDidMount(){        
+    //     let gameContainer = document.getElementById('gameContainer');
+    //     let x = 
+    //     gameContainer.style.transform = `scale(${x})`;
+    // }
 }
 var gameSetting = {
     penColor: '#000000',
     penSize: 1
-}
-function shouldDisableOverlayClick() {
-    gameSetting.penSize = document.getElementById('penSize').value;
-    gameSetting.penColor = document.getElementById('colorPen').value;
 }
 
 class PaintArea extends Component {
@@ -89,7 +89,7 @@ class PaintArea extends Component {
     render() {
         
         return (
-            <div>
+            <div className='gameContainer'>
                 <Menu disableAutoFocus>
                     <div className='sizeSelector'>
                         <h1 style={{textAlign:'left', marginLeft:'10px',fontSize:'20px'}}>Размер кисти</h1>
@@ -106,7 +106,7 @@ class PaintArea extends Component {
                 </Menu>
                 <canvas ref={this.canvasRef} className="mainCanvas" onMouseOut={this.mouseOut} onMouseDown={this.mouseDown}
                         onMouseUp={this.mouseOut} onMouseMove={this.moveMouse}
-                        style={{height: '80em', width: '147em'}}/>  
+                        style={{height: '640px', width: '1176px'}}/>  
             </div>
         );
     }

@@ -42,7 +42,7 @@ namespace Crocodile.Controllers
         [HttpPost]
         public IActionResult Register(string login, string password)
         {
-            var user = new UserEntity(login, password, photo);
+            var user = new UserEntity(login, password);
             userRepository.Insert(user);
             return Created(user.Login, user);
         }

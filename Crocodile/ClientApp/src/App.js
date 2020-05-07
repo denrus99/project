@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <HeaderComponent/>
-      <div className='container' style={{width: '98%', marginTop: '8em' }}>
+      <div className='container' style={{width:'100%', marginTop: '8em' }}>
           <Router>
               <Switch>
                   <Route exact path='/' component = {Main}/>

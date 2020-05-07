@@ -103,6 +103,10 @@
                 <e p="account.svg" t="Include" />
                 <e p="cross.svg" t="Include" />
               </e>
+              <e p="Main" t="Include">
+                <e p="arrowNext.svg" t="Include" />
+                <e p="arrowsBack.svg" t="Include" />
+              </e>
               <e p="registrationForm" t="Include">
                 <e p="back.svg" t="Include" />
                 <e p="facebook_Icon.svg" t="Include" />
