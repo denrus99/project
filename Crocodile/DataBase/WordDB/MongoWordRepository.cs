@@ -15,7 +15,7 @@ namespace Crocodile.DataBase.WordDB
             var check = wordCollection.Find(x => true).SingleOrDefault();
             if (check == null)
             {
-                var text = System.IO.File.ReadAllText(@"Crocodile\wwwroot\words.txt");
+                var text = System.IO.File.ReadAllText(@"D:\It's assemble time\Нечто\project\Crocodile\wwwroot\words.txt");
                 var words = text.Split(" ");
                 for (int i = 0; i < words.Length; i++)
                 {

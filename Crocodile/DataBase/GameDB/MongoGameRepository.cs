@@ -11,7 +11,7 @@ namespace Crocodile.DataBase.GameDB
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
-            gameCollection = database.GetCollection<GameEntity>(settings.UsersCollectionName);
+            gameCollection = database.GetCollection<GameEntity>(settings.GamesCollectionName);
         }
         
         public GameEntity Insert(GameEntity game)
@@ -22,17 +22,17 @@ namespace Crocodile.DataBase.GameDB
 
         public GameEntity FindById(Guid id)
         {
-            return gameCollection.Find(x => x.Id == id).SingleOrDefault();
+            return gameCollection.Find(x => x.GameId == id).SingleOrDefault();
         }
 
         public void UpdateGame(GameEntity game)
         {
-            gameCollection.ReplaceOne(x => x.Id == game.Id, game);
+            gameCollection.ReplaceOne(x => x.GameId == game.GameId, game);
         }
 
         public void DeleteGame(Guid id)
         {
-            gameCollection.DeleteOne(x => x.Id == id);
+            gameCollection.DeleteOne(x => x.GameId == id);
         }
 
         public List<GameEntity> GetOpenGames()

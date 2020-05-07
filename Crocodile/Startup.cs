@@ -34,7 +34,7 @@ namespace Crocodile
             });
             
             ConfigureDB(services);
-            
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -89,7 +89,7 @@ namespace Crocodile
                 sp.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
             //Подключение MongoUserRepository
             services.AddSingleton<MongoUserRepository>();
-            
+
             //Настройка конфигурации GameRepository из appsettings.json 
             services.Configure<GamesDatabaseSettings>(
                 Configuration.GetSection(nameof(GamesDatabaseSettings)));
@@ -97,7 +97,7 @@ namespace Crocodile
                 sp.GetRequiredService<IOptions<GamesDatabaseSettings>>().Value);
             //Подключение MongoGameRepository
             services.AddSingleton<MongoGameRepository>();
-            
+
             //Настройка конфигурации WordRepository из appsettings.json 
             services.Configure<WordsDatabaseSettings>(
                 Configuration.GetSection(nameof(WordsDatabaseSettings)));

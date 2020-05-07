@@ -8,7 +8,7 @@ namespace Crocodile.DataBase.GameDB
     public class GameEntity
     {
         [BsonElement]
-        public Guid Id;
+        public Guid GameId;
         [BsonElement]
         public bool IsOpen;
         [BsonElement]
@@ -29,7 +29,7 @@ namespace Crocodile.DataBase.GameDB
         public GameEntity(bool isOpen, int maxRounds, UserEntity startUser)
         {
             rnd = new Random();
-            Id = new Guid();
+            GameId = new Guid();
             IsOpen = isOpen;
             MaxRounds = maxRounds;
             Players = new List<string>{startUser.Login};

@@ -5,6 +5,6 @@
         UserEntity Insert(UserEntity user);
         UserEntity FindByLogin(string login);
         void UpdateUser(UserEntity user);
-        void DeleteUser(string id);
+        void DeleteUser(string login);
     }
 }

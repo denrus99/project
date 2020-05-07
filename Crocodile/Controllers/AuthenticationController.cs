@@ -22,7 +22,7 @@ namespace Crocodile.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] UserDTO request)
+        public IActionResult Login(UserDTO request)
         {
             var user = userRepository.FindByLogin(request.Login);
             if (user == null)
@@ -40,9 +40,9 @@ namespace Crocodile.Controllers
 
 
         [HttpPost]
-        public IActionResult Register(string login, string password)
+        public IActionResult Register(UserDTO userDto)
         {
-            var user = new UserEntity(login, password);
+            var user = new UserEntity(userDto.Login, userDto.Password);
             userRepository.Insert(user);
             return Created(user.Login, user);
         }
