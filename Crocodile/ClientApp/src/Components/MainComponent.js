@@ -3,6 +3,9 @@ import './mainpagestyle.css';
 import Popup from "reactjs-popup";
 import * as Fetchs from "../fetchs"
 import {Input} from "../Input";
+import backArrow from '../images/Main/arrowsBack.svg';
+import nextArrow from '../images/Main/arrowNext.svg';
+
 
 export class MainComponent extends Component {
     render() {
@@ -16,9 +19,9 @@ export class MainComponent extends Component {
     }
 }
 
-class ServerInfo extends Component{
+class ServerInfo extends Component {
     render() {
-        return(
+        return (
             <div className='serverInfo'>
                 <h1>Статус сервера</h1>
                 <table>
@@ -47,36 +50,33 @@ class Sidebar extends Component {
                                 &times;
                             </a>
                             <h1 style={{fontSize: '18px'}}>Создать новую игру</h1>
-                                <table>
-                                    <tr>
-                                        <td><h2>Раунды</h2></td>
-                                        <td><input defaultValue='5'/></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h2>Время</h2></td>
-                                        <td><input defaultValue='5'/></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h2>Открытая игра</h2></td>
-                                        <td><input defaultValue='true' type='checkbox'/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button onClick={async ()=> {
-                                                let respond = await Fetchs.createGame(true, 5, null);
-                                                console.log(respond.status);
-                                            }}>Создать</button>
-                                        </td>
-                                        <td>
-                                            <button onClick={close}>Назад</button>
-                                        </td>
-                                    </tr>
-                                </table>                        
-                            
+                            <table>
+                                <tr>
+                                    <td><h2>Раунды</h2></td>
+                                    <td><input defaultValue='5'/></td>
+                                </tr>
+                                <tr>
+                                    <td><h2>Время</h2></td>
+                                    <td><input defaultValue='5'/></td>
+                                </tr>
+                                <tr>
+                                    <td><h2>Открытая игра</h2></td>
+                                    <td><input defaultValue='true' type='checkbox'/></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button>Создать</button>
+                                    </td>
+                                    <td>
+                                        <button onClick={close}>Назад</button>
+                                    </td>
+                                </tr>
+                            </table>
+
                         </>
                     )}
                 </Popup>
-                <Popup modal trigger={<h1 className='fontStyle'>Присоединиться</h1>}> 
+                <Popup modal trigger={<h1 className='fontStyle'>Присоединиться</h1>}>
                     {close => (
                         <>
                             <a className="close" onClick={close}>
@@ -106,16 +106,43 @@ class Sidebar extends Component {
 }
 
 class OpenGames extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {pageNum: 0};
+        this.changePage = this.changePage.bind(this);
+    }
+
+    changePage(x) {
+        debugger
+        this.setState({pageNum: this.state.pageNum + x});
+
+    }
+
     render() {
         //fetch("Запрос открытых игр");
         let openGames = [];
-        for (let i = 1; i < 51; i++) {
-            openGames.push({name: `Лобби ${i}`, info: 'Какая-то информация', id: i});
+        for (let i = 0; i < 100; i++) {
+            openGames.push({name: `Лобби ${i + 1}`, info: 'Какая-то информация', id: i + 1});
         }
+
         return (
             <div className='OpenGamesContainer'>
                 <h1>Открытые игры</h1>
-                {openGames.map(x => <LobbyItem name={x.name} info={x.info}/>)}
+                {openGames.slice(this.state.pageNum * 10, (this.state.pageNum + 1) * 10 - 1).map(x => <LobbyItem
+                    name={x.name} info={x.info}/>)}
+                <div style={{margin: '0 auto', justifyContent:'space-around', alignItems:'center'}} className='rowContainer'>
+                    {
+                        this.state.pageNum > 0 ?
+                            <img className='arrowImg' src={backArrow} onClick={() => this.changePage(-1)}/>
+                            :  <div className='arrowImg'/>
+                    }
+                    <h1>{this.state.pageNum}</h1>
+                    {
+                        this.state.pageNum < (openGames.length / 10) - 1 ?
+                            <img  className='arrowImg' src={nextArrow} onClick={() => this.changePage(1)}/>:
+                            <div className='arrowImg'/>
+                    }
+                </div>
             </div>
         );
     }
@@ -127,7 +154,7 @@ class LobbyItem extends Component {
             <div className='lobbyItem'>
                 <h2>{this.props.name}</h2>
                 <h3>{this.props.info}</h3>
-                <button>Войти</button>
+                <button onClick={()=>window.location.href = '/game1'}>Войти</button>
             </div>
         );
     }

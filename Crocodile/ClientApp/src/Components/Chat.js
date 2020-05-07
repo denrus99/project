@@ -46,7 +46,7 @@ export class Chat extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{width:'20%'}}>
                 <div id='chatBlock' className='chat_Container'>
                     {messages.map(x => <Message user={x.user} text={x.text} date={x.date}/>)}
                 </div>

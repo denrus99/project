@@ -14,16 +14,13 @@
   margin-left: 10px;
   margin-right: 10px;
 }
-
 .container{
   display: flex;
-  width: 95%;
-  margin: auto;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: left;
   align-items: center;
-  max-width: 1800px;
+  margin: 0 10px;
 }
 
 .chat_Container{
