@@ -119,8 +119,6 @@
           <e p="AuthenticationController.cs" t="Include" />
           <e p="ChatController.cs" t="Include" />
           <e p="GameController.cs" t="Include" />
-          <e p="HomeController.cs" t="Include" />
-          <e p="WeatherForecastController.cs" t="Include" />
         </e>
         <e p="Crocodile.csproj" t="IncludeRecursive" />
         <e p="DataBase" t="Include">
@@ -163,7 +161,6 @@
           <e p="launchSettings.json" t="Include" />
         </e>
         <e p="Startup.cs" t="Include" />
-        <e p="WeatherForecast.cs" t="Include" />
         <e p="wwwroot" t="Include">
           <e p="DefaultUserPhoto.png" t="Include" />
           <e p="words.txt" t="Include" />

@@ -21,7 +21,6 @@ namespace Crocodile.DataBase.GameDB
         public int CurrentRound;
         [BsonElement]
         public List<Score> Scores;
-        [BsonElement]
         private Random rnd;
         [BsonElement]
         public Status Status;
@@ -70,12 +69,8 @@ namespace Crocodile.DataBase.GameDB
 
         public void StartGame()
         {
-<<<<<<< HEAD:Crocodile/DataBase/GameDB/GameEntity.cs
             Status = Status.Playing;
             IsOpen = false;
-=======
-            throw new NotImplementedException();
->>>>>>> origin/Rail:Crocodile/DataBase/GameEntity.cs
         }
 
     }
