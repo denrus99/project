@@ -8,74 +8,68 @@ namespace Crocodile.Controllers
 {
     public class GameController : Controller
     {
-        private readonly IGameRepository gameRepository;
-        private readonly IUserRepository userRepository;
-        private readonly IWordRepository wordRepository;
+        private readonly IGameRepository _gameRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IWordRepository _wordRepository;
 
         public GameController(IGameRepository gameRepository, IUserRepository userRepository, IWordRepository wordRepository)
         {
-            this.gameRepository = gameRepository;
-            this.userRepository = userRepository;
-            this.wordRepository = wordRepository;
+            _gameRepository = gameRepository;
+            _userRepository = userRepository;
+            _wordRepository = wordRepository;
         }
 
-        public IActionResult CreateGame(bool isOpen, int maxRounds, string userLogin)
+        public IActionResult CreateGame([FromBody]bool isOpen, [FromBody]int maxRounds, [FromBody]string userLogin)
         {
-            var user = userRepository.FindByLogin(userLogin);
+            var user = _userRepository.FindByLogin(userLogin);
             if (user == null)
             {
                 return NotFound(userLogin);
             }
             var game = new GameEntity(isOpen, maxRounds, user);
-            var gameEntity = gameRepository.Insert(game);
+            var gameEntity = _gameRepository.Insert(game);
             return Content(gameEntity.Id.ToString());
         }
 
-        public IActionResult JoinToGame(string gameId, string userLogin)
+        public IActionResult JoinToGame([FromBody]string gameId, [FromBody]string userLogin)
         {
-            var user = userRepository.FindByLogin(userLogin);
+            var user = _userRepository.FindByLogin(userLogin);
             if (user == null)
             {
                 return NotFound(userLogin);
             }
-            var game = gameRepository.FindById(new Guid(gameId));
+            var game = _gameRepository.FindById(Guid.Parse(gameId));
+            if (game == null)
+            {
+                return NotFound(gameId);
+            }
             game.AddUser(user);
             return Ok();
         }
-
-        public IActionResult JoinToOpenGame(string userLogin)
-        {
-            var user = userRepository.FindByLogin(userLogin);
-            if (user == null)
-            {
-                return NotFound(userLogin);
-            }
-            var games = gameRepository.GetOpenGames();
-            if (games.Count == 0)
-            {
-                return NotFound("Нет открытых игр!");
-            }
-            var rnd = new Random();
-            var game = games[rnd.Next(0, games.Count + 1)];
-            game.AddUser(user);
-            return Content(game.Id.ToString());
-        }
-
+        
         public IActionResult GetWords()
         {
-            return Json(wordRepository.TakeWords().ToArray());
+            return Json(_wordRepository.TakeWords().ToArray());
         }
 
-        public IActionResult StartGame(Guid id)
+        public IActionResult StartGame([FromBody]string gameId)
         {
-            var game = gameRepository.FindById(new Guid());
+            var game = _gameRepository.FindById(Guid.Parse(gameId));
+            if (game == null)
+            {
+                return NotFound(gameId);
+            }
             game.StartGame();
             return Ok();
         }
 
-        public IActionResult GetLeaderBoard(string gameId)
+        public IActionResult GetLeaderBoard([FromBody]string gameId)
         {
-            var game = gameRepository.FindById(new Guid(gameId));
+            var game = _gameRepository.FindById(Guid.Parse(gameId));
+            if (game == null)
+            {
+                return NotFound(gameId);
+            }
             return Json(game.Scores);
         }
     }

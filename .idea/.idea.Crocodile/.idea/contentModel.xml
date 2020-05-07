@@ -112,8 +112,6 @@
             <e p="index.css" t="Include" />
             <e p="index.js" t="Include" />
             <e p="input.js" t="Include" />
-            <e p="registerServiceWorker.js" t="Include" />
-            <e p="serviceWorker.js" t="Include" />
             <e p="style.css" t="Include" />
           </e>
         </e>

@@ -12,7 +12,7 @@ namespace Crocodile.Controllers
             this.userRepository = userRepository;
         }
 
-        public IActionResult Login(string login, string password)
+        public IActionResult Login([FromBody]string login, [FromBody]string password)
         {
             var user = userRepository.FindByLogin(login);
             if (user == null)
@@ -21,16 +21,16 @@ namespace Crocodile.Controllers
             }
             if (user.Password.CompareTo(password) != 0)
             {
-                return NotFound();
+                return NotFound(password);
             }
             return Ok(login);
         }
 
-        public IActionResult Register(string login, string password, byte[] photo)
+        public IActionResult Register([FromBody]string login, [FromBody]string password, [FromBody]byte[] photo)
         {
             var user = new UserEntity(login, password, photo);
             userRepository.Insert(user);
-            return NoContent();
+            return Created(user.Login, user);
         }
     }
 }
