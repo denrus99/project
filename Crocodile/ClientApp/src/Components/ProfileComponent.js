@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import avatar from '../images/game/account.svg';
 
 export class ProfileComponent extends Component {
+    constructor(props) {
+        super(props);
+        debugger
+    }
+    
     render() {
         const h2Style={
             margin: '32px 20px',
@@ -20,8 +25,7 @@ export class ProfileComponent extends Component {
                         <h2 style={h2Style}>Почти угадано</h2>
                     </div>
                 </div>
-                <a style={{textDecoration:'none'}} href='/'><button style={{padding: '30px 50px 50px',margin: '0 90px 10px auto'}}
-                    //TODO Переход на профиль и обратно
+                <a style={{textDecoration:'none'}} onClick={()=>this.props.setterPageNum(this.props.lastPage[1])} ><button style={{padding: '30px 50px 50px',margin: '0 90px 10px auto'}}
                         className="button">Назад</button></a>
             </div>
         );

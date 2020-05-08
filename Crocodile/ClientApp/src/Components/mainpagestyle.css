@@ -79,9 +79,11 @@ button, button:active, button:focus {
 }
 
 .serverInfo {
-    margin: 0 auto;
+    margin: 50px auto;
     top: 100px;
     background: #b4bcbd;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .sidebarContainer button {

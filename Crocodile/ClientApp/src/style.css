@@ -27,8 +27,19 @@ body {
     opacity: 0;
     transition: 0.3s;
 }
-.headerContainer:hover:before{
+.headerContainer:hover:before {
     opacity: 1;
+}
+.headerContainer:hover  .links{
+    opacity: 1;
+}
+
+.links{
+    z-index: 1000;
+    margin-left: 30px;
+    display: flex;
+    opacity: 0;
+    flex-direction: row;
 }
 
 

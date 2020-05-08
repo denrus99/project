@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import './style.css';
 import {HeaderComponent} from "./Components/HeaderComponent"
@@ -9,24 +9,25 @@ import {MainComponent as Main} from "./Components/MainComponent";
 import {ProfileComponent as Profile} from "./Components/ProfileComponent";
 import {GameComponent as Game} from "./Components/GameComponent";
 import {GameMasterComponent as GameMaster} from "./Components/GameMasterComponent";
-
+let lastPage=[0];
 function App() {
-  return (
-    <div className="App">
-      <HeaderComponent/>
-      <div className='container' style={{width:'100%', marginTop: '8em' }}>
-          <Router>
-              <Switch>
-                  <Route exact path='/' component = {Main}/>
-                  <Route exact path='/Profile' component = {Profile}/>
-                  <Route exact path='/Game1' component = {Game}/>
-                  <Route exact path='/GameMaster' component = {GameMaster}/>
-              </Switch>
-          </Router>
-      </div>
+    const [pageNum,setPageNum] = useState(0);
+    let setterPageNum = (a)=>{
+        lastPage.unshift(a);
+        debugger
+        lastPage.length=10;
+        setPageNum(a);
+    }
+    let pages = [<Main setterPageNum={setterPageNum}/>, <Profile lastPage={lastPage} setterPageNum={setterPageNum}/>, <Game setterPageNum={setterPageNum}/>, <GameMaster/>];
+    return (
+        <div className="App">
+            <HeaderComponent pageNum={pageNum} setterPageNum={setterPageNum}/>
+            <div className='container' style={{width: '100%', marginTop: '8em'}}>
+                {pages[pageNum]}
+            </div>
 
-    </div>
-  );
+        </div>
+    );
 }
 
 export default App;
