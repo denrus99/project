@@ -33,7 +33,7 @@ namespace Crocodile.Controllers
             _userRepository = userRepository;
             _wordRepository = wordRepository;
         }
-
+        
         public IActionResult CreateGame(CreateGameDTO gameDto)
         {
             var user = _userRepository.FindByLogin(gameDto.CreatorUserLogin);
@@ -41,7 +41,7 @@ namespace Crocodile.Controllers
             {
                 return NotFound(gameDto.CreatorUserLogin);
             }
-            var game = new GameEntity(gameDto.IsOpen, gameDto.RoundsCount, user);
+            var game = new GameEntity(gameDto.IsOpen, gameDto.RoundsCount, gameDto.RoundsTimeInMinutes, user.Login);
             var gameEntity = _gameRepository.Insert(game);
             return Content(gameEntity.GameId.ToString());
         }
@@ -58,7 +58,7 @@ namespace Crocodile.Controllers
             {
                 return NotFound(gameDto);
             }
-            game.AddUser(user);
+            game.AddUser(user.Login);
             return Ok();
         }
         

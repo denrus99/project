@@ -1,46 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using Crocodile.DataBase.UserDB;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Crocodile.DataBase.GameDB
 {
+    [BsonIgnoreExtraElements]
     public class GameEntity
     {
-        [BsonElement]
-        public Guid GameId;
-        [BsonElement]
-        public bool IsOpen;
-        [BsonElement]
-        public int MaxRounds;
-        [BsonElement]
-        public List<string> Players;
-        [BsonElement]
-        public int IndexPresenter;
-        [BsonElement]
-        public int CurrentRound;
-        [BsonElement]
-        public List<Score> Scores;
-        private Random rnd;
-        [BsonElement]
-        public Status Status;
-        
+        [BsonId] public Guid GameId { get; set; }
+        [BsonElement] public bool IsOpen { get; set; }
+        [BsonElement] public int MaxRounds { get; set; }
+        [BsonElement] public int TimeRound { get; set; }
+        [BsonElement] public List<string> Players { get; set; }
+        [BsonElement] public int IndexPresenter { get; set; }
+
+        [BsonElement] public string StartUserName { get; set; }
+        [BsonElement] public int CurrentRound { get; set; }
+        [BsonElement] public List<Score> Scores { get; set; }
+        [BsonIgnore] private Random rnd;
+        [BsonElement] public Status Status { get; set; }
+
         [BsonConstructor]
-        public GameEntity(bool isOpen, int maxRounds, UserEntity startUser)
+        public GameEntity(bool isOpen, int maxRounds, int timeRound, string startUserName)
         {
             rnd = new Random();
-            GameId = new Guid();
+            GameId = Guid.NewGuid();
             IsOpen = isOpen;
             MaxRounds = maxRounds;
-            Players = new List<string>{startUser.Login};
-            Scores = new List<Score>{new Score(startUser.Login)};
-            Status = Status.Waiting;
+            TimeRound = timeRound;
             IndexPresenter = 0;
+            Players = new List<string> {startUserName};
+            StartUserName = startUserName;
+            Scores = new List<Score> {new Score(startUserName)};
+            Status = Status.Waiting;
+            CurrentRound = 0;
         }
 
-        public void AddUser(UserEntity user)
+        public void AddUser(string login)
         {
-            Players.Add(user.Login);
+            Players.Add(login);
+            Scores.Add(new Score(login));
         }
 
         public void ChangePresenter()
@@ -59,7 +58,7 @@ namespace Crocodile.DataBase.GameDB
 
         public void UpdateScore(List<Score> scores)
         {
-            for (int i = 0; i < scores.Count - 1; i++)
+            for (int i = 0; i < scores.Count; i++)
             {
                 Scores[i].Guessed += scores[i].Guessed;
                 Scores[i].AlmostGuessed += scores[i].AlmostGuessed;
@@ -71,8 +70,8 @@ namespace Crocodile.DataBase.GameDB
         {
             Status = Status.Playing;
             IsOpen = false;
+            CurrentRound++;
         }
-
     }
 
     public class Score
@@ -81,7 +80,7 @@ namespace Crocodile.DataBase.GameDB
         public int Record { get; set; }
         public int Guessed { get; set; }
         public int AlmostGuessed { get; set; }
-        
+
         public Score(string login)
         {
             Login = login;
@@ -90,7 +89,7 @@ namespace Crocodile.DataBase.GameDB
 
         public void CalculateRecord()
         {
-            Record += Guessed * (int)Points.Guessed + AlmostGuessed * (int)Points.AlmostGuessed;
+            Record += Guessed * (int) Points.Guessed + AlmostGuessed * (int) Points.AlmostGuessed;
         }
     }
 }
