@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using MongoDB.Driver;
 
 namespace Crocodile.DataBase.WordDB
@@ -7,22 +8,24 @@ namespace Crocodile.DataBase.WordDB
     public class MongoWordRepository : IWordRepository
     {
         private readonly IMongoCollection<WordEntity> wordCollection;
+
         public MongoWordRepository(IWordsDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             wordCollection = database.GetCollection<WordEntity>(settings.WordsCollectionName);
-            var check = wordCollection.Find(x => true).SingleOrDefault();
+            var check = wordCollection.Find(x => true);
             if (check == null)
             {
-                var text = System.IO.File.ReadAllText(@"D:\It's assemble time\Нечто\project\Crocodile\wwwroot\words.txt");
-                var words = text.Split(" ");
+                var text = File.ReadAllText(@"wwwroot\words.txt");
+                var words = text.Split("\r\n");
                 for (int i = 0; i < words.Length; i++)
                 {
-                    wordCollection.InsertOne(new WordEntity(i,words[i]));
+                    wordCollection.InsertOne(new WordEntity(i, words[i]));
                 }
             }
         }
+
         public List<string> TakeWords()
         {
             var wordsList = new List<string>();
@@ -30,6 +33,7 @@ namespace Crocodile.DataBase.WordDB
             {
                 wordsList.Add(TakeWord().Word);
             }
+
             return wordsList;
         }
 
@@ -40,6 +44,5 @@ namespace Crocodile.DataBase.WordDB
             return wordCollection.Find(x =>
                 x.Id == rnd.Next(count)).SingleOrDefault();
         }
-
     }
 }

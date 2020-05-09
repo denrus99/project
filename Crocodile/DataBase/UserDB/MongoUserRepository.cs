@@ -11,8 +11,8 @@ namespace Crocodile.DataBase.UserDB
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             userCollection = database.GetCollection<UserEntity>(settings.UsersCollectionName);
-            var options = new CreateIndexOptions { Unique = true};
-            userCollection.Indexes.CreateOne("{Login : 1}", options);
+            // var options = new CreateIndexOptions { Unique = true};
+            // userCollection.Indexes.CreateOne("{Login : 1}", options);
         }
         
         public UserEntity Insert(UserEntity user)

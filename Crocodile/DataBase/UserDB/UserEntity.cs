@@ -6,7 +6,7 @@ namespace Crocodile.DataBase.UserDB
     [BsonIgnoreExtraElements]
     public class UserEntity
     {
-        [BsonElement] public string Login { get; }
+        [BsonId] public string Login { get; }
         [BsonElement] public string Password { get; }
         [BsonElement] public byte[] Photo { get; }
         [BsonElement] [BsonDefaultValue(0)] public int CountGames { get; set; }
@@ -15,7 +15,7 @@ namespace Crocodile.DataBase.UserDB
         [BsonElement] [BsonDefaultValue(0)] public int AlmostGuessed { get; set; }
 
         [BsonIgnore] private readonly byte[] _defaultPhoto =
-            File.ReadAllBytes(@"D:\It's assemble time\Нечто\project\Crocodile\wwwroot\DefaultUserPhoto.png");
+            File.ReadAllBytes(@"wwwroot\DefaultUserPhoto.png");
 
         [BsonConstructor]
         public UserEntity(string login, string password, byte[] photo)

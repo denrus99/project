@@ -10,7 +10,7 @@ namespace Crocodile.Controllers
     {
         public bool IsOpen { get; set; }
         public int RoundsCount { get; set; }
-        public int RoundsTimeInMinutes { get; set; }
+        public int RoundTime { get; set; }
         public string CreatorUserLogin { get; set; }
     }
 
@@ -41,7 +41,7 @@ namespace Crocodile.Controllers
             {
                 return NotFound(gameDto.CreatorUserLogin);
             }
-            var game = new GameEntity(gameDto.IsOpen, gameDto.RoundsCount, gameDto.RoundsTimeInMinutes, user.Login);
+            var game = new GameEntity(gameDto.IsOpen, gameDto.RoundsCount, gameDto.RoundTime, user.Login);
             var gameEntity = _gameRepository.Insert(game);
             return Content(gameEntity.GameId.ToString());
         }

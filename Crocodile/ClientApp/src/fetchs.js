@@ -1,9 +1,9 @@
-const createGame = async function (isOpen, roundsCount, roundTime, userLogin) {
+const createGame = async function (isOpen, roundsCount, roundTime, creatorUserLogin) {
     let gameFroRequest = {
         isOpen,
         roundsCount,
         roundTime,
-        userLogin
+        creatorUserLogin
     };
     let response = await fetch("/game/creategame", {
         method: 'POST',
@@ -79,7 +79,7 @@ const loginUser = async function (login, password) {
     return response.status;
 };
 
-const register = async function (login, password) {
+const register = async function (login, password) { 
     let user = {
         login,
         password

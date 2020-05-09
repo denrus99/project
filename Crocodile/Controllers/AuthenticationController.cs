@@ -1,8 +1,6 @@
 ﻿using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Net.Http;
+
 
 namespace Crocodile.Controllers
 {
