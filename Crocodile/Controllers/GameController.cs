@@ -67,23 +67,23 @@ namespace Crocodile.Controllers
             return Json(_wordRepository.TakeWords().ToArray());
         }
 
-        public IActionResult StartGame([FromBody] Guid gameId)
+        public IActionResult StartGame(GameDTO gameDto)
         {
-            var game = _gameRepository.FindById(gameId);
+            var game = _gameRepository.FindById(gameDto.GameId);
             if (game == null)
             {
-                return NotFound(gameId);
+                return NotFound(gameDto.GameId);
             }
             game.StartGame();
             return Ok();
         }
 
-        public IActionResult GetLeaderBoard([FromBody] Guid gameId)
+        public IActionResult GetLeaderBoard(GameDTO gameDto)
         {
-            var game = _gameRepository.FindById(gameId);
+            var game = _gameRepository.FindById(gameDto.GameId);
             if (game == null)
             {
-                return NotFound(gameId);
+                return NotFound(gameDto.GameId);
             }
             return Json(game.Scores);
         }

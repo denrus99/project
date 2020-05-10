@@ -35,7 +35,7 @@ namespace Crocodile.DataBase.GameDB
             Status = Status.Waiting;
             CurrentRound = 0;
         }
-
+        //TODO: Login не добавляется в массив игроков привязанный к игре в самой базе
         public void AddUser(string login)
         {
             Players.Add(login);

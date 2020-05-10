@@ -14,8 +14,8 @@ namespace Crocodile.DataBase.WordDB
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             wordCollection = database.GetCollection<WordEntity>(settings.WordsCollectionName);
-            var check = wordCollection.Find(x => true);
-            if (check == null)
+            var checkCountDocuments = wordCollection.Find(x => true).CountDocuments();
+            if (checkCountDocuments == 0)
             {
                 var text = File.ReadAllText(@"wwwroot\words.txt");
                 var words = text.Split("\r\n");
