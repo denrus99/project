@@ -27,7 +27,7 @@ namespace Crocodile.Controllers
             {
                 return NotFound(request.Login);
             }
-
+            
             if (user.Password.CompareTo(request.Password) != 0)
             {
                 return NotFound(request.Password);
@@ -40,7 +40,13 @@ namespace Crocodile.Controllers
         [HttpPost]
         public IActionResult Register(UserDTO userDto)
         {
-            var user = new UserEntity(userDto.Login, userDto.Password);
+            var user = userRepository.FindByLogin(userDto.Login);
+            if (user != null)
+            {
+                //TODO: Поменять код ошибки
+                return NotFound(userDto.Login);
+            }
+            user = new UserEntity(userDto.Login, userDto.Password);
             userRepository.Insert(user);
             return Created(user.Login, user);
         }

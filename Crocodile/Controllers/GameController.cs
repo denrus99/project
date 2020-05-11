@@ -51,14 +51,20 @@ namespace Crocodile.Controllers
             var user = _userRepository.FindByLogin(gameDto.UserLogin);
             if (user == null)
             {
-                return NotFound(gameDto);
+                return NotFound(gameDto.UserLogin);
             }
             var game = _gameRepository.FindById(gameDto.GameId);
             if (game == null)
             {
-                return NotFound(gameDto);
+                return NotFound(gameDto.GameId);
+            }
+
+            if (game.Players.Contains(gameDto.UserLogin))
+            {
+                return NotFound(gameDto.UserLogin);
             }
             game.AddUser(user.Login);
+            _gameRepository.UpdateGame(game);
             return Ok();
         }
         
@@ -75,6 +81,7 @@ namespace Crocodile.Controllers
                 return NotFound(gameDto.GameId);
             }
             game.StartGame();
+            _gameRepository.UpdateGame(game);
             return Ok();
         }
 
