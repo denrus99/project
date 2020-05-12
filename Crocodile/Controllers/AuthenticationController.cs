@@ -1,4 +1,5 @@
-﻿using Crocodile.DataBase.UserDB;
+﻿using System.ComponentModel.DataAnnotations;
+using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -6,6 +7,7 @@ namespace Crocodile.Controllers
 {
     public class UserDTO
     {
+        [Required]
         public string Login { get; set; }
         public string Password { get; set; }
     }
@@ -19,8 +21,8 @@ namespace Crocodile.Controllers
             this.userRepository = userRepository;
         }
 
-        [HttpPost]
-        public IActionResult Login(UserDTO request)
+        [HttpGet("authentication/login")]
+        public IActionResult Login([FromBody] UserDTO request)
         {
             var user = userRepository.FindByLogin(request.Login);
             if (user == null)
@@ -35,10 +37,9 @@ namespace Crocodile.Controllers
             
             return Ok(request.Login);
         }
-
-
-        [HttpPost]
-        public IActionResult Register(UserDTO userDto)
+        
+        [HttpPost("authentication/register")]
+        public IActionResult Register([FromBody] UserDTO userDto)
         {
             var user = userRepository.FindByLogin(userDto.Login);
             if (user != null)

@@ -1,4 +1,3 @@
-using Crocodile.DataBase;
 using Crocodile.DataBase.GameDB;
 using Crocodile.DataBase.UserDB;
 using Crocodile.DataBase.WordDB;
@@ -13,6 +12,7 @@ using MongoDB.Bson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
+using Microsoft.OpenApi.Models;
 
 namespace Crocodile
 {
@@ -35,7 +35,11 @@ namespace Crocodile
             });
             BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
             ConfigureDB(services);
-
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("Crocodile", new OpenApiInfo { Title = "Crocodile API", Version = "v1" });
+            });
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -62,7 +66,11 @@ namespace Crocodile
             app.UseRouting();
             // app.UseAuthentication();
             // app.UseAuthorization();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/Crocodile/swagger.json", "Crocodile API");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
