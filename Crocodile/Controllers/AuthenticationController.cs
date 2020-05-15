@@ -1,12 +1,19 @@
 ﻿using Crocodile.DataBase.UserDB;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Crocodile.Controllers
 {
     public class UserDTO
     {
+        [Required(ErrorMessage = "Не указан login")]
         public string Login { get; set; }
+        [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
     }
 
@@ -20,29 +27,45 @@ namespace Crocodile.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserDTO request)
+        public async Task<IActionResult> Login(UserDTO userDTO)
         {
-            var user = userRepository.FindByLogin(request.Login);
+            var user = userRepository.FindByLogin(userDTO.Login);
             if (user == null)
             {
-                return NotFound(request.Login);
+                return NotFound(userDTO.Login);
             }
-
-            if (user.Password.CompareTo(request.Password) != 0)
+            if (user.Password.CompareTo(userDTO.Password) != 0)
             {
-                return NotFound(request.Password);
+                return NotFound(userDTO.Password);
             }
-            
-            return Ok(request.Login);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userDTO.Login)
+            };
+            await Authenticate(userDTO.Login);
+            return Ok(userDTO.Login);
         }
 
-
         [HttpPost]
-        public IActionResult Register(UserDTO userDto)
+        public async Task<IActionResult> Register(UserDTO userDto)
         {
             var user = new UserEntity(userDto.Login, userDto.Password);
             userRepository.Insert(user);
-            return Created(user.Login, user);
+            await Authenticate(userDto.Login);
+            return Created(user.Login, user.Login);
+        }
+
+        private async Task Authenticate(string userName)
+        {
+            // создаем один claim
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
 }

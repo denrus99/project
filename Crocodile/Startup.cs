@@ -2,6 +2,7 @@ using Crocodile.DataBase;
 using Crocodile.DataBase.GameDB;
 using Crocodile.DataBase.UserDB;
 using Crocodile.DataBase.WordDB;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -38,6 +39,11 @@ namespace Crocodile
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Login");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,8 +66,9 @@ namespace Crocodile
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
-            // app.UseAuthentication();
-            // app.UseAuthorization();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
