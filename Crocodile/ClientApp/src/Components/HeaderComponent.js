@@ -17,9 +17,8 @@ export class HeaderComponent extends Component {
     signIn = async function() {
         this.setState({userIsAuth: true});
 
-        // let response =await Fetchs.loginUser("den", "123456");
-        // let temp = await response.text();
-        // console.log(temp);
+        let response = await Fetchs.loginUser("den2", "123456");
+        console.log(response);
         
         this._closePopup();
     }

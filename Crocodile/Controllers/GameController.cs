@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Security.Claims;
 using Crocodile.DataBase.GameDB;
 using Crocodile.DataBase.UserDB;
 using Crocodile.DataBase.WordDB;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Crocodile.Controllers
 {
@@ -11,64 +14,70 @@ namespace Crocodile.Controllers
         public bool IsOpen { get; set; }
         public int RoundsCount { get; set; }
         public int RoundTime { get; set; }
-        public string CreatorUserLogin { get; set; }
     }
 
     public class GameDTO
     {
         public Guid GameId { get; set; }
-        public string UserLogin { get; set; }
     }
 
     public class GameController : Controller
     {
 
         private readonly MongoGameRepository _gameRepository;
-        private readonly MongoUserRepository _userRepository;
         private readonly MongoWordRepository _wordRepository;
 
-        public GameController(MongoGameRepository gameRepository, MongoUserRepository userRepository, MongoWordRepository wordRepository)
+        public GameController(MongoGameRepository gameRepository, MongoWordRepository wordRepository)
         {
             _gameRepository = gameRepository;
-            _userRepository = userRepository;
             _wordRepository = wordRepository;
         }
         
-        public IActionResult CreateGame(CreateGameDTO gameDto)
+
+        public IActionResult Create([FromBody] CreateGameDTO gameDto)
         {
-            var user = _userRepository.FindByLogin(gameDto.CreatorUserLogin);
-            if (user == null)
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                return NotFound(gameDto.CreatorUserLogin);
+                return Unauthorized();
             }
-            var game = new GameEntity(gameDto.IsOpen, gameDto.RoundsCount, gameDto.RoundTime, user.Login);
+            var game = new GameEntity(gameDto.IsOpen, gameDto.RoundsCount, gameDto.RoundTime, HttpContext.User.Identity.Name);
             var gameEntity = _gameRepository.Insert(game);
             return Content(gameEntity.GameId.ToString());
         }
 
-        public IActionResult JoinToGame(GameDTO gameDto)
+        public IActionResult Join([FromBody] GameDTO gameDto)
         {
-            var user = _userRepository.FindByLogin(gameDto.UserLogin);
-            if (user == null)
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                return NotFound(gameDto);
+                return Unauthorized();
             }
             var game = _gameRepository.FindById(gameDto.GameId);
             if (game == null)
             {
                 return NotFound(gameDto);
             }
-            game.AddUser(user.Login);
+            if (!game.Players.Contains(HttpContext.User.Identity.Name))
+            {
+                game.AddUser(HttpContext.User.Identity.Name);
+            }
             return Ok();
         }
         
         public IActionResult GetWords()
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
             return Json(_wordRepository.TakeWords().ToArray());
         }
 
-        public IActionResult StartGame(GameDTO gameDto)
+        public IActionResult StartGame([FromBody] GameDTO gameDto)
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
             var game = _gameRepository.FindById(gameDto.GameId);
             if (game == null)
             {
@@ -78,8 +87,12 @@ namespace Crocodile.Controllers
             return Ok();
         }
 
-        public IActionResult GetLeaderBoard(GameDTO gameDto)
+        public IActionResult GetLeaderBoard([FromBody] GameDTO gameDto)
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
             var game = _gameRepository.FindById(gameDto.GameId);
             if (game == null)
             {

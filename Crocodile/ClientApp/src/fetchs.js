@@ -1,3 +1,22 @@
+String.prototype.hashCode = function () {
+    var hash = 0;
+
+    try {
+
+        if (this.length == 0) return hash;
+
+        for (i = 0; i < this.length; i++) {
+            char = this.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+
+    } catch (e) {
+        throw new Error('hashCode: ' + e);
+    }
+};
+
 const createGame = async function (isOpen, roundsCount, roundTime, creatorUserLogin) {
     let gameFroRequest = {
         isOpen,
@@ -97,5 +116,10 @@ const register = async function (login, password) {
     return response.status;
 };
 
+const logoutUser = async function () {
+    let response = await fetch("/authentication/logout");
+    return await response.json();
+};
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register}
+
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser}

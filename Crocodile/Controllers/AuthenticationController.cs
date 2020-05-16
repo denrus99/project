@@ -27,7 +27,7 @@ namespace Crocodile.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(UserDTO userDTO)
+        public async Task<IActionResult> Login([FromBody] UserDTO userDTO)
         {
             var user = userRepository.FindByLogin(userDTO.Login);
             if (user == null)
@@ -38,21 +38,25 @@ namespace Crocodile.Controllers
             {
                 return NotFound(userDTO.Password);
             }
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userDTO.Login)
-            };
             await Authenticate(userDTO.Login);
             return Ok(userDTO.Login);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Register(UserDTO userDto)
+        public async Task<IActionResult> Register([FromBody] UserDTO userDto)
         {
             var user = new UserEntity(userDto.Login, userDto.Password);
             userRepository.Insert(user);
             await Authenticate(userDto.Login);
             return Created(user.Login, user.Login);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok();
         }
 
         private async Task Authenticate(string userName)
