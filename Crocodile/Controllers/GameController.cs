@@ -72,7 +72,7 @@ namespace Crocodile.Controllers
             return Json(_wordRepository.TakeWords().ToArray());
         }
 
-        public IActionResult StartGame([FromBody] GameDTO gameDto)
+        public IActionResult Start([FromBody] GameDTO gameDto)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {

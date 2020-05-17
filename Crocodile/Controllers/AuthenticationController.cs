@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Crocodile.Controllers
@@ -34,7 +36,7 @@ namespace Crocodile.Controllers
             {
                 return NotFound(userDTO.Login);
             }
-            if (user.Password.CompareTo(userDTO.Password) != 0)
+            if (user.Password.CompareTo(DecodePassword(userDTO.Password)) != 0)
             {
                 return NotFound(userDTO.Password);
             }
@@ -46,7 +48,7 @@ namespace Crocodile.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserDTO userDto)
         {
-            var user = new UserEntity(userDto.Login, userDto.Password);
+            var user = new UserEntity(userDto.Login, DecodePassword(userDto.Password));
             userRepository.Insert(user);
             await Authenticate(userDto.Login);
             return Created(user.Login, user.Login);
@@ -70,6 +72,12 @@ namespace Crocodile.Controllers
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        private string DecodePassword(string codedPassword)
+        {
+            byte[] data = Convert.FromBase64String(codedPassword);
+            return Encoding.ASCII.GetString(data);
         }
     }
 }

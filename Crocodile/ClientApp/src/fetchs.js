@@ -1,22 +1,3 @@
-String.prototype.hashCode = function () {
-    var hash = 0;
-
-    try {
-
-        if (this.length == 0) return hash;
-
-        for (i = 0; i < this.length; i++) {
-            char = this.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
-
-    } catch (e) {
-        throw new Error('hashCode: ' + e);
-    }
-};
-
 const createGame = async function (isOpen, roundsCount, roundTime, creatorUserLogin) {
     let gameFroRequest = {
         isOpen,
@@ -24,7 +5,7 @@ const createGame = async function (isOpen, roundsCount, roundTime, creatorUserLo
         roundTime,
         creatorUserLogin
     };
-    let response = await fetch("/game/creategame", {
+    let response = await fetch("/game/create", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -43,7 +24,7 @@ const joinToGame = async function (gameId, userLogin) {
         gameId,
         userLogin
     };
-    let response = await fetch("/game/joinToGame", {
+    let response = await fetch("/game/join", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -59,7 +40,7 @@ const getWords = async function () {
 };
 
 const startGame = async function (gameId) {
-    let response = await fetch("/game/startGame", {
+    let response = await fetch("/game/start", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -83,7 +64,7 @@ const getLeaderBoard = async function (gameId) {
 const loginUser = async function (login, password) {
     let user = {
         login,
-        password
+        password: btoa(password)
     };
     let response = await fetch("/authentication/login", {
         method: 'POST',
@@ -101,7 +82,7 @@ const loginUser = async function (login, password) {
 const register = async function (login, password) { 
     let user = {
         login,
-        password
+        password: btoa(password)
     };
     let response = await fetch("/authentication/register", {
         method: 'POST',
@@ -120,6 +101,5 @@ const logoutUser = async function () {
     let response = await fetch("/authentication/logout");
     return await response.json();
 };
-
 
 export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser}
