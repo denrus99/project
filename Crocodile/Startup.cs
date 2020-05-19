@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Crocodile.DataBase.GameDB;
 using Crocodile.DataBase.UserDB;
 using Crocodile.DataBase.WordDB;
@@ -35,10 +38,27 @@ namespace Crocodile
             });
             BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
             ConfigureDB(services);
-            
+           
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("Crocodile", new OpenApiInfo { Title = "Crocodile API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Crocodile",
+                    Description = "A game whose meaning is to explain a mysterious word by drawing some associations.",
+                    //TermsOfService = new Uri("TODO"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "(A)Boozers",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/denrus99/project"),
+                    },
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
@@ -69,13 +89,14 @@ namespace Crocodile
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/Crocodile/swagger.json", "Crocodile API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Crocodile API");
             });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                //endpoints.MapControllers();
             });
 
             app.UseSpa(spa =>
