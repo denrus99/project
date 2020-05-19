@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Security.Claims;
 using Crocodile.DataBase.GameDB;
 using Crocodile.DataBase.UserDB;
 using Crocodile.DataBase.WordDB;
-using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Crocodile.DataBase;
-using Crocodile.DataBase.GameDB;
-using Crocodile.DataBase.UserDB;
-using Crocodile.DataBase.WordDB;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-
+#pragma warning disable 1591
 namespace Crocodile.Controllers
 {
     public class CreateGameDTO
     {
-#pragma warning disable 1591
+
         [Required]
         public bool IsOpen { get; set; }
         [Required]
@@ -42,11 +37,13 @@ namespace Crocodile.Controllers
 
         private readonly MongoGameRepository _gameRepository;
         private readonly MongoWordRepository _wordRepository;
+        private readonly MongoUserRepository _userRepository;
 
-        public GameController(MongoGameRepository gameRepository, MongoWordRepository wordRepository)
+        public GameController(MongoGameRepository gameRepository, MongoWordRepository wordRepository, MongoUserRepository userRepository)
         {
             _gameRepository = gameRepository;
             _wordRepository = wordRepository;
+            _userRepository = userRepository;
         }
         
         /// <summary>
@@ -94,9 +91,9 @@ namespace Crocodile.Controllers
                 return NotFound(gameDto.GameId);
             }
 
-            if (game.Players.Contains(gameDto.UserLogin))
+            if (game.Players.Contains(HttpContext.User.Identity.Name))
             {
-                return BadRequest(gameDto.UserLogin);
+                return BadRequest(HttpContext.User.Identity.Name);
             }
             game.AddUser(HttpContext.User.Identity.Name);
             _gameRepository.UpdateGame(game);

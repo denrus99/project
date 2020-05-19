@@ -2,13 +2,10 @@ using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using Crocodile.DataBase.UserDB;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +37,7 @@ namespace Crocodile.Controllers
         /// <returns>A newly created User</returns>
         /// <response code="200">Returns User's Login </response>
         /// <response code="404">If the User's Login not found or Password does not match Login</response>
-        [HttpGet("authentication/login")]
+        [HttpPost("authentication/login")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
@@ -80,7 +77,6 @@ namespace Crocodile.Controllers
             user = new UserEntity(userDto.Login, DecodePassword(userDto.Password));
             userRepository.Insert(user);
             await Authenticate(userDto.Login);
-            user.Password = userDto.Password;
             return Created(user.Login, user);
         }
 
