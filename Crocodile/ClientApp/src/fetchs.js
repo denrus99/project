@@ -35,7 +35,7 @@ const joinToGame = async function (gameId, userLogin) {
 };
 
 const getWords = async function () {
-    let response = await fetch("/game/getWords");
+    let response = await fetch("/game/words");
     return await response.json();
 };
 
@@ -51,7 +51,7 @@ const startGame = async function (gameId) {
 };
 
 const getLeaderBoard = async function (gameId) {
-    let response = await fetch("/game/getLeaderBoard", {
+    let response = await fetch("/game/leaderBoard", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
