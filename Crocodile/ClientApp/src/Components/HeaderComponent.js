@@ -14,13 +14,19 @@ export class HeaderComponent extends Component {
         this._closePopup = undefined;
     }
 
-    signIn = async function() {
-        this.setState({userIsAuth: true});
+    signIn = async function () {
+        let userLogin = document.getElementById("userLogin");
+        let userPassword = document.getElementById("userPassword");
 
-        let response = await Fetchs.loginUser("den2", "123456");
-        console.log(response);
-        
-        this._closePopup();
+        let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
+
+        if (response) {
+            this.setState({ userIsAuth: true });
+            this._closePopup();
+        } else {
+            userLogin.style.borderBottom = "5px red solid";
+            userPassword.style.borderBottom = "5px red solid";
+        }
     }
 
     logOut = function(){

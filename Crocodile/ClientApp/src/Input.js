@@ -19,10 +19,10 @@ export class Input extends Component {
                     top: '.5em', left: '3.5em', position: 'absolute', fontSize: '6em', margin: '0 auto',
                     textDecoration: 'underline'
                 }}>Войти</h2>
-                <input className="input" style={{top: '5em', left: '3em'}} id="signinForm" type="text" defaultValue=""
+                <input className="input" style={{ top: '5em', left: '3em' }} id="userLogin" type="text" defaultValue=""
                        placeholder="Email"
                        required/>
-                <input className="input" style={{top: '9em', left: '3em'}} id="password" type="password" defaultValue=""
+                <input className="input" style={{ top: '9em', left: '3em' }} id="userPassword" type="password" defaultValue=""
                        placeholder="Password"
                        required/>
                 <div
