@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Chat} from './Chat'
 import { slide as Menu } from 'react-burger-menu';
 import { CirclePicker } from 'react-color';
+import photo from "../images/game/account.svg";
+
+const signalR = require('@aspnet/signalr');
 
 export class GameComponent extends Component {
     render() {
@@ -41,12 +44,27 @@ class PaintArea extends Component {
     }
 
     componentDidMount() {
+        const hubConnection = new signalR.HubConnectionBuilder().withUrl("/canvasHub").build();
         this.isDrawing = false;
-        let canvas = this.canvasRef.current;
-        this.context = canvas.getContext("2d");
-        let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
-        canvas.width = sizes.width;
-        canvas.height = sizes.height;
+        this.setState({hubConnection: hubConnection}, () => {            
+            let canvas = this.canvasRef.current;
+            this.context = canvas.getContext("2d");
+            let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
+            canvas.width = sizes.width;
+            canvas.height = sizes.height;
+            this.state.hubConnection.start().then(() => console.log("Connection started!"));
+            this.state.hubConnection.on('ReceiveMessage', (array) => {
+                debugger;
+                const imageData = new ImageData(array,1176, 640 );
+                this.context.putImageData(imageData);
+                // const positionData = {
+                //     start: {startX, startY},
+                //     stop: {stopX, stopY}
+                // };
+                // this.paint(positionData);
+            })            
+        });        
+        console.log(this.context);
     }
 
     mouseDown({nativeEvent}) {
@@ -64,20 +82,30 @@ class PaintArea extends Component {
                 stop: {offsetX,offsetY}
             }
             this.paint(positionData);
+            const data = this.context.getImageData(0,0 ,1176, 640);     
+            debugger;
+            const array = [];
+            for (let i = 0; i < 1000; i++) {
+                array[i] = {i: "1656541", j: "2151651"};
+            }
+            this.state.hubConnection
+                .invoke('SendMessage', array)
+                .catch(err => console.error(err));            
             //отправлять точки, можно заносить их в json например и потом после окончания рисования отправить всем весь пакет изменений
         }
     }
 
     paint(positionData) {
-        this.context.beginPath();
+        debugger;
+        this.context.beginPath();        
         this.context.strokeStyle = gameSetting.penColor;
         this.context.fillStyle = gameSetting.penColor;
         let circle = new Path2D();
-        circle.arc(positionData.start.offsetX, positionData.start.offsetY, gameSetting.penSize/2, 0, Math.PI * 2);
+        circle.arc(positionData.start.startX, positionData.start.startY, gameSetting.penSize/2, 0, Math.PI * 2);
         this.context.fill(circle);
         this.context.lineWidth = gameSetting.penSize;
-        this.context.moveTo(positionData.start.offsetX,positionData.start.offsetY);
-        this.context.lineTo(positionData.stop.offsetX,positionData.stop.offsetY);
+        this.context.moveTo(positionData.start.startX,positionData.start.startY);
+        this.context.lineTo(positionData.stop.stopX,positionData.stop.stopY);
         this.context.stroke();
         this.prevPos = positionData.stop;
     }
