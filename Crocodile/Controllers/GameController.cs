@@ -51,9 +51,9 @@ namespace Crocodile.Controllers
         /// </summary>
         /// <returns>A newly created Game</returns>
         /// <response code="200">Returns the newly created Game</response>
-        /// <response code="404">If the user doesn't exist</response>
+        /// <response code="403">If the User is not authorized.</response>
         [ProducesResponseType(typeof(string), 201)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("game/create")]
         [Produces("application/json")]
         public IActionResult Create([FromBody] CreateGameDTO gameDto)
@@ -72,11 +72,13 @@ namespace Crocodile.Controllers
         /// </summary>
         /// <returns>A newly created Game</returns>
         /// <response code="200">Returns the newly created Game</response>
-        /// <response code="404">If the User or Game  doesn't exist</response>
+        /// <response code="404">If the Game  doesn't exist</response>
+        /// <response code="403">If the User is not authorized.</response>
         /// <response code="400">If the User already in Game</response>
         [ProducesResponseType(typeof(string), 400)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("game/join")]
         [Produces("application/json")]
         public IActionResult Join([FromBody] GameDTO gameDto)
@@ -105,7 +107,9 @@ namespace Crocodile.Controllers
         /// </summary>
         /// <returns>An array of Words</returns>
         /// <response code="200">Returns the newly created array of Words</response>
+        /// <response code="403">If the User is not authorized.</response>
         [ProducesResponseType(typeof(List<string>), 200)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpGet("game/words")]
         [Produces("application/json")]
         public IActionResult Words()
@@ -122,9 +126,11 @@ namespace Crocodile.Controllers
         /// </summary>
         /// <returns>An array of Words</returns>
         /// <response code="200"></response>
+        /// <response code="403">If the User is not authorized.</response>
         /// <response code="404">If the Game is doesn't exist</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPatch("game/start")]
         [Produces("application/json")]
         public IActionResult Start([FromBody] GameDTO gameDto)
@@ -148,9 +154,11 @@ namespace Crocodile.Controllers
         /// </summary>
         /// <returns>An array of Words</returns>
         /// <response code="200">Returns array of Scores</response>
+        /// <response code="403">If the User is not authorized.</response>
         /// <response code="404">If the Game is doesn't exist</response>
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("game/leaderBoard")]
         [Produces("application/json")]
         public IActionResult LeaderBoard([FromBody] GameDTO gameDto)
@@ -171,9 +179,11 @@ namespace Crocodile.Controllers
         /// Update Game every round
         /// </summary>
         /// <response code="200"></response>
+        /// <response code="403">If the User is not authorized.</response>
         /// <response code="404">If the Game is doesn't exist</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("game/update")]
         [Produces("application/json")]
         public IActionResult Update([FromBody] UpdateGameDTO gameDto)
@@ -198,9 +208,11 @@ namespace Crocodile.Controllers
         /// Update Users at the end of the Game
         /// </summary>
         /// <response code="200"></response>
+        /// <response code="403">If the User is not authorized.</response>
         /// <response code="404">If the Game is doesn't exist</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPatch("game/end")]
         [Produces("application/json")]
         public IActionResult End([FromBody] GameDTO gameDto)
@@ -237,9 +249,11 @@ namespace Crocodile.Controllers
         /// Update Users at the end of the Game
         /// </summary>
         /// <response code="200"></response>
+        /// <response code="403">If the User is not authorized.</response>
         /// <response code="404">If the Game is doesn't exist</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpGet("game/opened")]
         [Produces("application/json")]
         public IActionResult Opened()
