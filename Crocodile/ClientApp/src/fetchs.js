@@ -88,10 +88,7 @@ const register = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    if (!response.ok) {
-        throw new Error(response.status.toString());
-    }
-    return response.status;
+    return response.ok;
 };
 
 const logoutUser = async function () {

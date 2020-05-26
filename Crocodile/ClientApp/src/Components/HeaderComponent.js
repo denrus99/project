@@ -10,6 +10,7 @@ export class HeaderComponent extends Component {
         super(props);
         this.state = {userIsAuth: false};
         this.signIn = this.signIn.bind(this);
+        this.signUp = this.signUp.bind(this);
         this.logOut = this.logOut.bind(this);
         this._closePopup = undefined;
     }
@@ -24,12 +25,33 @@ export class HeaderComponent extends Component {
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
-            userLogin.style.borderBottom = "5px red solid";
-            userPassword.style.borderBottom = "5px red solid";
+            userLogin.style.borderBottom = "3px red solid";
+            userPassword.style.borderBottom = "3px red solid";
         }
     }
 
-    logOut = function(){
+    signUp = async function () {
+        let userLogin = document.getElementById("registLogin");
+        let userPassword = document.getElementById("registPassword");
+        let confirmPassword = document.getElementById("confirmPassword");
+
+        if (userPassword !== confirmPassword) {
+            userPassword.style.borderBottom = "3px red solid";
+            confirmPassword.style.borderBottom = "3px red solid";
+        }
+
+        let response = await Fetchs.register(userLogin.value, userPassword.value);
+
+        if (response) {
+            this.setState({ userIsAuth: true });
+            this._closePopup();
+        } else {
+            userLogin.style.borderBottom = "3px red solid";
+        }
+    }
+
+    logOut = function () {
+        Fetchs.logoutUser();
         this.setState({userIsAuth:false});
     }
 
@@ -55,7 +77,7 @@ export class HeaderComponent extends Component {
                         &times;
                     </a>
                     <div>
-                        <Input signIn={this.signIn}/>
+                        <Input signIn={this.signIn} signUp={this.signUp}/>
                     </div>
                 </div>
             )}
