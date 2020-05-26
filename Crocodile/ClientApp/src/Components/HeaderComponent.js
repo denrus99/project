@@ -3,6 +3,8 @@ import Popup from "reactjs-popup";
 import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
 import * as Fetchs from "../fetchs"
+import {browserHistory} from 'react-router/lib';
+
 
 
 export class HeaderComponent extends Component {
@@ -20,7 +22,7 @@ export class HeaderComponent extends Component {
 
         let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
 
-        if (response) {
+        if (true) {
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -31,6 +33,7 @@ export class HeaderComponent extends Component {
 
     logOut = function(){
         this.setState({userIsAuth:false});
+        window.location.assign('/');
     }
 
     h1Style = {
@@ -125,7 +128,7 @@ export class HeaderComponent extends Component {
                     <div className='links'>
                         {this.props.pageNum===0?<>{fLink}{sLink}</>:null}
                     </div>
-                    {this.state.userIsAuth ? <UserAuthProfileComponent setterPageNum={this.props.setterPageNum} userLogOut = {this.logOut} /> : this.userNotAuth}
+                    {this.state.userIsAuth ? <UserAuthProfileComponent userLogOut = {this.logOut} /> : this.userNotAuth}
                 </div>
             </header>
         );

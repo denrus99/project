@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
 import './mainpagestyle.css';
-import Popup from "reactjs-popup";
-import * as Fetchs from "../fetchs"
-import {Input} from "../Input";
 import backArrow from '../images/Main/arrowsBack.svg';
 import nextArrow from '../images/Main/arrowNext.svg';
+import {Link} from "react-router-dom"
 
 
 export class MainComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div className='rowContainer'>
-                <OpenGames setterPageNum={this.props.setterPageNum}/>
+                <OpenGames/>
                 <ServerInfo/>
             </div>
         );
@@ -50,9 +45,7 @@ class OpenGames extends Component {
     }
 
     changePage(x) {
-        debugger
         this.setState({pageNum: this.state.pageNum + x});
-
     }
 
     render() {
@@ -66,7 +59,7 @@ class OpenGames extends Component {
             <div className='OpenGamesContainer'>
                 <h1>Открытые игры</h1>
                 {openGames.slice(this.state.pageNum * 10, (this.state.pageNum + 1) * 10 - 1).map(x => <LobbyItem
-                    name={x.name} setterPageNum={this.props.setterPageNum} info={x.info}/>)}
+                    name={x.name} info={x.info}/>)}
                 <div style={{margin: '0 auto', justifyContent:'space-around', alignItems:'center'}} className='rowContainer'>
                     {
                         this.state.pageNum > 0 ?
@@ -86,15 +79,14 @@ class OpenGames extends Component {
 }
 
 class LobbyItem extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div className='lobbyItem'>
                 <h2>{this.props.name}</h2>
                 <h3>{this.props.info}</h3>
-                <button onClick={()=>this.props.setterPageNum(2)}>Войти</button>
+                <Link to="/Game/">
+                    <button>Войти</button>
+                </Link>                
             </div>
         );
     }
