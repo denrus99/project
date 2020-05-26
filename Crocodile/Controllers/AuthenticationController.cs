@@ -80,7 +80,7 @@ namespace Crocodile.Controllers
             return Created(user.Login, userDto);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
