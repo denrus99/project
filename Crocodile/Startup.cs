@@ -108,6 +108,7 @@ namespace Crocodile
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<CanvasHub>("/canvasHub");
                 //endpoints.MapControllers();
             });
 

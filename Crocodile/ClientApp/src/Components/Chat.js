@@ -34,9 +34,7 @@ export class Chat extends Component {
     }
 
     componentDidMount = () => {
-        debugger;
         const hubConnection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-        debugger;
         this.setState({hubConnection: hubConnection}, () => {
             this.state.hubConnection.start().then(() => console.log("Connection started!"));
             this.state.hubConnection.on('ReceiveMessage', (name, text, date) => {
@@ -56,7 +54,6 @@ export class Chat extends Component {
     };
 
     sendMessage(text, user) {
-        debugger;
         let date = new Date(Date.now());
         this.state.hubConnection
             .invoke('SendMessage', user.name, text, `${date.getHours()}:${date.getMinutes()}`)

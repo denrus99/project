@@ -30,6 +30,9 @@ class PaintArea extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            hubConnection: null
+        };
         this.canvasRef = React.createRef();
         this.mouseDown = this.mouseDown.bind(this);
         this.moveMouse = this.moveMouse.bind(this);
