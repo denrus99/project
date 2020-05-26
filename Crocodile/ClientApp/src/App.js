@@ -25,7 +25,6 @@ function App() {
             <div className='container' style={{width: '100%', marginTop: '8em'}}>
                 {pages[pageNum]}
             </div>
-
         </div>
     );
 }
