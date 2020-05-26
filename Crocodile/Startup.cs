@@ -4,6 +4,7 @@ using System.Reflection;
 using Crocodile.DataBase.GameDB;
 using Crocodile.DataBase.UserDB;
 using Crocodile.DataBase.WordDB;
+using Crocodile.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -68,6 +69,7 @@ namespace Crocodile
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Login");
                 });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +107,7 @@ namespace Crocodile
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
                 //endpoints.MapControllers();
             });
 

@@ -10,7 +10,7 @@ export class GameComponent extends Component {
                 <PaintArea/>
                 <Chat/>
             </div>
-        );
+        )
     }
     // componentDidMount(){        
     //     let gameContainer = document.getElementById('gameContainer');
