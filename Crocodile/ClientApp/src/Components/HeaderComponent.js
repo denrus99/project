@@ -10,20 +10,50 @@ export class HeaderComponent extends Component {
         super(props);
         this.state = {userIsAuth: false};
         this.signIn = this.signIn.bind(this);
+        this.signUp = this.signUp.bind(this);
+        this.createGame = this.createGame.bind(this);
+        this.joinToGame = this.joinToGame.bind(this);
         this.logOut = this.logOut.bind(this);
         this._closePopup = undefined;
     }
 
-    signIn = async function() {
-        this.setState({userIsAuth: true});
+    signIn = async function () {
+        let userLogin = document.getElementById("userLogin");
+        let userPassword = document.getElementById("userPassword");
 
-        let response = await Fetchs.loginUser("den2", "123456");
-        console.log(response);
-        
-        this._closePopup();
+        let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
+
+        if (response) {
+            this.setState({ userIsAuth: true });
+            this._closePopup();
+        } else {
+            userLogin.style.borderBottom = "3px red solid";
+            userPassword.style.borderBottom = "3px red solid";
+        }
     }
 
-    logOut = function(){
+    signUp = async function () {
+        let userLogin = document.getElementById("registLogin");
+        let userPassword = document.getElementById("registPassword");
+        let confirmPassword = document.getElementById("confirmPassword");
+
+        if (userPassword !== confirmPassword) {
+            userPassword.style.borderBottom = "3px red solid";
+            confirmPassword.style.borderBottom = "3px red solid";
+        }
+
+        let response = await Fetchs.register(userLogin.value, userPassword.value);
+
+        if (response) {
+            this.setState({ userIsAuth: true });
+            this._closePopup();
+        } else {
+            userLogin.style.borderBottom = "3px red solid";
+        }
+    }
+
+    logOut = async function () {
+        await Fetchs.logoutUser();
         this.setState({userIsAuth:false});
     }
 
@@ -49,11 +79,37 @@ export class HeaderComponent extends Component {
                         &times;
                     </a>
                     <div>
-                        <Input signIn={this.signIn}/>
+                        <Input signIn={this.signIn} signUp={this.signUp}/>
                     </div>
                 </div>
             )}
         </Popup>;
+
+    createGame = async function () {
+        let roundsCount = document.getElementById("roundsCount");
+        let roundMinutsCount = document.getElementById("roundMinutsCount");
+        let isOpenGame = document.getElementById("isOpenGame");
+
+        let response = await Fetchs.createGame(isOpenGame.checked, roundsCount.value, roundMinutsCount.value);
+        debugger;
+        if (typeof response === "string") {
+            alert(response);
+        } else {
+            alert("Error " + response.error);
+        }
+    }
+
+    joinToGame = async function() {
+        let gameId = document.getElementById("gameIdForJoin");
+
+        let response = await Fetchs.joinToGame(gameId.value);
+
+        if (response) {
+            alert("Success");
+        } else {
+            alert("Error " + response);
+        }
+    }
 
     render() {
         let fLink = <Popup modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
@@ -66,19 +122,19 @@ export class HeaderComponent extends Component {
                     <table>
                         <tr>
                             <td><h2>Раунды</h2></td>
-                            <td><input defaultValue='5'/></td>
+                            <td><input id="roundsCount" defaultValue='5'/></td>
                         </tr>
                         <tr>
                             <td><h2>Время</h2></td>
-                            <td><input defaultValue='5'/></td>
+                            <td><input id="roundMinutsCount" defaultValue='5'/></td>
                         </tr>
                         <tr>
                             <td><h2>Открытая игра</h2></td>
-                            <td><input defaultValue='true' type='checkbox'/></td>
+                            <td><input id="isOpenGame" type='checkbox'/></td>
                         </tr>
                         <tr>
                             <td>
-                                <button>Создать</button>
+                                <button onClick={this.createGame}>Создать</button>
                             </td>
                             <td>
                                 <button onClick={close}>Назад</button>
@@ -99,11 +155,11 @@ export class HeaderComponent extends Component {
                     <table>
                         <tr>
                             <td><h2>ID</h2></td>
-                            <td><input placeholder='id'/></td>
+                            <td><input id="gameIdForJoin" placeholder='id'/></td>
                         </tr>
                         <tr>
                             <td>
-                                <button>Join</button>
+                                <button onClick={this.joinToGame}>Join</button>
                             </td>
                             <td>
                                 <button onClick={close}>Назад</button>

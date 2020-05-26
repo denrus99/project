@@ -19,10 +19,10 @@ export class Input extends Component {
                     top: '.5em', left: '3.5em', position: 'absolute', fontSize: '6em', margin: '0 auto',
                     textDecoration: 'underline'
                 }}>Войти</h2>
-                <input className="input" style={{top: '5em', left: '3em'}} id="signinForm" type="text" defaultValue=""
+                <input className="input" style={{ top: '5em', left: '3em' }} id="userLogin" type="text" defaultValue=""
                        placeholder="Email"
                        required/>
-                <input className="input" style={{top: '9em', left: '3em'}} id="password" type="password" defaultValue=""
+                <input className="input" style={{ top: '9em', left: '3em' }} id="userPassword" type="password" defaultValue=""
                        placeholder="Password"
                        required/>
                 <div
@@ -62,11 +62,11 @@ export class Input extends Component {
                         top: '.5em', left: '1.9em', position: 'absolute', fontSize: '6em',
                         margin: '0 auto', textDecoration: 'underline'
                     }}>Регистрация</h2>
-                    <input className="input" style={{top: '5em', left: '3em'}} id="registrationForm" type="text"
+                    <input className="input" style={{top: '5em', left: '3em'}} id="registLogin" type="text"
                            defaultValue=""
                            placeholder="Логин"
                            required/>
-                    <input className="input" style={{top: '9em', left: '3em'}} id="password" type="password"
+                <input className="input" style={{ top: '9em', left: '3em' }} id="registPassword" type="password"
                            defaultValue=""
                            placeholder="Пароль"
                            required/>
@@ -74,7 +74,7 @@ export class Input extends Component {
                            defaultValue=""
                            placeholder="Подтвердите пароль"
                            required/>
-                    <a type="submit" onClick={()=>this.props.signIn()} className="button myButtonUp">Подтвердить</a>
+                    <a type="submit" onClick={()=>this.props.signUp()} className="button myButtonUp">Подтвердить</a>
                 </div>
             </form>;
     }

@@ -77,10 +77,10 @@ namespace Crocodile.Controllers
             user = new UserEntity(userDto.Login, DecodePassword(userDto.Password));
             userRepository.Insert(user);
             await Authenticate(userDto.Login);
-            return Created(user.Login, user);
+            return Created(user.Login, userDto);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
