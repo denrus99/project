@@ -4,6 +4,8 @@ import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
 import * as Fetchs from "../fetchs";
 import * as Cookies from 'js-cookie'
+import {browserHistory} from 'react-router/lib';
+
 
 
 export class HeaderComponent extends Component {
@@ -59,6 +61,7 @@ export class HeaderComponent extends Component {
         await Fetchs.logoutUser();
         Cookies.remove("login");
         this.setState({userIsAuth:false});
+        window.location.assign('/');
     }
 
     h1Style = {
@@ -181,7 +184,7 @@ export class HeaderComponent extends Component {
                     <div className='links'>
                         {this.props.pageNum===0?<>{fLink}{sLink}</>:null}
                     </div>
-                    {this.state.userIsAuth ? <UserAuthProfileComponent setterPageNum={this.props.setterPageNum} userLogOut = {this.logOut} /> : this.userNotAuth}
+                    {this.state.userIsAuth ? <UserAuthProfileComponent userLogOut = {this.logOut} /> : this.userNotAuth}
                 </div>
             </header>
         );
