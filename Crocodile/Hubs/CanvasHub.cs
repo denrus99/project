@@ -6,9 +6,23 @@ namespace Crocodile.Hubs
 {
     public class CanvasHub : Hub
     {
-        public async Task SendMessage(Object array)
+        public async Task SendLines(string gameId, Object array, Object settings)
         {
-            await Clients.All.SendAsync("ReceiveMessage", array);
+            await Clients.Group(gameId).SendAsync("ReceiveMessage", array, settings);
+        }
+        public async Task Clear(string gameId)
+        {
+            await Clients.Group(gameId).SendAsync("ReceiveClear");
+        }
+        public async Task EnterGame(string gameId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
         }
     }
-}
+}           
+   
+       
+         
+          
+            
+            

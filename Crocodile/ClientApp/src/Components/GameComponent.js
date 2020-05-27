@@ -45,7 +45,8 @@ class PaintArea extends Component {
     }
 
     componentDidMount() {
-        const hubConnection = new signalR.HubConnectionBuilder().withUrl("/canvasHub").build();
+        const hubConnection = new signalR.HubConnectionBuilder().withUrl("/canvasHub")
+            .build();
         this.isDrawing = false;
         this.setState({hubConnection: hubConnection}, () => {            
             let canvas = this.canvasRef.current;
@@ -53,12 +54,24 @@ class PaintArea extends Component {
             let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
             canvas.width = sizes.width;
             canvas.height = sizes.height;
-            this.state.hubConnection.start().then(() => console.log("Connection started!"));
-            this.state.hubConnection.on('ReceiveMessage', (arr) => {
+            this.state.hubConnection.start().then(() => 
+            {
+                console.log("Connection started!");
+                this.state.hubConnection
+                    .invoke('EnterGame', "GAMEID")
+                    .catch(err => console.error(err));
+            }
+                );
+            this.state.hubConnection.on('ReceiveMessage', (arr, settings) => {
                 for (let i = 0; i < arr.length; i++){
+                    gameSetting = settings;
                     this.paint(arr.shift())
                 }
-            })            
+            })
+            this.state.hubConnection.on('ReceiveClear', () => {
+                debugger;
+                this.context.clearRect(0,0,10000,10000);
+            })
         });        
         console.log(this.context);
     }
@@ -80,7 +93,7 @@ class PaintArea extends Component {
             }
             this.array.push(positionData);
             this.state.hubConnection
-                .invoke('SendMessage', this.array)
+                .invoke('SendLines', "GAMEID", this.array, gameSetting)
                 .catch(err => console.error(err));
             this.array = [];
             //отправлять точки, можно заносить их в json например и потом после окончания рисования отправить всем весь пакет изменений
@@ -101,6 +114,10 @@ class PaintArea extends Component {
         this.prevPos = positionData.stop;
     }
     clear(){
+        debugger;
+        this.state.hubConnection
+            .invoke('Clear', "GAMEID")
+            .catch(err => console.error(err));
         this.context.clearRect(0,0,10000,10000);
     }
 
