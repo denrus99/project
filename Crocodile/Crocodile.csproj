@@ -27,6 +27,7 @@
         <Content Include="ClientApp\src\style.css" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+        <None Include="..\.editorconfig" Link=".editorconfig" />
         <Content Update="wwwroot\words.txt">
           <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
           <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

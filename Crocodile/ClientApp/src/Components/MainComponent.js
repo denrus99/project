@@ -49,17 +49,18 @@ class OpenGames extends Component {
     }
 
     render() {
-        //fetch("Запрос открытых игр");
+        let games = [];
+        Fetchs.getLobbys(this.state.pageNum).then(res => games.push(...res));
+        debugger;
         let openGames = [];
-        for (let i = 0; i < 100; i++) {
-            openGames.push({name: `Лобби ${i + 1}`, info: 'Какая-то информация', id: i + 1});
+        for (let i = 0; i < games.length; i++) {
+            openGames.push({ name: `Лобби ${i + 1}`, info: games[i], id: i + 1 });
         }
 
         return (
             <div className='OpenGamesContainer'>
                 <h1>Открытые игры</h1>
-                {openGames.slice(this.state.pageNum * 10, (this.state.pageNum + 1) * 10 - 1).map(x => <LobbyItem
-                    name={x.name} info={x.info}/>)}
+                {openGames.map(x => <LobbyItem name={x.name} setterPageNum={this.props.setterPageNum} info={x.info}/>)}
                 <div style={{margin: '0 auto', justifyContent:'space-around', alignItems:'center'}} className='rowContainer'>
                     {
                         this.state.pageNum > 0 ?
@@ -68,7 +69,7 @@ class OpenGames extends Component {
                     }
                     <h1>{this.state.pageNum}</h1>
                     {
-                        this.state.pageNum < (openGames.length / 10) - 1 ?
+                        openGames.length == 10 ?
                             <img  className='arrowImg' src={nextArrow} onClick={() => this.changePage(1)}/>:
                             <div className='arrowImg'/>
                     }

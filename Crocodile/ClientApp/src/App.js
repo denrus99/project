@@ -15,6 +15,13 @@ import {ProfileComponent as Profile} from "./Components/ProfileComponent";
 import {GameComponent as Game} from "./Components/GameComponent";
 import {GameMasterComponent as GameMaster} from "./Components/GameMasterComponent";
 function App() {
+    const [pageNum,setPageNum] = useState(0);
+    let setterPageNum = (a)=>{
+        lastPage.unshift(a);
+        lastPage.length=10;
+        setPageNum(a);
+    }
+    let pages = [<Main setterPageNum={setterPageNum}/>, <Profile lastPage={lastPage} setterPageNum={setterPageNum}/>, <Game setterPageNum={setterPageNum}/>, <GameMaster/>];
     return (
         <Router history={browserHistory}>
         <div className="App">           

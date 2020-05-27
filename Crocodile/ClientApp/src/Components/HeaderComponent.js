@@ -98,9 +98,9 @@ export class HeaderComponent extends Component {
         let isOpenGame = document.getElementById("isOpenGame");
 
         let response = await Fetchs.createGame(isOpenGame.checked, roundsCount.value, roundMinutsCount.value);
-        debugger;
+        
         if (typeof response === "string") {
-            alert(response);
+            Cookies.set("gameId", response);
         } else {
             alert("Error " + response.error);
         }
@@ -112,7 +112,7 @@ export class HeaderComponent extends Component {
         let response = await Fetchs.joinToGame(gameId.value);
 
         if (response) {
-            alert("Success");
+            Cookies.set("gameId", gameId.value);
         } else {
             alert("Error " + response);
         }
