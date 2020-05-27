@@ -1,6 +1,9 @@
 ﻿import React, {Component} from 'react';
 import photo from '../images/game/account.svg';
+import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
+
+const signalR = require('@aspnet/signalr');
 
 var messages = [{user: {name: 'Коля', photo: photo}, text: 'Hello', date: '12:34'},
     {user: {name: 'Коля', photo: photo}, text: 'Что-то написала', date: '12:34'},
@@ -24,29 +27,44 @@ var messages = [{user: {name: 'Коля', photo: photo}, text: 'Hello', date: '1
 export class Chat extends Component {
     constructor(props) {
         super(props);
-        this.state = {messages: this.messages};
+        this.state = {
+            messages: this.messages,
+            hubConnection: null
+        };
         this.sendMessage = this.sendMessage.bind(this);
     }
 
+    componentDidMount = () => {
+        const hubConnection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        this.setState({hubConnection: hubConnection}, () => {
+            this.state.hubConnection.start().then(() => console.log("Connection started!"));
+            this.state.hubConnection.on('ReceiveMessage', (name, text, date) => {
+                let block = document.getElementById("chatBlock");
+                let msg = {
+                    user: {name: name, photo: photo},
+                    text: text,
+                    date: date
+                };
+                messages.push(msg);
+                this.setState({messages: messages});
+                let timer = setTimeout(() => {
+                    block.scrollTop = block.scrollHeight;
+                }, 10)
+            })
+        });        
+    };
+
     sendMessage(text, user) {
         let date = new Date(Date.now());
-        let block = document.getElementById("chatBlock");
-        let msg = {
-            user: {name: user.name, photo: photo},
-            text: text,
-            date: `${date.getHours()}:${date.getMinutes()}`
-        }
-        messages.push(msg);
-        this.setState({messages: messages});
-            let timer = setTimeout(() => {
-                block.scrollTop = block.scrollHeight;
-            }, 10)
-
+        this.state.hubConnection
+            .invoke('SendMessage', user.name, text, `${date.getHours()}:${date.getMinutes()}`)
+            .catch(err => console.error(err));
+        this.setState({message: ''});
     }
 
     render() {
         return (
-            <div style={{width:'20%'}}>
+            <div style={{width: '20%'}}>
                 <div id='chatBlock' className='chat_Container'>
                     {messages.map(x => <Message user={x.user} text={x.text} date={x.date}/>)}
                 </div>
@@ -91,7 +109,7 @@ class Input extends Component {
     Send() {
         let input = this.inputRef.current;
         if (input.value !== '') {
-            this.props.sendMsg(input.value, {name: 'Вера', photo: photo});
+            this.props.sendMsg(input.value, { name: Cookies.get("login"), photo: photo });
             input.value = '';
         }
     }
@@ -104,4 +122,11 @@ class Input extends Component {
             </div>
         );
     }
+}
+
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 }

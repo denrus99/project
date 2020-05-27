@@ -1,9 +1,8 @@
-const createGame = async function (isOpen, roundsCount, roundTime, creatorUserLogin) {
+const createGame = async function (isOpen, roundsCount, roundTime) {
     let gameFroRequest = {
         isOpen,
         roundsCount,
-        roundTime,
-        creatorUserLogin
+        roundTime
     };
     let response = await fetch("/game/create", {
         method: 'POST',
@@ -13,10 +12,10 @@ const createGame = async function (isOpen, roundsCount, roundTime, creatorUserLo
         body: JSON.stringify(gameFroRequest)
     });
     if (!response.ok) {
-        throw new Error(response.status.toString());
+        return { error: response.status };
     }
     let game = await response.json();
-    return game.id;
+    return game.gameId;
 };
 
 const joinToGame = async function (gameId, userLogin) {
@@ -73,7 +72,10 @@ const loginUser = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    return response.ok;
+    let userLogin = await response.text();
+    return {
+        status: response.ok, login: userLogin
+    };
 };
 
 const register = async function (login, password) { 
@@ -88,15 +90,15 @@ const register = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    if (!response.ok) {
-        throw new Error(response.status.toString());
-    }
-    return response.status;
+    let userLogin = await response.json().Login;
+    return {
+        status: response.ok, login: userLogin
+    };
 };
 
 const logoutUser = async function () {
     let response = await fetch("/authentication/logout");
-    return await response.json();
+    return response.ok;
 };
 
 export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser}

@@ -11,6 +11,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="ClientApp" t="Include">
           <e p=".gitignore" t="Include" />
+          <e p="node_modules\@aspnet\signalr" t="IncludeRecursive" />
           <e p="node_modules\@babel\parser" t="IncludeRecursive" />
           <e p="node_modules\@babel\types" t="IncludeRecursive" />
           <e p="node_modules\@jest\console" t="IncludeRecursive" />
@@ -147,6 +148,10 @@
             <e p="WordEntity.cs" t="Include" />
             <e p="WordsDatabaseSettings.cs" t="Include" />
           </e>
+        </e>
+        <e p="Hubs" t="Include">
+          <e p="CanvasHub.cs" t="Include" />
+          <e p="ChatHub.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">

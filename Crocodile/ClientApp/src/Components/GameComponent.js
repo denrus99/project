@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Chat} from './Chat'
 import { slide as Menu } from 'react-burger-menu';
 import { CirclePicker } from 'react-color';
+import photo from "../images/game/account.svg";
+
+const signalR = require('@aspnet/signalr');
 
 export class GameComponent extends Component {
     render() {
@@ -10,7 +13,7 @@ export class GameComponent extends Component {
                 <PaintArea/>
                 <Chat/>
             </div>
-        );
+        )
     }
     // componentDidMount(){        
     //     let gameContainer = document.getElementById('gameContainer');
@@ -27,9 +30,13 @@ class PaintArea extends Component {
     isDrawing;
     context;
     prevPos;
+    array = [];
 
     constructor(props) {
         super(props);
+        this.state = {
+            hubConnection: null
+        };
         this.canvasRef = React.createRef();
         this.mouseDown = this.mouseDown.bind(this);
         this.moveMouse = this.moveMouse.bind(this);
@@ -38,15 +45,26 @@ class PaintArea extends Component {
     }
 
     componentDidMount() {
+        const hubConnection = new signalR.HubConnectionBuilder().withUrl("/canvasHub").build();
         this.isDrawing = false;
-        let canvas = this.canvasRef.current;
-        this.context = canvas.getContext("2d");
-        let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
-        canvas.width = sizes.width;
-        canvas.height = sizes.height;
+        this.setState({hubConnection: hubConnection}, () => {            
+            let canvas = this.canvasRef.current;
+            this.context = canvas.getContext("2d");
+            let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
+            canvas.width = sizes.width;
+            canvas.height = sizes.height;
+            this.state.hubConnection.start().then(() => console.log("Connection started!"));
+            this.state.hubConnection.on('ReceiveMessage', (arr) => {
+                for (let i = 0; i < arr.length; i++){
+                    this.paint(arr.shift())
+                }
+            })            
+        });        
+        console.log(this.context);
     }
 
     mouseDown({nativeEvent}) {
+
         const {offsetX, offsetY} = nativeEvent;
         this.isDrawing = true;
         this.prevPos = {offsetX,offsetY};
@@ -60,13 +78,17 @@ class PaintArea extends Component {
                 start: {...this.prevPos},
                 stop: {offsetX,offsetY}
             }
-            this.paint(positionData);
+            this.array.push(positionData);
+            this.state.hubConnection
+                .invoke('SendMessage', this.array)
+                .catch(err => console.error(err));
+            this.array = [];
             //отправлять точки, можно заносить их в json например и потом после окончания рисования отправить всем весь пакет изменений
         }
     }
 
     paint(positionData) {
-        this.context.beginPath();
+        this.context.beginPath();        
         this.context.strokeStyle = gameSetting.penColor;
         this.context.fillStyle = gameSetting.penColor;
         let circle = new Path2D();
