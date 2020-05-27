@@ -90,9 +90,9 @@ const register = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    let userLogin = await response.json().Login;
+    let userLogin = await response.json();
     return {
-        status: response.ok, login: userLogin
+        status: response.ok, login: userLogin.login
     };
 };
 
