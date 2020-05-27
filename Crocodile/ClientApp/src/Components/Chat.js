@@ -1,5 +1,6 @@
 ﻿import React, {Component} from 'react';
 import photo from '../images/game/account.svg';
+import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
 
 const signalR = require('@aspnet/signalr');
@@ -108,7 +109,7 @@ class Input extends Component {
     Send() {
         let input = this.inputRef.current;
         if (input.value !== '') {
-            this.props.sendMsg(input.value, {name: 'Вера', photo: photo});
+            this.props.sendMsg(input.value, { name: Cookies.get("login"), photo: photo });
             input.value = '';
         }
     }
@@ -121,4 +122,11 @@ class Input extends Component {
             </div>
         );
     }
+}
+
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 }
