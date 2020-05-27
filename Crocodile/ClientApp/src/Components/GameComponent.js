@@ -54,7 +54,14 @@ class PaintArea extends Component {
             let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
             canvas.width = sizes.width;
             canvas.height = sizes.height;
-            this.state.hubConnection.start().then(() => console.log("Connection started!"));
+            this.state.hubConnection.start().then(() => 
+            {
+                console.log("Connection started!");
+                this.state.hubConnection
+                    .invoke('EnterGame', "GAMEID")
+                    .catch(err => console.error(err));
+            }
+                );
             this.state.hubConnection.on('ReceiveMessage', (arr, settings) => {
                 for (let i = 0; i < arr.length; i++){
                     gameSetting = settings;

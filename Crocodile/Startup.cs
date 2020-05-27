@@ -73,7 +73,7 @@ namespace Crocodile
             {
                 hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
                 hubOptions.EnableDetailedErrors = true;
-                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(10);
             });
         }
 

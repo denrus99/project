@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
@@ -8,9 +7,10 @@ namespace Crocodile.Hubs
     {
         public async Task SendMessage(string gameId, string user, string text, string date)
         {
-            await Clients.Group(gameId).SendAsync("Receive", user, text, date);
+            //await Clients.All.SendAsync("ReceiveMessage", user, text, date);
+            await Clients.Group(gameId).SendAsync("ReceiveMessage", user, text, date);
         }
-        public async Task EnterChat(string gameId, string user)
+        public async Task EnterChat(string gameId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
         }
