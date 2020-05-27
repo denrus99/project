@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Crocodile.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 #pragma warning disable 1591
 namespace Crocodile.Controllers
@@ -32,6 +33,7 @@ namespace Crocodile.Controllers
         public Guid GameId { get; set; }
         public List<Score> Scores { get; set; }
     }
+
     public class GameController : Controller
     {
 
@@ -264,6 +266,13 @@ namespace Crocodile.Controllers
             }
             //TODO: Вернуть открытые игры
             return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult Lobby(int page)
+        {
+            var games = _gameRepository.GetOpenGames().Select(game => game.GameId).Skip(page * 10).Take(10).ToArray();
+            return Json(games);
         }
     }
 #pragma warning restore 1591

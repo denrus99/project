@@ -90,9 +90,9 @@ const register = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    let userLogin = await response.json().Login;
+    let userLogin = await response.json();
     return {
-        status: response.ok, login: userLogin
+        status: response.ok, login: userLogin.login
     };
 };
 
@@ -101,4 +101,18 @@ const logoutUser = async function () {
     return response.ok;
 };
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser}
+const getUser = async function (userLogin) {
+    let response = await fetch(`user/profile/${userLogin}`);
+    let user = await response.json();
+    return {
+        status: response.ok, user: user
+    };
+}
+
+const getLobbys = async function (pageNumber) {
+    let response = await fetch(`game/lobby?page=${pageNumber || 0}`);
+    let lobbys = response.ok ? await response.json() : [];
+    return lobbys;
+}
+
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys}

@@ -54,3 +54,5 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 .idea/
+.idea/
+*.xml
