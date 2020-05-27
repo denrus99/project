@@ -14,7 +14,6 @@ function App() {
     const [pageNum,setPageNum] = useState(0);
     let setterPageNum = (a)=>{
         lastPage.unshift(a);
-        debugger
         lastPage.length=10;
         setPageNum(a);
     }

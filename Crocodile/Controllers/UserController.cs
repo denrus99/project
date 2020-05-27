@@ -26,14 +26,14 @@ namespace Crocodile.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
-        public IActionResult Profile()
+        [HttpGet("user/profile/{login}")]
+        public IActionResult Profile([FromRoute] string login)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 return Unauthorized();
             }
-            var user = _userRepository.FindByLogin(HttpContext.User.Identity.Name);
+            var user = _userRepository.FindByLogin(login);
             var profile = new UserProfileDTO
             {
                 Login = user.Login,

@@ -20,6 +20,7 @@ namespace Crocodile.Controllers
         [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
     }
+
     public class AuthenticationController : Controller
     {
         private readonly MongoUserRepository userRepository;
