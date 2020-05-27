@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Popup from "reactjs-popup";
 import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
-import * as Fetchs from "../fetchs"
+import * as Fetchs from "../fetchs";
+import * as Cookies from 'js-cookie'
 
 
 export class HeaderComponent extends Component {
@@ -24,7 +25,7 @@ export class HeaderComponent extends Component {
         let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
 
         if (response.status) {
-            setCookie("login", response.login);
+            Cookies.set("login", response.login.slice(1, response.login.length - 1));
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -46,7 +47,7 @@ export class HeaderComponent extends Component {
         let response = await Fetchs.register(userLogin.value, userPassword.value);
 
         if (response.status) {
-            setCookie("login", response.login);
+            Cookies.set("login", response.login);
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -56,6 +57,7 @@ export class HeaderComponent extends Component {
 
     logOut = async function () {
         await Fetchs.logoutUser();
+        Cookies.remove("login");
         this.setState({userIsAuth:false});
     }
 
@@ -112,6 +114,8 @@ export class HeaderComponent extends Component {
             alert("Error " + response);
         }
     }
+
+    joinToLobby = async function () {}
 
     render() {
         let fLink = <Popup modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
@@ -182,9 +186,4 @@ export class HeaderComponent extends Component {
             </header>
         );
     }
-}
-
-function setCookie(name, value) {
-    let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
-    document.cookie = updatedCookie;
 }

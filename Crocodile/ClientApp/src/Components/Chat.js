@@ -1,5 +1,6 @@
 ﻿import React, {Component} from 'react';
 import photo from '../images/game/account.svg';
+import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
 
 const signalR = require('@aspnet/signalr');
@@ -110,9 +111,8 @@ class Input extends Component {
 
     Send() {
         let input = this.inputRef.current;
-        let login = getCookie("login");
         if (input.value !== '') {
-            this.props.sendMsg(input.value, { name: login.slice(1, login.length - 1), photo: photo });
+            this.props.sendMsg(input.value, { name: Cookies.get("login"), photo: photo });
             input.value = '';
         }
     }
