@@ -111,7 +111,9 @@ const getUser = async function (userLogin) {
 
 const getLobbys = async function (pageNumber) {
     let response = await fetch(`game/lobby?page=${pageNumber || 0}`);
+    debugger;
     let lobbys = response.ok ? await response.json() : [];
+    debugger;
     return lobbys;
 }
 

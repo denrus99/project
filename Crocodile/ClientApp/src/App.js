@@ -11,17 +11,10 @@ import {
     Route
 } from "react-router-dom";
 import {MainComponent as Main} from "./Components/MainComponent";
-import {ProfileComponent, ProfileComponent as Profile} from "./Components/ProfileComponent";
-import {GameComponent as Game} from "./Components/GameComponent";
-import {GameMasterComponent as GameMaster} from "./Components/GameMasterComponent";
+import { ProfileComponent as Profile } from "./Components/ProfileComponent";
+import { GameComponent as Game } from "./Components/GameComponent";
+import { GameMasterComponent as GameMaster } from "./Components/GameMasterComponent";
 function App() {
-    const [pageNum,setPageNum] = useState(0);
-    let setterPageNum = (a)=>{
-        lastPage.unshift(a);
-        lastPage.length=10;
-        setPageNum(a);
-    }
-    let pages = [<Main setterPageNum={setterPageNum}/>, <Profile lastPage={lastPage} setterPageNum={setterPageNum}/>, <Game setterPageNum={setterPageNum}/>, <GameMaster/>];
     return (
         <Router history={browserHistory}>
         <div className="App">           
@@ -30,8 +23,8 @@ function App() {
                 <Switch>
                     <Route path="/Game">
                         <Game/>
-                    </Route>
-                    <Route path="/Profile/:id" component={ProfileComponent}/>
+                        </Route>
+                        <Route path="/Profile/:id" component={Profile} />
                     <Route path="/GameMaster">
                         <GameMaster/>
                     </Route>

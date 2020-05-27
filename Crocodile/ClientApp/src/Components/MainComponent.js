@@ -3,18 +3,26 @@ import './mainpagestyle.css';
 import backArrow from '../images/Main/arrowsBack.svg';
 import nextArrow from '../images/Main/arrowNext.svg';
 import {Link} from "react-router-dom"
-import {Roller} from "react-spinners-css";
+import { Roller } from "react-spinners-css";
+import * as Fetchs from "../fetchs";
 
 
 export class MainComponent extends Component {
     constructor(props) {
         super(props);
-        this.state={isLoad:false}        
+        this.state = { isLoad: false }
+        this.games = [];
+        Fetchs.getLobbys(this.state.pageNum).then(res => {
+            this.games.push(...res);
+            this.setState({ isLoad: true });
+        });
+        debugger;
     }
+
     render() {        
         return (
             <div className='rowContainer'>
-                {this.props.isLoad?<OpenGames openGames={new []}/>:<div className="middleContainer"><Roller color="black"/></div>}
+                {this.state.isLoad ? <OpenGames games={this.games} /> : <div className="middleContainer"><Roller color="black" /></div>}
             </div>
         );
     }
@@ -33,12 +41,9 @@ class OpenGames extends Component {
     }
 
     render() {
-        let games = [];
-        Fetchs.getLobbys(this.state.pageNum).then(res => games.push(...res));
-        debugger;
         let openGames = [];
-        for (let i = 0; i < games.length; i++) {
-            openGames.push({ name: `Лобби ${i + 1}`, info: games[i], id: i + 1 });
+        for (let i = 0; i < this.props.games.length; i++) {
+            openGames.push({ name: `Лобби ${i + 1}`, info: this.props.games[i], id: i + 1 });
         }
 
         return (

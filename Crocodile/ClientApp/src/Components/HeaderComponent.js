@@ -10,7 +10,7 @@ import * as Cookies from 'js-cookie'
 export class HeaderComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {userIsAuth: false};
+        this.state = { userIsAuth: Cookies.get("login") ? true : false };
         this.signIn = this.signIn.bind(this);
         this.signUp = this.signUp.bind(this);
         this.createGame = this.createGame.bind(this);
@@ -27,6 +27,7 @@ export class HeaderComponent extends Component {
 
         if (response.status) {
             Cookies.set("login", response.login.slice(1, response.login.length - 1));
+            console.log(Cookies.get("wedrghngsvas"));
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -181,7 +182,7 @@ export class HeaderComponent extends Component {
             <header className="headerContainer" style={{zIndex: 10}}>
                 <div className="container">
                     <div className='links'>
-                        {this.props.pageNum===0?<>{fLink}{sLink}</>:null}
+                        {<>{fLink}{sLink}</>}
                     </div>
                     {this.state.userIsAuth ? <UserAuthProfileComponent userLogOut = {this.logOut} /> : this.userNotAuth}
                 </div>
