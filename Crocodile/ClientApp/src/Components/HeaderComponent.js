@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import Popup from "reactjs-popup";
 import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
-import * as Fetchs from "../fetchs"
+import * as Fetchs from "../fetchs";
+import * as Cookies from 'js-cookie'
+import {browserHistory} from 'react-router/lib';
+
 
 
 export class HeaderComponent extends Component {
@@ -23,7 +26,8 @@ export class HeaderComponent extends Component {
 
         let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
 
-        if (response) {
+        if (response.status) {
+            Cookies.set("login", response.login.slice(1, response.login.length - 1));
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -44,7 +48,8 @@ export class HeaderComponent extends Component {
 
         let response = await Fetchs.register(userLogin.value, userPassword.value);
 
-        if (response) {
+        if (response.status) {
+            Cookies.set("login", response.login);
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -54,7 +59,9 @@ export class HeaderComponent extends Component {
 
     logOut = async function () {
         await Fetchs.logoutUser();
+        Cookies.remove("login");
         this.setState({userIsAuth:false});
+        window.location.assign('/');
     }
 
     h1Style = {
@@ -110,6 +117,8 @@ export class HeaderComponent extends Component {
             alert("Error " + response);
         }
     }
+
+    joinToLobby = async function () {}
 
     render() {
         let fLink = <Popup modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
@@ -175,7 +184,7 @@ export class HeaderComponent extends Component {
                     <div className='links'>
                         {this.props.pageNum===0?<>{fLink}{sLink}</>:null}
                     </div>
-                    {this.state.userIsAuth ? <UserAuthProfileComponent setterPageNum={this.props.setterPageNum} userLogOut = {this.logOut} /> : this.userNotAuth}
+                    {this.state.userIsAuth ? <UserAuthProfileComponent userLogOut = {this.logOut} /> : this.userNotAuth}
                 </div>
             </header>
         );

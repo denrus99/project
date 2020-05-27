@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import facebookLogo from './images/registrationForm/facebook_Icon.svg';
 import vkLogo from './images/registrationForm/vk_Icon.svg';
 import googleLogo from './images/registrationForm/google_Icon.svg';
