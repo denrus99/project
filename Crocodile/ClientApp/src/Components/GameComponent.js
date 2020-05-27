@@ -30,6 +30,7 @@ class PaintArea extends Component {
     isDrawing;
     context;
     prevPos;
+    array = [];
 
     constructor(props) {
         super(props);
@@ -53,21 +54,17 @@ class PaintArea extends Component {
             canvas.width = sizes.width;
             canvas.height = sizes.height;
             this.state.hubConnection.start().then(() => console.log("Connection started!"));
-            this.state.hubConnection.on('ReceiveMessage', (array) => {
-                debugger;
-                const imageData = new ImageData(array,1176, 640 );
-                this.context.putImageData(imageData);
-                // const positionData = {
-                //     start: {startX, startY},
-                //     stop: {stopX, stopY}
-                // };
-                // this.paint(positionData);
+            this.state.hubConnection.on('ReceiveMessage', (arr) => {
+                for (let i = 0; i < arr.length; i++){
+                    this.paint(arr.shift())
+                }
             })            
         });        
         console.log(this.context);
     }
 
     mouseDown({nativeEvent}) {
+
         const {offsetX, offsetY} = nativeEvent;
         this.isDrawing = true;
         this.prevPos = {offsetX,offsetY};
@@ -81,31 +78,25 @@ class PaintArea extends Component {
                 start: {...this.prevPos},
                 stop: {offsetX,offsetY}
             }
-            this.paint(positionData);
-            const data = this.context.getImageData(0,0 ,1176, 640);     
-            debugger;
-            const array = [];
-            for (let i = 0; i < 1000; i++) {
-                array[i] = {i: "1656541", j: "2151651"};
-            }
+            this.array.push(positionData);
             this.state.hubConnection
-                .invoke('SendMessage', array)
-                .catch(err => console.error(err));            
+                .invoke('SendMessage', this.array)
+                .catch(err => console.error(err));
+            this.array = [];
             //отправлять точки, можно заносить их в json например и потом после окончания рисования отправить всем весь пакет изменений
         }
     }
 
     paint(positionData) {
-        debugger;
         this.context.beginPath();        
         this.context.strokeStyle = gameSetting.penColor;
         this.context.fillStyle = gameSetting.penColor;
         let circle = new Path2D();
-        circle.arc(positionData.start.startX, positionData.start.startY, gameSetting.penSize/2, 0, Math.PI * 2);
+        circle.arc(positionData.start.offsetX, positionData.start.offsetY, gameSetting.penSize/2, 0, Math.PI * 2);
         this.context.fill(circle);
         this.context.lineWidth = gameSetting.penSize;
-        this.context.moveTo(positionData.start.startX,positionData.start.startY);
-        this.context.lineTo(positionData.stop.stopX,positionData.stop.stopY);
+        this.context.moveTo(positionData.start.offsetX,positionData.start.offsetY);
+        this.context.lineTo(positionData.stop.offsetX,positionData.stop.offsetY);
         this.context.stroke();
         this.prevPos = positionData.stop;
     }
