@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
+<<<<<<< HEAD
     <e p="C:\Users\dmitr\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
     <e p="C:\Users\dmitr\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_Crocodile.99591107.00" t="ExcludeRecursive" />
     <e p="C:\Users\dmitr\source\repos\Front\project" t="IncludeFlat">
+=======
+    <e p="C:\Users\Денис\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Денис\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Crocodile.-820547290.00" t="ExcludeRecursive" />
+    <e p="D:\It's assemble time\Нечто\project" t="IncludeFlat">
+>>>>>>> f0caaefb29b07e09ece1455efcdeca70fce3a606
       <e p="Crocodile" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
         <e p="appsettings.Development.json" t="Include" />
@@ -11,6 +17,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="ClientApp" t="Include">
           <e p=".gitignore" t="Include" />
+          <e p="node_modules\@aspnet\signalr" t="IncludeRecursive" />
           <e p="node_modules\@babel\parser" t="IncludeRecursive" />
           <e p="node_modules\@babel\types" t="IncludeRecursive" />
           <e p="node_modules\@jest\console" t="IncludeRecursive" />
@@ -147,6 +154,9 @@
             <e p="WordEntity.cs" t="Include" />
             <e p="WordsDatabaseSettings.cs" t="Include" />
           </e>
+        </e>
+        <e p="Hubs" t="Include">
+          <e p="ChatHub.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
