@@ -69,7 +69,12 @@ namespace Crocodile
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authentication/Login");
                 });
-            services.AddSignalR();
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
+                hubOptions.EnableDetailedErrors = true;
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

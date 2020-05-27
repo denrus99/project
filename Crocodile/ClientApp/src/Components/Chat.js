@@ -37,6 +37,9 @@ export class Chat extends Component {
         const hubConnection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         this.setState({hubConnection: hubConnection}, () => {
             this.state.hubConnection.start().then(() => console.log("Connection started!"));
+            this.state.hubConnection
+                .invoke('EnterChat', "GAMEID")
+                .catch(err => console.error(err));
             this.state.hubConnection.on('ReceiveMessage', (name, text, date) => {
                 let block = document.getElementById("chatBlock");
                 let msg = {
@@ -56,7 +59,7 @@ export class Chat extends Component {
     sendMessage(text, user) {
         let date = new Date(Date.now());
         this.state.hubConnection
-            .invoke('SendMessage', user.name, text, `${date.getHours()}:${date.getMinutes()}`)
+            .invoke('SendMessage', "GAMEID",user.name, text, `${date.getHours()}:${date.getMinutes()}`)
             .catch(err => console.error(err));
         this.setState({message: ''});
     }
