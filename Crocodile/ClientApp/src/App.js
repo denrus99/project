@@ -11,7 +11,7 @@ import {
     Route
 } from "react-router-dom";
 import {MainComponent as Main} from "./Components/MainComponent";
-import {ProfileComponent as Profile} from "./Components/ProfileComponent";
+import {ProfileComponent, ProfileComponent as Profile} from "./Components/ProfileComponent";
 import {GameComponent as Game} from "./Components/GameComponent";
 import {GameMasterComponent as GameMaster} from "./Components/GameMasterComponent";
 function App() {
@@ -24,9 +24,7 @@ function App() {
                     <Route path="/Game">
                         <Game/>
                     </Route>
-                    <Route path="/Profile">
-                        <Profile/>
-                    </Route>
+                    <Route path="/Profile/:id" component={ProfileComponent}/>
                     <Route path="/GameMaster">
                         <GameMaster/>
                     </Route>

@@ -49,11 +49,14 @@
           <e p="node_modules\jest-util" t="IncludeRecursive" />
           <e p="node_modules\jest-worker" t="IncludeRecursive" />
           <e p="node_modules\jquery" t="IncludeRecursive" />
+          <e p="node_modules\js-cookie" t="IncludeRecursive" />
           <e p="node_modules\merge" t="IncludeRecursive" />
           <e p="node_modules\oidc-client" t="IncludeRecursive" />
           <e p="node_modules\react" t="IncludeRecursive" />
           <e p="node_modules\react-burger-menu" t="IncludeRecursive" />
+          <e p="node_modules\react-color" t="IncludeRecursive" />
           <e p="node_modules\react-dom" t="IncludeRecursive" />
+          <e p="node_modules\react-router" t="IncludeRecursive" />
           <e p="node_modules\react-router-bootstrap" t="IncludeRecursive" />
           <e p="node_modules\react-router-dom" t="IncludeRecursive" />
           <e p="node_modules\react-scripts" t="IncludeRecursive" />
@@ -123,7 +126,6 @@
         </e>
         <e p="Controllers" t="Include">
           <e p="AuthenticationController.cs" t="Include" />
-          <e p="ChatController.cs" t="Include" />
           <e p="GameController.cs" t="Include" />
         </e>
         <e p="Crocodile.csproj" t="IncludeRecursive" />

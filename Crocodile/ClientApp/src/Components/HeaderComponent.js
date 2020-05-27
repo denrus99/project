@@ -4,7 +4,6 @@ import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
 import * as Fetchs from "../fetchs"
 import {browserHistory} from 'react-router/lib';
-import * as Fetchs from "../fetchs";
 import * as Cookies from 'js-cookie'
 
 
