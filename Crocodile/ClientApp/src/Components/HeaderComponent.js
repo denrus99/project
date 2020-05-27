@@ -23,7 +23,8 @@ export class HeaderComponent extends Component {
 
         let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
 
-        if (response) {
+        if (response.status) {
+            setCookie("login", response.login);
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -44,7 +45,8 @@ export class HeaderComponent extends Component {
 
         let response = await Fetchs.register(userLogin.value, userPassword.value);
 
-        if (response) {
+        if (response.status) {
+            setCookie("login", response.login);
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -180,4 +182,9 @@ export class HeaderComponent extends Component {
             </header>
         );
     }
+}
+
+function setCookie(name, value) {
+    let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+    document.cookie = updatedCookie;
 }

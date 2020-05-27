@@ -72,7 +72,10 @@ const loginUser = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    return response.ok;
+    let userLogin = await response.text();
+    return {
+        status: response.ok, login: userLogin
+    };
 };
 
 const register = async function (login, password) { 
@@ -87,7 +90,10 @@ const register = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    return response.ok;
+    let userLogin = await response.json().Login;
+    return {
+        status: response.ok, login: userLogin
+    };
 };
 
 const logoutUser = async function () {

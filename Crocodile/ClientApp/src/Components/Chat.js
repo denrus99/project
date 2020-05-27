@@ -110,8 +110,9 @@ class Input extends Component {
 
     Send() {
         let input = this.inputRef.current;
+        let login = getCookie("login");
         if (input.value !== '') {
-            this.props.sendMsg(input.value, {name: 'Вера', photo: photo});
+            this.props.sendMsg(input.value, { name: login.slice(1, login.length - 1), photo: photo });
             input.value = '';
         }
     }
@@ -124,4 +125,11 @@ class Input extends Component {
             </div>
         );
     }
+}
+
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 }
