@@ -34,6 +34,10 @@ namespace Crocodile.Controllers
                 return Unauthorized();
             }
             var user = _userRepository.FindByLogin(login);
+            if (user == null)
+            {
+                return NotFound();
+            }
             var profile = new UserProfileDTO
             {
                 Login = user.Login,

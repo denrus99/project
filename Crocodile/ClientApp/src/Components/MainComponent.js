@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import './mainpagestyle.css';
 import backArrow from '../images/Main/arrowsBack.svg';
 import nextArrow from '../images/Main/arrowNext.svg';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 import { Roller } from "react-spinners-css";
 import * as Fetchs from "../fetchs";
-
+import * as Cookies from 'js-cookie';
 
 export class MainComponent extends Component {
     constructor(props) {
@@ -16,7 +16,6 @@ export class MainComponent extends Component {
             this.games.push(...res);
             this.setState({ isLoad: true });
         });
-        debugger;
     }
 
     render() {        
@@ -69,14 +68,29 @@ class OpenGames extends Component {
 }
 
 class LobbyItem extends Component {
+    constructor(props) {
+        super(props);
+        this.join = this.join.bind(this);
+    }
+
+    async join() {
+        let response = await Fetchs.joinToGame(this.props.info);
+
+        if (response) {
+            Cookies.set("gameId", this.props.info);
+        } else {
+            return false;
+        }
+    }
+
     render() {
         return (
             <div className='lobbyItem'>
                 <h2>{this.props.name}</h2>
                 <h3>{this.props.info}</h3>
-                <Link to="/Game/">
-                    <button>Войти</button>
-                </Link>                
+                <Link to={`/Game/${Cookies.get("login") ? this.props.info : ""}`}>
+                    <button onClick={this.join}>Войти</button>
+                </Link>
             </div>
         );
     }

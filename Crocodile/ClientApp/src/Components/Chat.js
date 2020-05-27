@@ -2,6 +2,7 @@
 import photo from '../images/game/account.svg';
 import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
+import { Link } from "react-router-dom";
 
 const signalR = require('@aspnet/signalr');
 
@@ -66,7 +67,7 @@ export class Chat extends Component {
         return (
             <div style={{width: '20%'}}>
                 <div id='chatBlock' className='chat_Container'>
-                    {messages.map(x => <Message user={x.user} text={x.text} date={x.date}/>)}
+                    {messages.map(x => <Message user={x.user} text={x.text} date={x.date} id={122}/>)}
                 </div>
                 <Input sendMsg={this.sendMessage}/>
             </div>
@@ -83,14 +84,17 @@ class Message extends Component {
         return (
             <div className='Message'>
                 <Popup
-                    trigger={<a href='/Profile' style={{maxHeight: '40px'}}><img
+                    //trigger={<a href={'/Profile/'} style={{maxHeight: '40px'}}><img
+                    //    style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
+                    //    src={this.props.user.photo}/></a>}
+                    trigger={<Link to={`user/profile/${this.props.user.name}`}><img
                         style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
-                        src={this.props.user.photo}/></a>}
+                        src={this.props.user.photo}/></Link>}
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
                     <h1 style={{padding: '0 20px'}}>{this.props.user.name}</h1>
                 </Popup>
 
-                <div className='MessageContainer'>
+                <div className='MessageContainer' id={this.props.id}>
                     <h2>{this.props.text}</h2>
                     <h3>{this.props.date}</h3>
                 </div>
@@ -122,11 +126,4 @@ class Input extends Component {
             </div>
         );
     }
-}
-
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
 }

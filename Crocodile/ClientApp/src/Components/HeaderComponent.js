@@ -4,7 +4,8 @@ import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
 import * as Fetchs from "../fetchs"
 import {browserHistory} from 'react-router/lib';
-import * as Cookies from 'js-cookie'
+import * as Cookies from 'js-cookie';
+import { Link } from "react-router-dom";
 
 
 export class HeaderComponent extends Component {
@@ -60,8 +61,7 @@ export class HeaderComponent extends Component {
     logOut = async function () {
         await Fetchs.logoutUser();
         Cookies.remove("login");
-        this.setState({userIsAuth:false});
-        window.location.assign('/');
+        this.setState({ userIsAuth: false });
     }
 
     h1Style = {
@@ -118,8 +118,6 @@ export class HeaderComponent extends Component {
         }
     }
 
-    joinToLobby = async function () {}
-
     render() {
         let fLink = <Popup modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
             {close => (
@@ -143,10 +141,14 @@ export class HeaderComponent extends Component {
                         </tr>
                         <tr>
                             <td>
-                                <button onClick={this.createGame}>Создать</button>
+                                <Link to="/Game/">
+                                    <button onClick={this.createGame}>Создать</button>
+                                </Link>
                             </td>
                             <td>
-                                <button onClick={close}>Назад</button>
+                                <Link to="/Game/">
+                                    <button onClick={close}>Назад</button>
+                                </Link>
                             </td>
                         </tr>
                     </table>

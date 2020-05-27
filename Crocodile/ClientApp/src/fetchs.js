@@ -101,19 +101,18 @@ const logoutUser = async function () {
     return response.ok;
 };
 
-const getUser = async function (userLogin) {
-    let response = await fetch(`user/profile/${userLogin}`);
+const getUser = async function (login) {
+    debugger;
+    let response = await fetch(login);
+    debugger;
     let user = await response.json();
-    return {
-        status: response.ok, user: user
-    };
+    debugger;
+    return user;
 }
 
 const getLobbys = async function (pageNumber) {
     let response = await fetch(`game/lobby?page=${pageNumber || 0}`);
-    debugger;
     let lobbys = response.ok ? await response.json() : [];
-    debugger;
     return lobbys;
 }
 
