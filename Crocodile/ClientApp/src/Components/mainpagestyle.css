@@ -56,6 +56,9 @@
 button, button:active, button:focus {
     outline: none;
 }
+.middleContainer{
+    margin: auto;
+}
 
 .lobbyItem button:active {
     position: relative;
