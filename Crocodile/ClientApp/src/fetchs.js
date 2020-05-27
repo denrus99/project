@@ -101,4 +101,12 @@ const logoutUser = async function () {
     return response.ok;
 };
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser}
+const getUser = async function () {
+    let response = await fetch("user/profile");
+    let user = await response.json();
+    return {
+        status: response.ok, user: user
+    };
+}
+
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser}
