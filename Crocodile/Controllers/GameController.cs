@@ -31,7 +31,14 @@ namespace Crocodile.Controllers
     public class UpdateGameDTO
     {
         public Guid GameId { get; set; }
-        public List<Score> Scores { get; set; }
+        public string LoginMaster { get; set; }
+        public string LoginGuessed { get; set; }
+    }
+    
+    public class UpdateGameSingleUserDTO
+    {
+        public Guid GameId { get; set; }
+        public string Login { get; set; }
     }
 
     public class GameController : Controller
@@ -133,7 +140,7 @@ namespace Crocodile.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpPatch("game/start")]
+        [HttpPost("game/start")]
         [Produces("application/json")]
         public IActionResult Start([FromBody] GameDTO gameDto)
         {
@@ -199,11 +206,46 @@ namespace Crocodile.Controllers
             {
                 return NotFound(gameDto.GameId);
             }
-            game.UpdateScore(gameDto.Scores);
+            var sc1 = game.Scores.First(x => x.Login == gameDto.LoginMaster);
+            var sc2 = game.Scores.First(x => x.Login == gameDto.LoginGuessed);
+            
+            sc1.Guessed++;
+            sc1.CalculateRecord();
+            sc2.Guessed++;
+            sc2.CalculateRecord();
             game.ChangePresenter();
             game.PlusRound();
             _gameRepository.UpdateGame(game);
             return Ok(game.Players[game.IndexPresenter]);
+        }
+        
+        /// <summary>
+        /// Update Game every round
+        /// </summary>
+        /// <response code="200"></response>
+        /// <response code="403">If the User is not authorized.</response>
+        /// <response code="404">If the Game is doesn't exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpPost("game/updateSingleUser")]
+        [Produces("application/json")]
+        public IActionResult UpdateSingleUser([FromBody] UpdateGameSingleUserDTO gameDto)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            var game = _gameRepository.FindById(gameDto.GameId);
+            if (game == null)
+            {
+                return NotFound(gameDto.GameId);
+            }
+            var sc = game.Scores.First(x => x.Login == gameDto.Login);
+            sc.AlmostGuessed++;
+            sc.CalculateRecord();
+            _gameRepository.UpdateGame(game);
+            return Ok();
         }
         
         /// <summary>
@@ -215,7 +257,7 @@ namespace Crocodile.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpPatch("game/end")]
+        [HttpPost("game/end")]
         [Produces("application/json")]
         public IActionResult End([FromBody] GameDTO gameDto)
         {
@@ -243,7 +285,7 @@ namespace Crocodile.Controllers
                     _userRepository.UpdateUser(user);
                 }
             }
-            game.Status = Status.Ended;
+            //game.Status = Status.Ended;
             return Ok();
         }
 

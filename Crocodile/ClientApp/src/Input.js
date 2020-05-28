@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
-import facebookLogo from './images/registrationForm/facebook_Icon.svg';
-import vkLogo from './images/registrationForm/vk_Icon.svg';
-import googleLogo from './images/registrationForm/google_Icon.svg';
 import back from './images/registrationForm/back.svg'
+import GoogleLogin from "react-google-login";
+import {loginUserGoogle} from './fetchs'
 
 
 export class Input extends Component {
     constructor(props) {
         super(props);
         this.state = {isInput: true}
+        this.good = this.good.bind(this);
+    }
+    good(x){
+        this.props.signInWithGoogle(x.Tt.Du,x.Ea,x.Tt.hL); 
+    }
+    bad(x){
+        console.log(x);
     }
 
     render() {
@@ -31,20 +37,9 @@ export class Input extends Component {
                     }}/>
                 <h3 style={{margin: 0, position: 'absolute', left: '5.2em', top: '12.5em', fontSize: '3em'}}>Или через
                     соцсети</h3>
-                <table style={{position: 'absolute', left: '7em', top: '42.5em'}}>
-                    <tr>
-                        <td><a href="http:\\www.vk.com/">
-                            <img className="icon" src={vkLogo}/>
-                        </a></td>
-                        <td><a href="http:\\www.google.com/">
-                            <img className="icon" src={googleLogo}/></a>
-                        </td>
-                        <td><a href="http:\\www.facebook.com/">
-                            <img className="icon" src={facebookLogo}/>
-                        </a>
-                        </td>
-                    </tr>
-                </table>
+                <div style={{position: 'absolute', left: '7em', top: '42.5em'}}>
+                    <GoogleLogin onSuccess={this.good} onFailure={this.bad} clientId={'911149693496-da2bvkv35e06aebmf36l1hncgjdj114t.apps.googleusercontent.com'}/>
+                </div>
                 <a  type="submit" onClick={(parent)=>this.props.signIn()} className="button myButtonIn">Войти</a>
                 <span style={{position: 'absolute', fontSize: '2em', left: '15em', top: '32em'}}>
         Нет аккаунта? <a onClick={(x) => {this.setState({isInput: false})}} style={{cursor:"pointer",display: 'inline-block'}}><h4

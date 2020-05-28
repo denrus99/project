@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import userLogo from "../images/game/account.svg";
 import Popup from "reactjs-popup";
 import {Link} from "react-router-dom";
 import * as Cookies from 'js-cookie';
@@ -22,7 +21,7 @@ export class UserAuthProfileComponent extends Component {
             <Popup arrowStyle={{display:"none"}} contentStyle={{background: "linear-gradient(#2ab07b 0%, #ace0c2 20%, #ace0c2 80%, #2ab07b 100%)", borderRadius: "1em"}} closeOnDocumentClick position='bottom right' trigger={
                 <div className="playerContainer" style={this.linkStyle}>
                     <h1 style={this.h1Style}>{Cookies.get("login")}</h1>
-                    <img src={userLogo} style={{width: '5em', height: '5em', margin: '0 1em'}}/>
+                    <img src={Cookies.get('photo')} style={{width: '5em', height: '5em', margin: '0 1em'}}/>
                 </div>
             }>
                 <Link style={{textAlign:"center", color:"#000844"}} to={`/user/profile/${Cookies.get("login")}`}>

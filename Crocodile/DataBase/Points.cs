@@ -3,6 +3,6 @@
     public  enum Points
     {
         Guessed = 50,
-        AlmostGuessed = 2,
+        AlmostGuessed = 4,
     }
 }
