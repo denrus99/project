@@ -6,6 +6,7 @@ import ice from '../images/game/ice.svg';
 import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
 import {Link} from "react-router-dom";
+import podium from '../images/game/podium.svg'
 
 const signalR = require('@aspnet/signalr');
 
@@ -33,7 +34,6 @@ export class Chat extends Component {
                 }
             );
             this.state.hubConnection.on('ReceiveMessage', (id, name, text, date) => {
-                debugger;
                 let block = document.getElementById("chatBlock");
                 let msg = {
                     idMes: id,
@@ -41,19 +41,23 @@ export class Chat extends Component {
                     text: text,
                     date: date
                 };
-                messages.push({id: msg.idMes,
-                    msg: <Message id={msg.idMes} user={msg.user} text={msg.text} date={msg.date}
-                                  hub={this.state.hubConnection}/>
-                });
+                messages.push(msg);
 
                 this.setState({messages: messages});
                 let timer = setTimeout(() => {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             });
+<<<<<<< HEAD
             this.state.hubConnection.on('RecieveReaction', (color, id) => {
                 debugger
                 messages.filter(x => x.id === id)[0].msg.hubConnection(color);
+=======
+
+            this.state.hubConnection.on('ReceiveReaction', (grade, id) => {
+                debugger
+                this.refs["msg"+id].ChooseGrade(grade);
+>>>>>>> origin/Reactions
             });
             this.stopHub = () => {
                 this.state.hubConnection.stop().then(() => console.log("Connection terminated!(Chat)"))
@@ -73,16 +77,75 @@ export class Chat extends Component {
         this.setState({message: ''});
     }
 
+    
+
     render() {
+        let r = [];
+        r.push({pos:1,name:'User',score:10});
+        r.push({pos:2,name:'User2',score:9});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
         return (
             <div style={{width: '20%'}}>
-                <h1>GameMaster : User </h1>
-                <h2>Выбраное слово : Кукуруза</h2>
+                <div style={{display:'flex',flexDirection:"row"}}>
+                    <div style={{margin:" 0 20px",textAlign: 'left'}}>
+                        <h1>GameMaster : User </h1>
+                        <h2>Выбраное слово : Кукуруза</h2>
+                    </div>
+                    <Popup modal trigger={<img src={podium} style={{margin:"5px auto", width:'60px', height:'60px'}}/>}>
+                        <h1>Рейтинг</h1>                        
+                        <div style={{maxHeight:'600px', overflow: 'auto'}}><table style={{fontSize:'24px',width:"80%", margin:"0 auto"}}>
+                            <tr>
+                                <th>Позиция</th>
+                                <th>Имя</th>
+                                <th>Количество очков</th>
+                            </tr>
+                            {r.map(x=><tr>
+                                <td>{x.pos}</td>
+                                <td>{x.name}</td>
+                                <td>{x.score}</td>
+                            </tr>)}
+                        </table></div>                        
+                    </Popup>
+                </div>
                 {/*TODO добавить пользователя и слово только для GM*/}
                 <div id='chatBlock' className='chat_Container'>
-                    {messages.map(x => x.msg)}
+                    {messages.map(x => <Message ref={"msg"+x.idMes} chooseGrade={this.ChooseGrade} id={x.idMes} gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
+                                                hub={this.state.hubConnection}/>)}
                 </div>
-                <Input sendMsg={this.sendMessage}/>
+                {this.props.playerIsGameMaster
+                    ?<Popup modal closeOnDocumentClick={false} closeOnEscape={false} trigger={<button className='startGame'>Start Game</button>}>
+                    {close=>(
+                        <div className="gameWords">
+                            <h1>Выберите слово</h1>
+                            <button onClick={close}>Кукуруза</button>
+                            <button onClick={close}>Морковь</button>
+                            <button onClick={close}>Помидор</button>
+                        </div>
+                    )}
+                </Popup>
+                    :<Input sendMsg={this.sendMessage}/>}                
             </div>
         );
     }
@@ -97,6 +160,9 @@ class Message extends Component {
     }
 
     ChooseGrade(grade) {
+        if(grade === this.state.current){
+            return
+        }
         switch (grade) {
             case 1:
                 this.color = "#BBED89";
@@ -111,8 +177,10 @@ class Message extends Component {
                 this.color = "#dae8ec"
                 break;
         }
+        debugger
+        
         this.props.hub
-            .invoke('SendReaction', this.props.gameId, this.color, this.props.id)
+            .invoke('SendReaction', this.props.gameId, grade, this.props.id)
             .catch(err => console.error(err));
         this.setState({current: grade})
     }
@@ -127,7 +195,6 @@ class Message extends Component {
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
                     <h1 style={{padding: '0 20px'}}>{this.props.user.name}</h1>
                 </Popup>
-
                 <div className='MessageContainer' style={{background: this.color}}>
                     <h2>{this.props.text}</h2>
                     <Grades chooseMsg={x => this.ChooseGrade(x)} currentGrade={this.state.current}/>

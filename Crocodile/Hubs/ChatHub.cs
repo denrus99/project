@@ -20,9 +20,9 @@ namespace Crocodile.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
         }
-        public async Task SendReaction(string gameId, Object color, int id)
+        public async Task SendReaction(string gameId, int grade, int id)
         {
-            await Clients.Group(gameId).SendAsync("ReceiveReaction", color, id);
+            await Clients.Group(gameId).SendAsync("ReceiveReaction", grade, id);
         }
         
         
