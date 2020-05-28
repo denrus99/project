@@ -98,12 +98,14 @@ export class HeaderComponent extends Component {
         let isOpenGame = document.getElementById("isOpenGame");
 
         let response = await Fetchs.createGame(isOpenGame.checked, roundsCount.value, roundMinutsCount.value);
-        
-        if (typeof response === "string") {
-            Cookies.set("gameId", response);
+        debugger
+        if (typeof response.gameId === "string") {
+            debugger;
+            Cookies.set("gameId", response.gameId);
+            Cookies.set("master", response.players[response.indexPresenter]);
             this._closePopup();
-            this.props.history.push(`/Game/${response}`);
-            this.props.history.go(`/Game/${response}`);
+            this.props.history.push(`/Game/${response.gameId}`);
+            this.props.history.go(`/Game/${response.gameId}`);
         } else {
             return false;
         }
@@ -112,10 +114,11 @@ export class HeaderComponent extends Component {
     joinToGame = async function() {
         let gameId = document.getElementById("gameIdForJoin");
 
-        let response = await Fetchs.joinToGame(gameId.value);
+        let response = await Fetchs.joinToGame(gameId.value, Cookies.set("login"));
 
         if (response) {
             Cookies.set("gameId", gameId.value);
+            Cookies.set("master", response.players[response.indexPresenter]);
             this._closePopup();
             this.props.history.push(`/Game/${gameId.value}`);
             this.props.history.go(`/Game/${gameId.value}`);

@@ -97,11 +97,11 @@ namespace Crocodile.Controllers
 
             if (game.Players.Contains(HttpContext.User.Identity.Name))
             {
-                return Ok();
+                return Ok(game);
             }
             game.AddUser(HttpContext.User.Identity.Name);
             _gameRepository.UpdateGame(game);
-            return Ok();
+            return Ok(game);
         }
         
         /// <summary>
@@ -203,7 +203,7 @@ namespace Crocodile.Controllers
             game.ChangePresenter();
             game.PlusRound();
             _gameRepository.UpdateGame(game);
-            return Ok();
+            return Ok(game.Players[game.IndexPresenter]);
         }
         
         /// <summary>

@@ -14,12 +14,13 @@ const createGame = async function (isOpen, roundsCount, roundTime) {
     if (!response.ok) {
         return { error: response.status };
     }
+    debugger;
     let game = await response.json();
-    return game.gameId;
+    return game;
 };
 
 const joinToGame = async function (gameId, userLogin) {
-    let gameFroRequest = {
+    let gameForRequest = {
         gameId,
         userLogin
     };
@@ -28,9 +29,11 @@ const joinToGame = async function (gameId, userLogin) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(gameFroRequest)
+        body: JSON.stringify(gameForRequest)
     });
-    return response.ok;
+    debugger;
+    let game = await response.json();
+    return game;
 };
 
 const getWords = async function () {
@@ -108,12 +111,12 @@ const getUser = async function (login) {
     let user = await response.json();
     debugger;
     return user;
-}
+};
 
 const getLobbys = async function (pageNumber) {
     let response = await fetch(`game/lobby?page=${pageNumber || 0}`);
     let lobbys = response.ok ? await response.json() : [];
     return lobbys;
-}
+};
 
 export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys}

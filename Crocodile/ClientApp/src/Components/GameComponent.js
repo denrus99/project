@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Chat} from './Chat'
-import { slide as Menu } from 'react-burger-menu';
-import { CirclePicker } from 'react-color';
+import {slide as Menu} from 'react-burger-menu';
+import {CirclePicker} from 'react-color';
 import Popup from "reactjs-popup";
 import photo from "../images/game/account.svg";
 import {Button} from "reactstrap";
@@ -13,6 +13,7 @@ export class GameComponent extends Component {
     constructor(props) {
         super(props);
         this.gameId = this.props.match.params.id;
+
     }
 
     componentWillUnmount = () => {
@@ -22,12 +23,13 @@ export class GameComponent extends Component {
     render() {
         return (
             <div id='gameContainer' className='rowContainer'>
-                <PaintArea gameId={this.gameId} />                
-                <Chat playerIsGameMaster={true} gameId={this.gameId} />
+                <PaintArea gameId={this.gameId}/>
+                <Chat playerIsGameMaster={true} gameId={this.gameId}/>
             </div>
         )
     }
 }
+
 var gameSetting = {
     penColor: '#000000',
     penSize: 1
@@ -56,43 +58,44 @@ class PaintArea extends Component {
             .build();
         hubConnection.serverTimeoutInMilliseconds = 300000;
         this.isDrawing = false;
-        this.setState({hubConnection: hubConnection}, () => {            
+        this.setState({hubConnection: hubConnection}, () => {
             let canvas = this.canvasRef.current;
             this.context = canvas.getContext("2d");
             let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
             canvas.width = sizes.width;
             canvas.height = sizes.height;
-            this.state.hubConnection.start().then(() => 
-            {
-                console.log("Connection started!(Canvas)");
-                this.state.hubConnection
-                    .invoke('EnterGame', this.props.gameId)
-                    .catch(err => console.error(err));
-            }
-                );
+            this.state.hubConnection.start().then(() => {
+                    console.log("Connection started!(Canvas)");
+                    this.state.hubConnection
+                        .invoke('EnterGame', this.props.gameId)
+                        .catch(err => console.error(err));
+                }
+            );
             this.state.hubConnection.on('ReceiveMessage', (arr, settings) => {
-                for (let i = 0; i < arr.length; i++){
+                for (let i = 0; i < arr.length; i++) {
                     gameSetting = settings;
                     this.paint(arr.shift())
                 }
             });
             this.state.hubConnection.on('ReceiveClear', () => {
                 debugger;
-                this.context.clearRect(0,0,10000,10000);
+                this.context.clearRect(0, 0, 10000, 10000);
             });
-            this.stopHub = ()=>{this.state.hubConnection.stop().then(()=>console.log("Connection terminated!(Canvas)"))};
-        });        
+            this.stopHub = () => {
+                this.state.hubConnection.stop().then(() => console.log("Connection terminated!(Canvas)"))
+            };
+        });
         console.log(this.context);
     }
+
     componentWillUnmount = () => {
         this.stopHub();
     };
 
     mouseDown({nativeEvent}) {
-
         const {offsetX, offsetY} = nativeEvent;
-        this.isDrawing = true;
-        this.prevPos = {offsetX,offsetY};
+        this.isDrawing = Cookies.get("master") === Cookies.get("login");
+        this.prevPos = {offsetX, offsetY};
         //TODO Отправить точку начала
     }
 
@@ -101,7 +104,7 @@ class PaintArea extends Component {
             const {offsetX, offsetY} = nativeEvent;
             const positionData = {
                 start: {...this.prevPos},
-                stop: {offsetX,offsetY}
+                stop: {offsetX, offsetY}
             }
             this.array.push(positionData);
             this.state.hubConnection
@@ -113,24 +116,25 @@ class PaintArea extends Component {
     }
 
     paint(positionData) {
-        this.context.beginPath();        
+        this.context.beginPath();
         this.context.strokeStyle = gameSetting.penColor;
         this.context.fillStyle = gameSetting.penColor;
         let circle = new Path2D();
-        circle.arc(positionData.start.offsetX, positionData.start.offsetY, gameSetting.penSize/2, 0, Math.PI * 2);
+        circle.arc(positionData.start.offsetX, positionData.start.offsetY, gameSetting.penSize / 2, 0, Math.PI * 2);
         this.context.fill(circle);
         this.context.lineWidth = gameSetting.penSize;
-        this.context.moveTo(positionData.start.offsetX,positionData.start.offsetY);
-        this.context.lineTo(positionData.stop.offsetX,positionData.stop.offsetY);
+        this.context.moveTo(positionData.start.offsetX, positionData.start.offsetY);
+        this.context.lineTo(positionData.stop.offsetX, positionData.stop.offsetY);
         this.context.stroke();
         this.prevPos = positionData.stop;
     }
-    clear(){
+
+    clear() {
         debugger;
         this.state.hubConnection
             .invoke('Clear', this.props.gameId)
             .catch(err => console.error(err));
-        this.context.clearRect(0,0,10000,10000);
+        this.context.clearRect(0, 0, 10000, 10000);
     }
 
     mouseOut() {
@@ -138,26 +142,30 @@ class PaintArea extends Component {
     }
 
     render() {
-        
+
         return (
             <div className='gameContainer'>
-                <Menu disableAutoFocus>
+                {Cookies.get("master") === Cookies.get("login") ? <Menu disableAutoFocus>
                     <div className='sizeSelector'>
-                        <h1 style={{textAlign:'left', marginLeft:'10px',fontSize:'20px'}}>Размер кисти</h1>
-                        <input onInput={()=>{gameSetting.penSize = document.getElementById('penSize').value;
-                        document.getElementById('sizeValue').innerHTML = gameSetting.penSize}} 
+                        <h1 style={{textAlign: 'left', marginLeft: '10px', fontSize: '20px'}}>Размер кисти</h1>
+                        <input onInput={() => {
+                            gameSetting.penSize = document.getElementById('penSize').value;
+                            document.getElementById('sizeValue').innerHTML = gameSetting.penSize
+                        }}
                                type='range' min='1' max='100' defaultValue='1' className='slider' id='penSize'/>
                         <h2 id='sizeValue'>1</h2>
                     </div>
-                    <h1 style={{textAlign:'left', marginLeft:'10px',fontSize:'20px'}}>Цвет кисти</h1>
-                    <CirclePicker colors={["#000","#fff", "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3",
-                        "#00bcd4", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722", "#795548", "#607d8b"]}
-                                  onChange={(color,event)=>gameSetting.penColor = color.hex}/>
-                        <button style={{margin:'40px 0 0 0 ', fontSize:'18px'}} onClick={this.clear}>Очистить</button>
-                </Menu>
-                <canvas ref={this.canvasRef} className="mainCanvas" onMouseOut={this.mouseOut} onMouseDown={this.mouseDown}
+                    <h1 style={{textAlign: 'left', marginLeft: '10px', fontSize: '20px'}}>Цвет кисти</h1>
+                    <CirclePicker
+                        colors={["#000", "#fff", "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3",
+                            "#00bcd4", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722", "#795548", "#607d8b"]}
+                        onChange={(color, event) => gameSetting.penColor = color.hex}/>
+                    <button style={{margin: '40px 0 0 0 ', fontSize: '18px'}} onClick={this.clear}>Очистить</button>
+                </Menu> : null}
+                <canvas ref={this.canvasRef} className="mainCanvas" onMouseOut={this.mouseOut}
+                        onMouseDown={this.mouseDown}
                         onMouseUp={this.mouseOut} onMouseMove={this.moveMouse}
-                        style={{height: '640px', width: '1176px'}}/>  
+                        style={{height: '640px', width: '1176px'}}/>
             </div>
         );
     }

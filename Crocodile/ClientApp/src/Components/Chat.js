@@ -48,16 +48,11 @@ export class Chat extends Component {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             });
-<<<<<<< HEAD
-            this.state.hubConnection.on('RecieveReaction', (color, id) => {
-                debugger
-                messages.filter(x => x.id === id)[0].msg.hubConnection(color);
-=======
-
             this.state.hubConnection.on('ReceiveReaction', (grade, id) => {
                 debugger
-                this.refs["msg"+id].ChooseGrade(grade);
->>>>>>> origin/Reactions
+                if(this.refs["msg"+id] !== undefined){
+                    this.refs["msg"+id].ChooseGrade(grade);
+                }
             });
             this.stopHub = () => {
                 this.state.hubConnection.stop().then(() => console.log("Connection terminated!(Chat)"))
@@ -110,7 +105,7 @@ export class Chat extends Component {
             <div style={{width: '20%'}}>
                 <div style={{display:'flex',flexDirection:"row"}}>
                     <div style={{margin:" 0 20px",textAlign: 'left'}}>
-                        <h1>GameMaster : User </h1>
+                        <h1>GameMaster : {Cookies.get("master")} </h1>
                         <h2>Выбраное слово : Кукуруза</h2>
                     </div>
                     <Popup modal trigger={<img src={podium} style={{margin:"5px auto", width:'60px', height:'60px'}}/>}>
@@ -134,7 +129,7 @@ export class Chat extends Component {
                     {messages.map(x => <Message ref={"msg"+x.idMes} chooseGrade={this.ChooseGrade} id={x.idMes} gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
                                                 hub={this.state.hubConnection}/>)}
                 </div>
-                {this.props.playerIsGameMaster
+                {Cookies.get("master") === Cookies.get("login")
                     ?<Popup modal closeOnDocumentClick={false} closeOnEscape={false} trigger={<button className='startGame'>Start Game</button>}>
                     {close=>(
                         <div className="gameWords">
@@ -197,7 +192,8 @@ class Message extends Component {
                 </Popup>
                 <div className='MessageContainer' style={{background: this.color}}>
                     <h2>{this.props.text}</h2>
-                    <Grades chooseMsg={x => this.ChooseGrade(x)} currentGrade={this.state.current}/>
+                    {Cookies.get("master") === Cookies.get("login")?
+                        <Grades chooseMsg={x => this.ChooseGrade(x)} currentGrade={this.state.current}/>:null}
                     <h3>{this.props.date}</h3>
                 </div>
             </div>
