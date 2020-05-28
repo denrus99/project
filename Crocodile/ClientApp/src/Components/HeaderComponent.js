@@ -128,62 +128,66 @@ export class HeaderComponent extends Component {
     }
 
     render() {
-        let fLink = <Popup modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
+        let fLink = <Popup contentStyle={{width: "inherit", background: "none", border: "none"}} modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
             {close => (
                 <>
-                    {this._closePopup = close}
-                    <a className="close" onClick={close}>
-                        &times;
-                    </a>
-                    <h1 style={{fontSize: '18px'}}>Создать новую игру</h1>
-                    <table>
-                        <tr>
-                            <td><h2>Раунды</h2></td>
-                            <td><input id="roundsCount" defaultValue='5'/></td>
-                        </tr>
-                        <tr>
-                            <td><h2>Время</h2></td>
-                            <td><input id="roundMinutsCount" defaultValue='5'/></td>
-                        </tr>
-                        <tr>
-                            <td><h2>Открытая игра</h2></td>
-                            <td><input id="isOpenGame" type='checkbox'/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button onClick={this.createGame}>Создать</button>
-                            </td>
-                            <td>
-                                <button onClick={close}>Назад</button>
-                            </td>
-                        </tr>
-                    </table>
+                    <div className="modal-to-games">
+                        {this._closePopup = close}
+                        <a className="close" onClick={close}>
+                            &times;
+                        </a>
+                        <h1>Создать новую игру</h1>
+                        <table>
+                            <tr>
+                                <td><h2>Раунды</h2></td>
+                                <td><input id="roundsCount" defaultValue='5'/></td>
+                            </tr>
+                            <tr>
+                                <td><h2>Время</h2></td>
+                                <td><input id="roundMinutsCount" defaultValue='5'/></td>
+                            </tr>
+                            <tr>
+                                <td><h2>Открытая игра</h2></td>
+                                <td><input id="isOpenGame" type='checkbox'/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button onClick={this.createGame}>Создать</button>
+                                </td>
+                                <td>
+                                    <button onClick={close}>Назад</button>
+                                </td>
+                            </tr>
+                        </table>
 
+                    </div>
                 </>
             )}
         </Popup>;
-        let sLink = <Popup modal trigger={<h1 className='fontStyle'>Присоединиться</h1>}>
+        let sLink = <Popup contentStyle={{width: "inherit", background: "none", border: "none"}} modal trigger={<h1 className='fontStyle'>Присоединиться</h1>}>
             {close => (
                 <>
-                    {this._closePopup = close}
-                    <a className="close" onClick={close}>
-                        &times;
-                    </a>
-                    <h1 style={{fontSize: '18px'}}>Присоединиться к игре</h1>
-                    <table>
-                        <tr>
-                            <td><h2>ID</h2></td>
-                            <td><input id="gameIdForJoin" placeholder='id'/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button onClick={this.joinToGame}>Присоединиться</button>
-                            </td>
-                            <td>
-                                <button onClick={close}>Назад</button>
-                            </td>
-                        </tr>
-                    </table>
+                    <div className="modal-to-games">
+                        {this._closePopup = close}
+                        <a className="close" onClick={close}>
+                            &times;
+                        </a>
+                        <h1>Присоединиться к игре</h1>
+                        <table>
+                            <tr>
+                                <td><h2>ID</h2></td>
+                                <td><input id="gameIdForJoin" placeholder='id'/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button onClick={this.joinToGame}>Присоединиться</button>
+                                </td>
+                                <td>
+                                    <button onClick={close}>Назад</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>                   
                 </>
             )}
         </Popup>;

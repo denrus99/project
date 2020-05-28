@@ -165,7 +165,7 @@ class PaintArea extends Component {
                 <canvas ref={this.canvasRef} className="mainCanvas" onMouseOut={this.mouseOut}
                         onMouseDown={this.mouseDown}
                         onMouseUp={this.mouseOut} onMouseMove={this.moveMouse}
-                        style={{height: '640px', width: '1176px'}}/>
+                        style={{height: 'calc(100% - 1em)', width: '1176px'}}/>
             </div>
         );
     }

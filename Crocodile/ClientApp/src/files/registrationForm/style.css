@@ -1,7 +1,8 @@
 ﻿
 .myButtonUp:active {
-    top:17.05em;
+    top: 17.05em;
 }
+
 .modal {
     font-size: 10px;
 }
@@ -21,52 +22,61 @@
 }
 
 
-.button{
+.button {
+    font-size: 24px;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, #37b202 0%, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 1) 60%, #37b202 100%);
+    border-radius: 1em;
+    box-shadow: 0 10px 10px #000000;
+    border-bottom: #4A7F7C;
+    transition: .5s;
     position: relative;
-    box-shadow:inset 0 1px 9px -9px #97c4fe;
-    background-color:#3d94f6;
-    border-radius:8px;
-    border:1px solid #337fed;
-    cursor:pointer;
-    color:#ffffff;
-    font-size:3em;
-    font-weight:bold;
+    background-color: #3d94f6;
+    cursor: pointer;
+    color: #000844;
+    font-weight: bold;
     padding: 1em 2em;
     height: 1em;
-    text-decoration:none;
+    text-decoration: none;
     display: flex;
 }
-.button::selection{
+
+.button::selection {
     background: transparent;
 }
+
 .myButtonUp {
-    top:17em;
-    left:4.5em;
-}
-.myButtonIn {
-    top:21em;
-    left:2em;
-}
-.button:hover {
-    background-color:#1e62d0;
-}
-.myButtonIn:active {
-    top:21.05em;
+    top: 17em;
+    left: 4.5em;
 }
 
-#formIn,#formUp {
+.myButtonIn {
+    top: 21em;
+    left: 2em;
+}
+
+.button:hover {
+    background-color: #1e62d0;
+}
+
+.myButtonIn:active {
+    top: 21.05em;
+}
+
+#formIn, #formUp {
     position: relative;
     font-size: 8px;
     width: 60em;
     height: 75em;
-    background-color: white;
+    background: linear-gradient(#2ab07b 0%, #ace0c2 20%, #ace0c2 80%, #2ab07b 100%);
     border-style: solid;
     border-color: rgba(14, 11, 35, 0.17);
     border-radius: 1em;
     left: calc(50% - 30em);
     display: flex;
 }
-#formUp{
+
+#formUp {
     height: 65em;
 }
 
@@ -103,7 +113,7 @@
     border-bottom: solid black .1em;
 }
 
-.icon{
+.icon {
     height: 13em;
     width: 13em;
     margin: 0 1em;

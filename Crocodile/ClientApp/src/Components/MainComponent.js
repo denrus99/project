@@ -60,7 +60,7 @@ class OpenGames extends Component {
                                 <img className='arrowImg' src={backArrow} onClick={() => this.changePage(-1)} />
                                 : <div className='arrowImg' />
                         }
-                        <h1>{this.state.pageNum}</h1>
+                        {(this.state.pageNum)?<h1>this.state.pageNum</h1>:null}
                         {
                             openGames.length == 10 ?
                                 <img className='arrowImg' src={nextArrow} onClick={() => this.changePage(1)} /> :

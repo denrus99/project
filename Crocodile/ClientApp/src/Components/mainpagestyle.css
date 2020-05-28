@@ -3,19 +3,25 @@
     text-align: center;
 }
 
-.OpenGamesContainer h1 {
-    font-size: 24px;
-    background: #37b202;
-    border-radius: 10px;
-    border: 2px solid #008300;
-    color: #FFFFFF;
+.rowContainer .OpenGamesContainer h1 {
+    font-size: 40px;
+    background:  linear-gradient(180deg, #1d7670 0%, #5aa19b 50%, #19b66f 100%);
+    border:3px solid #007c02;
+    border-radius: 30px;
+    padding: 20px 0;
+    color: #000844;
 }
 .OpenGamesContainer .lobbyList{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
-
+.rowContainer .OpenGamesContainer .rowContainer h1{
+    border:3px solid #007c02;
+    border-radius: 30px;
+    padding: 0 10px;
+    font-size: 24px;
+}
 
 .lobby {
     display: flex;
@@ -36,7 +42,7 @@
 }
 .lobby a{
     text-decoration: none;
-    color: #008300;
+    color: #000844;
 }
 
 .rowContainer {
@@ -108,4 +114,54 @@ button, button:active, button:focus {
 .sidebarContainer button {
     font-size: 24px;
     margin: 1em;
+}
+
+.modal-to-games{
+    position: relative;
+    font-size: 8px;
+    width: 60em;
+    height: 75em;
+    background: linear-gradient(#2ab07b 0%, #ace0c2 20%, #ace0c2 80%, #2ab07b 100%);
+    border-style: solid;
+    border-color: rgba(14, 11, 35, 0.17);
+    border-radius: 1em;
+    left: calc(50% - 30em);
+    display: flex;
+    flex-direction: column;
+}
+.modal-to-games h1{
+    font-size: 40px;
+}
+.modal-to-games h2{
+    font-size: 24px;
+}
+.modal-to-games input{
+    background: #e9f7e3;
+    border-radius: 10px;
+    padding: 10px;
+}
+.modal-to-games > .close {
+    z-index: 2;
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 3px 5px;
+    line-height: 20px;
+    right: 5px;
+    top: 5px;
+    font-size: 32px;
+    border-radius: 18px;
+    border: none;
+}
+button{
+    font-size: 24px;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, #37b202 0%, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 1) 60%, #37b202 100%);
+    border-radius: 1em;
+    box-shadow: 0 10px 10px #000000;
+    border-bottom: #4A7F7C;
+    transition: .5s;
+}
+button:hover{
+    box-shadow: 0 2px 2px #000000;
 }

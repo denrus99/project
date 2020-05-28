@@ -92,7 +92,7 @@ export class Chat extends Component {
 
     render() {
         return (
-            <div style={{width: '20%'}}>
+            <div className="right-panel" style={{width: '20%'}}>
                 <div style={{display:'flex',flexDirection:"row"}}>
                     <div style={{margin:" 0 20px",textAlign: 'left'}}>
                         <h1>GameMaster : {Cookies.get("master")} </h1>
@@ -120,24 +120,24 @@ export class Chat extends Component {
                     </Popup>
                 </div>
                 {/*TODO добавить пользователя и слово только для GM*/}
-                <div id='chatBlock' className='chat_Container'>
-                    {messages.map(x => <Message ref={"msg" + x.idMes} chooseGrade={this.ChooseGrade} id={x.idMes}
-                        gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
-                        hub={this.state.hubConnection} />)}
-                </div>
-                {Cookies.get("master") === Cookies.get("login")
-                    ?<Popup modal closeOnDocumentClick={false} closeOnEscape={false} trigger={<button className='startGame'>Start Game</button>}>
-                    {close=>(
-                        <div className="gameWords">
-                            <h1>Выберите слово</h1>
-                            <button onClick={close}>Кукуруза</button>
-                            <button onClick={close}>Морковь</button>
-                            <button onClick={close}>Помидор</button>
-                        </div>
-                    )}
-                </Popup>
-                    :<Input sendMsg={this.sendMessage}/>} 
-            </div>
+                    <div id='chatBlock' className='chat_Container'>
+                        {messages.map(x => <Message ref={"msg" + x.idMes} chooseGrade={this.ChooseGrade} id={x.idMes}
+                                                    gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
+                                                    hub={this.state.hubConnection} />)}
+                    </div>
+                    {Cookies.get("master") === Cookies.get("login")
+                        ?<Popup modal closeOnDocumentClick={false} closeOnEscape={false} trigger={<button className='startGame'>Start Game</button>}>
+                            {close=>(
+                                <div className="gameWords">
+                                    <h1>Выберите слово</h1>
+                                    <button onClick={close}>Кукуруза</button>
+                                    <button onClick={close}>Морковь</button>
+                                    <button onClick={close}>Помидор</button>
+                                </div>
+                            )}
+                        </Popup>
+                        :<Input sendMsg={this.sendMessage}/>}
+                </div>      
         );
     }
 }
