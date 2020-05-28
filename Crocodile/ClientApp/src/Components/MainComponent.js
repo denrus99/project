@@ -53,8 +53,8 @@ class OpenGames extends Component {
             return (
                 <div className='OpenGamesContainer'>
                     <h1>Открытые игры</h1>
-                    {openGames.map(x => <LobbyItem name={x.name} setterPageNum={this.props.setterPageNum} info={x.info} />)}
-                    <div style={{ margin: '0 auto', justifyContent: 'space-around', alignItems: 'center' }} className='rowContainer'>
+                        {openGames.map(x => <LobbyItem name={x.name} setterPageNum={this.props.setterPageNum} info={x.info} />)}
+                    <div  className='rowContainer'>
                         {
                             this.state.pageNum > 0 ?
                                 <img className='arrowImg' src={backArrow} onClick={() => this.changePage(-1)} />
@@ -93,11 +93,10 @@ class LobbyItem extends Component {
 
     render() {
         return (
-            <div className='lobbyItem'>
-                <h2>{this.props.name}</h2>
-                <h3>{this.props.info}</h3>
-                <Link to={`/Game/${Cookies.get("login") ? this.props.info : ""}`}>
-                    <button onClick={this.join}>Войти</button>
+            <div className='lobby' onClick={this.join}>                
+                <Link className='lobbyItem' to={`/Game/${Cookies.get("login") ? this.props.info : ""}`}>
+                    <h2>{this.props.name}</h2>
+                    <h3>{this.props.info}</h3>
                 </Link>
             </div>
         );

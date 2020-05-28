@@ -1,22 +1,42 @@
 ﻿.OpenGamesContainer {
     margin: 0 auto 40px;
+    text-align: center;
 }
 
 .OpenGamesContainer h1 {
-    text-align: center;
     font-size: 24px;
+    background: #37b202;
+    border-radius: 10px;
+    border: 2px solid #008300;
+    color: #FFFFFF;
+}
+.OpenGamesContainer .lobbyList{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.lobbyItem {
+
+.lobby {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin: 5em 1em;
     background: rgb(255, 255, 255);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 88%, rgba(255, 255, 255, 1) 88%, rgba(220, 229, 221, 1) 100%);
+    background: linear-gradient(180deg, #37b202 0%, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 1) 60%, #37b202 100%);
     padding: 2em 4em;
     border-radius: 1em;
-    box-shadow: 0 2px 0 #a9a9a9;
+    box-shadow: 0 10px 10px #000000;
+    border-bottom: #4A7F7C;
+    transition: .5s;
+}
+.lobby:hover {
+    background: linear-gradient(180deg, #37b202 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 50%, #37b202 100%);
+    box-shadow: 0 2px 2px #000000;    
+}
+.lobby a{
+    text-decoration: none;
+    color: #008300;
 }
 
 .rowContainer {
@@ -24,6 +44,11 @@
     position: relative;
     display: flex;
     flex-direction: row;
+    justify-content: center;
+}
+.rowContainer h1{
+    margin: 0;
+    padding: 0 5px;
 }
 
 .arrowImg {
@@ -31,38 +56,29 @@
     width: 40px;
 }
 
-.lobbyItem * {
+.lobby * {
     margin: 0 50px;
 }
 
-.lobbyItem button {
-    box-shadow: inset 0 -1px 5px 0 #97c4fe;
-    background: #3d94f6 linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
-    border-radius: 20px;
-    border: 1px solid #337fed;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: Arial, serif;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px 44px;
-}
-
-.lobbyItem button:hover {
-    background: #1e62d0 linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
-}
+/*.lobby button {*/
+/*    box-shadow: inset 0 -1px 5px 0 #97c4fe;*/
+/*    background: #3d94f6 linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);*/
+/*    border-radius: 20px;*/
+/*    border: 1px solid #337fed;*/
+/*    display: inline-block;*/
+/*    cursor: pointer;*/
+/*    color: #ffffff;*/
+/*    font-family: Arial, serif;*/
+/*    font-size: 15px;*/
+/*    font-weight: bold;*/
+/*    padding: 10px 44px;*/
+/*}*/
 
 button, button:active, button:focus {
     outline: none;
 }
 .middleContainer{
     margin: auto;
-}
-
-.lobbyItem button:active {
-    position: relative;
-    top: 1px;
 }
 
 .lobbyItem h2 {
