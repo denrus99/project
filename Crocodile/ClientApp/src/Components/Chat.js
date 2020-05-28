@@ -212,7 +212,6 @@ class Message extends Component {
                         .catch(err => console.error(err))
                 });
         }
-        debugger
         if(grade === 1) {
             Fetchs.andRound(this.props.gameId, Cookies.get("master"), this.props.user.name)
                 .then((res) => {

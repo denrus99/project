@@ -6,6 +6,7 @@ import Popup from "reactjs-popup";
 import photo from "../images/game/account.svg";
 import {Button} from "reactstrap";
 import * as Cookies from 'js-cookie';
+import * as Fetchs from "../fetchs";
 
 const signalR = require('@aspnet/signalr');
 
@@ -90,6 +91,7 @@ class PaintArea extends Component {
 
     componentWillUnmount = () => {
         this.stopHub();
+        Fetchs.updateUsers(this.props.gameId).then();
     };
 
     mouseDown({nativeEvent}) {

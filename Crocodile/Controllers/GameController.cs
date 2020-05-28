@@ -285,7 +285,7 @@ namespace Crocodile.Controllers
                     _userRepository.UpdateUser(user);
                 }
             }
-            game.Status = Status.Ended;
+            //game.Status = Status.Ended;
             return Ok();
         }
 

@@ -14,7 +14,6 @@ const createGame = async function (isOpen, roundsCount, roundTime) {
     if (!response.ok) {
         return { error: response.status };
     }
-    debugger;
     let game = await response.json();
     return game;
 };
@@ -30,7 +29,6 @@ const joinToGame = async function (gameId) {
         },
         body: JSON.stringify(gameForRequest)
     });
-    debugger
     return await response.json();
 };
 
@@ -128,11 +126,8 @@ const logoutUser = async function () {
 };
 
 const getUser = async function (login) {
-    debugger;
     let response = await fetch(login);
-    debugger;
     let user = await response.json();
-    debugger;
     return user;
 };
 
@@ -154,7 +149,6 @@ const addScoresAlmostGuessed = async function(gameId, login){
         },
         body: JSON.stringify(game)
     });
-    debugger
     return response.ok;
 }
 const andRound = async function(gameId, loginMaster, loginGuessed){
@@ -170,8 +164,21 @@ const andRound = async function(gameId, loginMaster, loginGuessed){
         },
         body: JSON.stringify(game)
     });
-    debugger
     return await response.text();
 }
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys,addScoresAlmostGuessed, andRound, loginUserGoogle}
+const updateUsers = async function(gameId){
+    let game = {
+        gameId
+    }
+    let response = await fetch("/game/end", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(game)
+    });
+    return response.ok;
+}
+
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys,addScoresAlmostGuessed, andRound, loginUserGoogle, updateUsers}
