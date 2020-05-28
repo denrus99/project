@@ -125,9 +125,9 @@ class Message extends Component {
         return (
             <div className='Message'>
                 <Popup
-                    trigger={<a href='/Profile' style={{maxHeight: '40px'}}><img
-                        style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
-                        src={this.props.user.photo}/></a>}
+                    trigger={<Link to={`/user/profile/${Cookies.get("login")}`}><img
+                        style={{ minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px' }}
+                        src={this.props.user.photo} /></Link>}
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
                     <h1 style={{padding: '0 20px'}}>{this.props.user.name}</h1>
                 </Popup>
