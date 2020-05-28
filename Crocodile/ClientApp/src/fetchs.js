@@ -50,12 +50,15 @@ const startGame = async function (gameId) {
 };
 
 const getLeaderBoard = async function (gameId) {
+    let game = {
+        gameId
+    }
     let response = await fetch("/game/leaderBoard", {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: gameId
+        body: JSON.stringify(game)
     });
     return await response.json();
 };
