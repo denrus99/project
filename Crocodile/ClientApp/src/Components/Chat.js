@@ -21,8 +21,7 @@ export class Chat extends Component {
         this.state = {
             messages: this.messages,
             hubConnection: null,
-            isLoad: false,
-            currentWord: null
+            isLoad: false
         };
         this.getRaitingTable = this.getRaitingTable.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -62,8 +61,9 @@ export class Chat extends Component {
                     this.refs["msg" + id].ChooseGrade(grade);
                 }
                 if(master){
+                    messages = []
                     Cookies.set("master", master.slice(1, master.length - 1));
-                    this.setState({currentWord: null})
+                    this.props.editCurrentWord( null);
                 }
             });
             this.stopHub = () => {
@@ -109,9 +109,7 @@ export class Chat extends Component {
 
     selectWord(word){
         this._closePopup();
-        this.setState({
-            currentWord: word
-        })
+        this.props.editCurrentWord( word);
     }
     
     renderWords(){
@@ -144,7 +142,7 @@ export class Chat extends Component {
                 <div style={{display:'flex',flexDirection:"row"}}>
                     <div style={{margin:" 0 20px",textAlign: 'left'}}>
                         <h1>GameMaster : {Cookies.get("master")} </h1>
-                        <h2>Выбраное слово : {this.state.currentWord}</h2>
+                        <h2>Выбраное слово : {this.props.currentWord}</h2>
                     </div>
                     <Popup modal onOpen={this.getRaitingTable}
                         trigger={<img src={podium} style={{ margin: "5px auto", width: '60px', height: '60px' }} />}>
@@ -228,11 +226,11 @@ class Message extends Component {
         return (
             <div className='Message'>
                 <Popup
-                    trigger={<Link to={`/user/profile/${this.props.user}`}><img
+                    trigger={<Link to={`/user/profile/${this.props.user.name}`}><img
                         style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
-                        src={this.props.photo}/></Link>}
+                        src={this.props.user.photo}/></Link>}
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
-                    <h1 style={{padding: '0 20px'}}>{this.props.user}</h1>
+                    <h1 style={{padding: '0 20px'}}>{this.props.user.name}</h1>
                 </Popup>
                 <div className='MessageContainer' style={{ background: this.color }}>
                     <h2>{this.props.text}</h2>

@@ -257,7 +257,7 @@ namespace Crocodile.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpPatch("game/end")]
+        [HttpPost("game/end")]
         [Produces("application/json")]
         public IActionResult End([FromBody] GameDTO gameDto)
         {

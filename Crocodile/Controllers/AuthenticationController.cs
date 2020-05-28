@@ -29,14 +29,6 @@ namespace Crocodile.Controllers
         public string Photo { get; set; }
     }
 
-    public class UserWithPhotoDTO
-    {
-        [Required(ErrorMessage = "Не указан login")]
-        public string Login { get; set; }
-        [Required(ErrorMessage = "Не указан пароль")]
-        public string Password { get; set; }
-        public string Photo { get; set; }
-    }
     
     public class AuthenticationController : Controller
     {
@@ -133,22 +125,7 @@ namespace Crocodile.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        
-        [HttpPost("authentication/authenticateGoogle")]
-        [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), 404)]
-        public async Task<IActionResult> AuthenticateGoogle([FromBody] UserWithPhotoDTO userDTO)
-        {
-            var user = userRepository.FindByLogin(userDTO.Login);
-            if (user == null)
-            {
-                var newUser = new UserEntity(userDTO.Login, DecodePassword(userDTO.Password), userDTO.Photo);
-                userRepository.Insert(newUser);
-            }
-            await Authenticate(userDTO.Login);
-            return Ok(userDTO.Login);
-        }
+       
         
         private string DecodePassword(string codedPassword)
         {

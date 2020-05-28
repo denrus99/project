@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import {Chat} from './Chat'
 import {slide as Menu} from 'react-burger-menu';
 import {CirclePicker} from 'react-color';
-import Popup from "reactjs-popup";
-import photo from "../images/game/account.svg";
-import {Button} from "reactstrap";
 import * as Cookies from 'js-cookie';
 import * as Fetchs from "../fetchs";
 
@@ -14,7 +11,10 @@ export class GameComponent extends Component {
     constructor(props) {
         super(props);
         this.gameId = this.props.match.params.id;
-
+        this.state = {currentWord: null};
+    }
+    componentDidUpdate() {
+        Fetchs.updateUsers(this.gameId);
     }
 
     componentWillUnmount = () => {
@@ -25,7 +25,8 @@ export class GameComponent extends Component {
         return (
             <div id='gameContainer' className='rowContainer'>
                 <PaintArea gameId={this.gameId}/>
-                <Chat gameId={this.gameId}/>
+                <Chat editCurrentWord={(x) => this.setState({currentWord: x})} currentWord={this.state.currentWord}
+                      gameId={this.gameId}/>
             </div>
         )
     }
@@ -54,11 +55,21 @@ class PaintArea extends Component {
         this.clear = this.clear.bind(this);
     }
 
+    componentDidUpdate() {
+        this.isDrawing = false;
+        let canvas = this.canvasRef.current;
+        this.context = canvas.getContext("2d");
+        let sizes = {width: canvas.clientWidth, height: canvas.clientHeight};
+        canvas.width = sizes.width;
+        canvas.height = sizes.height;
+    }
+
     componentDidMount() {
         const hubConnection = new signalR.HubConnectionBuilder().withUrl("/canvasHub")
             .build();
         hubConnection.serverTimeoutInMilliseconds = 300000;
         this.isDrawing = false;
+        debugger
         this.setState({hubConnection: hubConnection}, () => {
             let canvas = this.canvasRef.current;
             this.context = canvas.getContext("2d");
@@ -144,7 +155,6 @@ class PaintArea extends Component {
     }
 
     render() {
-
         return (
             <div className='gameContainer'>
                 {Cookies.get("master") === Cookies.get("login") ? <Menu disableAutoFocus>
