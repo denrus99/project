@@ -9,24 +9,7 @@ import { Link } from "react-router-dom";
 
 const signalR = require('@aspnet/signalr');
 
-var messages = [{user: {name: 'Коля', photo: photo}, text: 'Hello', date: '12:34'},
-    {user: {name: 'Коля', photo: photo}, text: 'Что-то написала', date: '12:34'},
-    {user: {name: 'Оля', photo: photo}, text: 'Приветствует всех', date: '12:34'},
-    {
-        user: {name: 'Толя', photo: photo},
-        text: 'Проверка длинного сообщения: например я хочу сказать что вышесказанное приводится только в целях тестирования',
-        date: '12:34'
-    },
-    {user: {name: 'Вера', photo: photo}, text: 'Пример', date: '12:34'},
-    {user: {name: 'Таня', photo: photo}, text: 'Работы', date: '12:34'},
-    {user: {name: 'Оля', photo: photo}, text: 'Приветствует всех', date: '12:34'},
-    {
-        user: {name: 'Толя', photo: photo},
-        text: 'Проверка длинного сообщения: например я хочу сказать что вышесказанное приводится только в целях тестирования',
-        date: '12:34'
-    },
-    {user: {name: 'Вера', photo: photo}, text: 'Пример', date: '12:34'},
-    {user: {name: 'Таня', photo: photo}, text: 'Работы', date: '12:34'}];
+var messages = [];
 
 export class Chat extends Component {
     constructor(props) {
@@ -40,6 +23,7 @@ export class Chat extends Component {
 
     componentDidMount = () => {
         const hubConnection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        hubConnection.serverTimeoutInMilliseconds = 300000;
         this.setState({hubConnection: hubConnection}, () => {
             this.state.hubConnection.start().then(() => 
             {
@@ -114,9 +98,6 @@ class Message extends Component {
         return (
             <div className='Message'>
                 <Popup
-                    //trigger={<a href={'/Profile/'} style={{maxHeight: '40px'}}><img
-                    //    style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
-                    //    src={this.props.user.photo}/></a>}
                     trigger={<Link to={`/user/profile/${this.props.user.name}`}><img
                         style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
                         src={this.props.user.photo}/></Link>}

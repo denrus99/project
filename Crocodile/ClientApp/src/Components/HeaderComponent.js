@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Popup from "reactjs-popup";
 import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
-import * as Fetchs from "../fetchs"
+import * as Fetchs from "../fetchs";
 import {browserHistory} from 'react-router/lib';
 import * as Cookies from 'js-cookie';
 import { Link } from "react-router-dom";
@@ -101,6 +101,8 @@ export class HeaderComponent extends Component {
         
         if (typeof response === "string") {
             Cookies.set("gameId", response);
+            this._closePopup();
+            this.props.history.push(`/Game/${response}`);
         } else {
             return false;
         }
@@ -113,6 +115,8 @@ export class HeaderComponent extends Component {
 
         if (response) {
             Cookies.set("gameId", gameId.value);
+            this._closePopup();
+            this.props.history.push(`/Game/${gameId.value}`);
         } else {
             return false;
         }
@@ -122,6 +126,7 @@ export class HeaderComponent extends Component {
         let fLink = <Popup modal trigger={<h1 className='fontStyle'>Создать игру</h1>}>
             {close => (
                 <>
+                    {this._closePopup = close}
                     <a className="close" onClick={close}>
                         &times;
                     </a>
@@ -141,9 +146,7 @@ export class HeaderComponent extends Component {
                         </tr>
                         <tr>
                             <td>
-                                <Link to={`/Game/${Cookies.get("gameId")}`}>
-                                    <button onClick={this.createGame}>Создать</button>
-                                </Link>
+                                <button onClick={this.createGame}>Создать</button>
                             </td>
                             <td>
                                 <button onClick={close}>Назад</button>
@@ -157,6 +160,7 @@ export class HeaderComponent extends Component {
         let sLink = <Popup modal trigger={<h1 className='fontStyle'>Присоединиться</h1>}>
             {close => (
                 <>
+                    {this._closePopup = close}
                     <a className="close" onClick={close}>
                         &times;
                     </a>
@@ -168,9 +172,7 @@ export class HeaderComponent extends Component {
                         </tr>
                         <tr>
                             <td>
-                                <Link to={`/Game/${Cookies.get("gameId")}`}>
-                                    <button onClick={this.joinToGame}>Присоединиться</button>
-                                </Link>
+                                <button onClick={this.joinToGame}>Присоединиться</button>
                             </td>
                             <td>
                                 <button onClick={close}>Назад</button>

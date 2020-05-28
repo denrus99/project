@@ -20,11 +20,6 @@ export class GameComponent extends Component {
             </div>
         )
     }
-    // componentDidMount(){        
-    //     let gameContainer = document.getElementById('gameContainer');
-    //     let x = 
-    //     gameContainer.style.transform = `scale(${x})`;
-    // }
 }
 var gameSetting = {
     penColor: '#000000',
@@ -52,6 +47,7 @@ class PaintArea extends Component {
     componentDidMount() {
         const hubConnection = new signalR.HubConnectionBuilder().withUrl("/canvasHub")
             .build();
+        hubConnection.serverTimeoutInMilliseconds = 300000;
         this.isDrawing = false;
         this.setState({hubConnection: hubConnection}, () => {            
             let canvas = this.canvasRef.current;
