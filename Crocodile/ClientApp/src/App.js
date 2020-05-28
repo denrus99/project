@@ -14,8 +14,8 @@ import {
 import { MainComponent as Main } from "./Components/MainComponent";
 import { ProfileComponent as Profile } from "./Components/ProfileComponent";
 import { GameComponent as Game } from "./Components/GameComponent";
-import { GameMasterComponent as GameMaster } from "./Components/GameMasterComponent";
 function App() {
+    
     return (
         <Router history={browserHistory}>
             <div className="App">
@@ -26,9 +26,6 @@ function App() {
                         <Redirect exact from="/Game/" to="/" />
                         <Route exact path="/Game/:id" component={Game} />
                         <Route exact path="/user/profile/:id" component={Profile} />
-                        <Route path="/GameMaster">
-                            <GameMaster />
-                        </Route>
                         <Route exact path='/'>
                             <Main />
                         </Route>

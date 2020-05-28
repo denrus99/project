@@ -3,9 +3,7 @@ import Popup from "reactjs-popup";
 import {Input} from "../Input";
 import {UserAuthProfileComponent} from "./UserAuthProfileComponent";
 import * as Fetchs from "../fetchs";
-import {browserHistory} from 'react-router/lib';
 import * as Cookies from 'js-cookie';
-import { Link } from "react-router-dom";
 
 
 export class HeaderComponent extends Component {
@@ -18,23 +16,32 @@ export class HeaderComponent extends Component {
         this.joinToGame = this.joinToGame.bind(this);
         this.logOut = this.logOut.bind(this);
         this._closePopup = undefined;
+        this.signInWithGoogle = this.signInWithGoogle.bind(this);
     }
 
     signIn = async function () {
         let userLogin = document.getElementById("userLogin");
         let userPassword = document.getElementById("userPassword");
-
         let response = await Fetchs.loginUser(userLogin.value, userPassword.value);
-
         if (response.status) {
-            Cookies.set("login", response.login.slice(1, response.login.length - 1));
-            console.log(Cookies.get("wedrghngsvas"));
+            Cookies.set("login", response.login.login);
+            Cookies.set('photo','https://image.flaticon.com/icons/svg/2919/2919573.svg');
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
             userLogin.style.borderBottom = "3px red solid";
             userPassword.style.borderBottom = "3px red solid";
         }
+    }
+    
+    signInWithGoogle = async function (login, pass,photo) {
+        let response = await Fetchs.loginUserGoogle(login,pass,photo);    
+        if (response.status) {
+            Cookies.set("login", response.login.login);
+            Cookies.set('photo',response.login.photo);
+            this.setState({ userIsAuth: true });
+            this._closePopup();
+        } 
     }
 
     signUp = async function () {
@@ -51,6 +58,7 @@ export class HeaderComponent extends Component {
 
         if (response.status) {
             Cookies.set("login", response.login);
+            Cookies.set('photo','https://image.flaticon.com/icons/svg/2919/2919573.svg');
             this.setState({ userIsAuth: true });
             this._closePopup();
         } else {
@@ -86,7 +94,7 @@ export class HeaderComponent extends Component {
                         &times;
                     </a>
                     <div>
-                        <Input signIn={this.signIn} signUp={this.signUp}/>
+                        <Input signIn={this.signIn} signInWithGoogle={this.signInWithGoogle} signUp={this.signUp}/>
                     </div>
                 </div>
             )}

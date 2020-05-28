@@ -18,6 +18,25 @@ const createGame = async function (isOpen, roundsCount, roundTime) {
     return game.gameId;
 };
 
+
+const loginUserGoogle = async function (login, password,photo) {
+    let user = {
+        login,
+        password: btoa(password),photo
+    };
+    let response = await fetch("/authentication/authenticateGoogle", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+    });
+    let userLogin = await response.json();
+    return {
+        status: response.ok, login: userLogin
+    };
+};
+
 const joinToGame = async function (gameId, userLogin) {
     let gameFroRequest = {
         gameId,
@@ -50,12 +69,15 @@ const startGame = async function (gameId) {
 };
 
 const getLeaderBoard = async function (gameId) {
+    let game = {
+        gameId
+    }
     let response = await fetch("/game/leaderBoard", {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: gameId
+        body: JSON.stringify(game)
     });
     return await response.json();
 };
@@ -72,7 +94,7 @@ const loginUser = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    let userLogin = await response.text();
+    let userLogin = await response.json();
     return {
         status: response.ok, login: userLogin
     };
@@ -102,11 +124,9 @@ const logoutUser = async function () {
 };
 
 const getUser = async function (login) {
-    debugger;
     let response = await fetch(login);
-    debugger;
+    debugger
     let user = await response.json();
-    debugger;
     return user;
 }
 
@@ -116,4 +136,4 @@ const getLobbys = async function (pageNumber) {
     return lobbys;
 }
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys}
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys,loginUserGoogle}
