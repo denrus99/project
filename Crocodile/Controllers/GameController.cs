@@ -208,6 +208,7 @@ namespace Crocodile.Controllers
             }
             var sc1 = game.Scores.First(x => x.Login == gameDto.LoginMaster);
             var sc2 = game.Scores.First(x => x.Login == gameDto.LoginGuessed);
+            
             sc1.Guessed++;
             sc1.CalculateRecord();
             sc2.Guessed++;

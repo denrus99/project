@@ -85,10 +85,11 @@ const loginUser = async function (login, password) {
     };
 };
 
-const loginUserGoogle = async function (login, password) {
+const loginUserGoogle = async function (login, password, photo) {
     let user = {
         login,
-        password: btoa(password)
+        password: btoa(password),
+        photo
     };
     let response = await fetch("/authentication/authenticateGoogle", {
         method: 'POST',
@@ -173,4 +174,4 @@ const andRound = async function(gameId, loginMaster, loginGuessed){
     return await response.text();
 }
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys,addScoresAlmostGuessed, andRound}
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys,addScoresAlmostGuessed, andRound, loginUserGoogle}

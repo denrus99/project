@@ -10,7 +10,7 @@ namespace Crocodile.Controllers
     public class UserProfileDTO
     {
         public string Login { get; set; }
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
         public int CountGames { get; set; }
         public int Record { get; set; }
         public int Guessed { get; set; }
