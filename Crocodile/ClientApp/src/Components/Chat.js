@@ -1,21 +1,20 @@
-﻿import React, { Component } from 'react';
-import photo from '../images/game/account.svg';
+import React, {Component} from 'react';
 import fire from '../images/game/fire.svg';
 import crown from '../images/game/crown.svg';
 import ice from '../images/game/ice.svg';
 import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import podium from '../images/game/podium.svg';
 import * as Fetchs from "../fetchs";
-import { Roller } from "react-spinners-css";
+import {Roller} from "react-spinners-css";
 
 const signalR = require('@aspnet/signalr');
 
 var messages = [];
 
 export class Chat extends Component {
-    constructor(props) {
+    constructor(props) {        
         super(props);
         this.raitingTable = [];
         this.words = [];
@@ -42,7 +41,8 @@ export class Chat extends Component {
                     .catch(err => console.error(err));
             }
             );
-            this.state.hubConnection.on('ReceiveMessage', (id, name, text, date) => {
+            this.state.hubConnection.on('ReceiveMessage', (id, name, text, date,photo) => {
+                debugger
                 let block = document.getElementById("chatBlock");
                 let msg = {
                     idMes: id,
@@ -77,9 +77,10 @@ export class Chat extends Component {
     };
 
     sendMessage(text) {
+        debugger
         let date = new Date(Date.now());
         this.state.hubConnection
-            .invoke('SendMessage', this.props.gameId, Cookies.get("login"), text, `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`)
+            .invoke('SendMessage', this.props.gameId, Cookies.get("login"), text, `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`,Cookies.get("photo"))
             .catch(err => console.error(err));
         this.setState({ message: '' });
     }
@@ -227,11 +228,11 @@ class Message extends Component {
         return (
             <div className='Message'>
                 <Popup
-                    trigger={<Link to={`/user/profile/${Cookies.get("login")}`}><img
-                        style={{ minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px' }}
-                        src={this.props.user.photo} /></Link>}
-                    position='top center' contentStyle={{ zIndex: 11, width: 'inherit' }} on='hover'>
-                    <h1 style={{ padding: '0 20px' }}>{this.props.user.name}</h1>
+                    trigger={<Link to={`/user/profile/${this.props.user}`}><img
+                        style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
+                        src={this.props.photo}/></Link>}
+                    position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
+                    <h1 style={{padding: '0 20px'}}>{this.props.user}</h1>
                 </Popup>
                 <div className='MessageContainer' style={{ background: this.color }}>
                     <h2>{this.props.text}</h2>

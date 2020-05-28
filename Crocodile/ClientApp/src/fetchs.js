@@ -18,9 +18,29 @@ const createGame = async function (isOpen, roundsCount, roundTime) {
     return game;
 };
 
-const joinToGame = async function (gameId) {
-    let gameForRequest = {
-        gameId
+
+const loginUserGoogle = async function (login, password,photo) {
+    let user = {
+        login,
+        password: btoa(password),photo
+    };
+    let response = await fetch("/authentication/authenticateGoogle", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+    });
+    let userLogin = await response.json();
+    return {
+        status: response.ok, login: userLogin
+    };
+};
+
+const joinToGame = async function (gameId, userLogin) {
+    let gameFroRequest = {
+        gameId,
+        userLogin
     };
     let response = await fetch("/game/join", {
         method: 'POST',
@@ -77,7 +97,7 @@ const loginUser = async function (login, password) {
         },
         body: JSON.stringify(user)
     });
-    let userLogin = await response.text();
+    let userLogin = await response.json();
     return {
         status: response.ok, login: userLogin
     };

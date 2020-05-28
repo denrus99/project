@@ -1,5 +1,4 @@
 import React from 'react';
-import avatar from '../images/game/account.svg';
 import { browserHistory } from 'react-router/lib';
 import * as Fetchs from "../fetchs";
 import { Roller } from "react-spinners-css";
@@ -27,7 +26,7 @@ export class ProfileComponent extends React.Component {
                 <div style={{ width: '90%', margin: '.8em auto', background: '#96c9e8', borderRadius: '10px' }}>
                     <h1 style={{ fontSize: '32px', textAlign: 'left', margin: '0 100px' }}>{this.profile.login}</h1>
                     <div style={{ margin: '2em 50px', display: 'flex', }}>
-                        <img src={avatar} width='250px' height='250px' style={{ background: '#c8c8c8' }} alt='avatar' />
+                        <img src={this.profile.photo} width='250px' height='250px' style={{ background: '#c8c8c8' }} alt='avatar' />
                         <div style={{
                             background: 'white',
                             borderRadius: '20px',

@@ -13,8 +13,6 @@ namespace Crocodile.DataBase.UserDB
         [BsonElement] [BsonDefaultValue(0)] public int Record { get; set; }
         [BsonElement] [BsonDefaultValue(0)] public int Guessed { get; set; }
         [BsonElement] [BsonDefaultValue(0)] public int AlmostGuessed { get; set; }
-        
-
         [BsonConstructor]
         public UserEntity(string login, string password, string photo)
         {
