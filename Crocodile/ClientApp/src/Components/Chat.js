@@ -51,8 +51,12 @@ export class Chat extends Component {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             });
+<<<<<<< HEAD
             this.state.hubConnection.on('RecieveReaction', (color, id) => {
                 debugger
+=======
+            this.state.hubConnection.on('SendReaction', (color, id) => {
+>>>>>>> origin/master
                 messages.filter(x => x.id === id)[0].msg.hubConnection(color);
             });
             this.stopHub = () => {

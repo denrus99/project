@@ -14,7 +14,7 @@ namespace Crocodile.Hubs
             {
                 dic.Add(gameId, 0);
             }
-            await Clients.Group(gameId).SendAsync("ReceiveMessage",dic[gameId]++, user, text, date);
+            await Clients.Group(gameId).SendAsync("ReceiveMessage", dic[gameId]++, user, text, date);
         }
         public async Task EnterChat(string gameId)
         {
