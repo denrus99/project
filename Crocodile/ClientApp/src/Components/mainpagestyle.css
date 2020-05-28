@@ -119,7 +119,7 @@ button, button:active, button:focus {
 .modal-to-games{
     position: relative;
     font-size: 8px;
-    width: 60em;
+    width: 80em;
     height: 75em;
     background: linear-gradient(#2ab07b 0%, #ace0c2 20%, #ace0c2 80%, #2ab07b 100%);
     border-style: solid;

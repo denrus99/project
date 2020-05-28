@@ -23,7 +23,7 @@ export class ProfileComponent extends React.Component {
         };
         if (this.state.isLoad) {
             return (
-                <div style={{ width: '90%', margin: '.8em auto', background: '#96c9e8', borderRadius: '10px' }}>
+                <div style={{ width: '90%', margin: '.8em auto', background: 'linear-gradient(180deg, #1d7670 0%, #5aa19b 50%, #19b66f 100%)', borderRadius: '10px', color: '#000844' }}>
                     <h1 style={{ fontSize: '32px', textAlign: 'left', margin: '0 100px' }}>{this.profile.login}</h1>
                     <div style={{ margin: '2em 50px', display: 'flex', }}>
                         <img src={this.profile.photo} width='250px' height='250px' style={{ background: '#c8c8c8' }} alt='avatar' />

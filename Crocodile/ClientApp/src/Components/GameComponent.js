@@ -69,7 +69,6 @@ class PaintArea extends Component {
             .build();
         hubConnection.serverTimeoutInMilliseconds = 300000;
         this.isDrawing = false;
-        debugger
         this.setState({hubConnection: hubConnection}, () => {
             let canvas = this.canvasRef.current;
             this.context = canvas.getContext("2d");
@@ -90,7 +89,6 @@ class PaintArea extends Component {
                 }
             });
             this.state.hubConnection.on('ReceiveClear', () => {
-                debugger;
                 this.context.clearRect(0, 0, 10000, 10000);
             });
             this.stopHub = () => {
@@ -143,7 +141,6 @@ class PaintArea extends Component {
     }
 
     clear() {
-        debugger;
         this.state.hubConnection
             .invoke('Clear', this.props.gameId)
             .catch(err => console.error(err));
@@ -155,9 +152,13 @@ class PaintArea extends Component {
     }
 
     render() {
+        let style = 
+            {
+                
+        };
         return (
             <div className='gameContainer'>
-                {Cookies.get("master") === Cookies.get("login") ? <Menu disableAutoFocus>
+                {Cookies.get("master") === Cookies.get("login") ? <Menu style={style} disableAutoFocus>
                     <div className='sizeSelector'>
                         <h1 style={{textAlign: 'left', marginLeft: '10px', fontSize: '20px'}}>Размер кисти</h1>
                         <input onInput={() => {

@@ -41,7 +41,6 @@ export class Chat extends Component {
             }
             );
             this.state.hubConnection.on('ReceiveMessage', (id, name, text, date,photo) => {
-                debugger
                 let block = document.getElementById("chatBlock");
                 let msg = {
                     idMes: id,
@@ -77,7 +76,6 @@ export class Chat extends Component {
     };
 
     sendMessage(text) {
-        debugger
         let date = new Date(Date.now());
         this.state.hubConnection
             .invoke('SendMessage', this.props.gameId, Cookies.get("login"), text, `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`,Cookies.get("photo"))
@@ -94,7 +92,6 @@ export class Chat extends Component {
                     score: obj.record
                 };
             });
-            debugger
             this.setState({ isLoad: true });
         });
     }
@@ -114,7 +111,7 @@ export class Chat extends Component {
     
     renderWords(){
         if(Cookies.get("master") === Cookies.get("login")) {
-            return  <Popup onOpen={this.getWords} modal closeOnDocumentClick={false} closeOnEscape={false}
+            return  <Popup onOpen={this.getWords} modal contentStyle={{width: "inherit", background: "none", border: "none"}} closeOnDocumentClick={false} closeOnEscape={false}
                           trigger={<button className='startGame'>Start Game</button>}>
                 {
                     close =>( <div className="gameWords"><h1>Выберите слово</h1>
@@ -144,19 +141,19 @@ export class Chat extends Component {
                         <h1>GameMaster : {Cookies.get("master")} </h1>
                         <h2>Выбраное слово : {this.props.currentWord}</h2>
                     </div>
-                    <Popup modal onOpen={this.getRaitingTable}
-                        trigger={<img src={podium} style={{ margin: "5px auto", width: '60px', height: '60px' }} />}>
-                        <h1>Рейтинг</h1>
+                    <Popup contentStyle={{width: "inherit", background: "none", border: "none"}} modal onOpen={this.getRaitingTable}
+                        trigger={<img src={podium} style={{ margin: "5px auto", width: '60px', height: '60px' }} />}>                        
                         {this.state.isLoad
-                            ? <div style={{ maxHeight: '600px', overflow: 'auto' }}>
+                            ? <div className={"modal-to-games"} style={{ maxHeight: '600px', overflow: 'auto' }}>
+                                <h1>Рейтинг</h1>
                                 <table style={{ fontSize: '24px', width: "80%", margin: "0 auto" }}>
                                     <tr>
                                         <th>Позиция</th>
                                         <th>Имя</th>
                                         <th>Количество очков</th>
                                     </tr>
-                                    {this.raitingTable.map(x => <tr>
-                                        <td>{x.pos}</td>
+                                    {this.raitingTable.sort((x)=>-x.score).map((x,i) => <tr>
+                                        <td>{i+1}</td>
                                         <td>{x.name}</td>
                                         <td>{x.score}</td>
                                     </tr>)}
