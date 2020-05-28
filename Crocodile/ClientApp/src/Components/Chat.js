@@ -6,6 +6,7 @@ import ice from '../images/game/ice.svg';
 import * as Cookies from 'js-cookie';
 import Popup from "reactjs-popup";
 import {Link} from "react-router-dom";
+import podium from '../images/game/podium.svg'
 
 const signalR = require('@aspnet/signalr');
 
@@ -73,16 +74,72 @@ export class Chat extends Component {
     
 
     render() {
+        let r = [];
+        r.push({pos:1,name:'User',score:10});
+        r.push({pos:2,name:'User2',score:9});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
+        r.push({pos:3,name:'User3',score:8});
         return (
             <div style={{width: '20%'}}>
-                <h1>GameMaster : User </h1>
-                <h2>Выбраное слово : Кукуруза</h2>
+                <div style={{display:'flex',flexDirection:"row"}}>
+                    <div style={{margin:" 0 20px",textAlign: 'left'}}>
+                        <h1>GameMaster : User </h1>
+                        <h2>Выбраное слово : Кукуруза</h2>
+                    </div>
+                    <Popup modal trigger={<img src={podium} style={{margin:"5px auto", width:'60px', height:'60px'}}/>}>
+                        <h1>Рейтинг</h1>                        
+                        <div style={{maxHeight:'600px', overflow: 'auto'}}><table style={{fontSize:'24px',width:"80%", margin:"0 auto"}}>
+                            <tr>
+                                <th>Позиция</th>
+                                <th>Имя</th>
+                                <th>Количество очков</th>
+                            </tr>
+                            {r.map(x=><tr>
+                                <td>{x.pos}</td>
+                                <td>{x.name}</td>
+                                <td>{x.score}</td>
+                            </tr>)}
+                        </table></div>                        
+                    </Popup>
+                </div>
                 {/*TODO добавить пользователя и слово только для GM*/}
                 <div id='chatBlock' className='chat_Container'>
                     {messages.map(x => <Message ref={"msg"+x.idMes} chooseGrade={this.ChooseGrade} id={x.idMes} gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
                                                 hub={this.state.hubConnection}/>)}
                 </div>
-                <Input sendMsg={this.sendMessage}/>
+                {this.props.playerIsGameMaster
+                    ?<Popup modal closeOnDocumentClick={false} closeOnEscape={false} trigger={<button className='startGame'>Start Game</button>}>
+                    {close=>(
+                        <div className="gameWords">
+                            <h1>Выберите слово</h1>
+                            <button onClick={close}>Кукуруза</button>
+                            <button onClick={close}>Морковь</button>
+                            <button onClick={close}>Помидор</button>
+                        </div>
+                    )}
+                </Popup>
+                    :<Input sendMsg={this.sendMessage}/>}                
             </div>
         );
     }

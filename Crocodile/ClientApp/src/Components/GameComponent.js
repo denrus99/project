@@ -22,18 +22,8 @@ export class GameComponent extends Component {
     render() {
         return (
             <div id='gameContainer' className='rowContainer'>
-                <PaintArea gameId={this.gameId} />
-                <Popup closeOnDocumentClick={false} closeOnEscape={false} open={true}>
-                    {close=>(
-                        <div className="gameWords">
-                            <h1>Выберите слово</h1>
-                            <button onClick={close}>Кукуруза</button>
-                            <button onClick={close}>Морковь</button>
-                            <button onClick={close}>Помидор</button>
-                        </div>
-                    )}                    
-                </Popup>
-                <Chat gameId={this.gameId} />
+                <PaintArea gameId={this.gameId} />                
+                <Chat playerIsGameMaster={true} gameId={this.gameId} />
             </div>
         )
     }
