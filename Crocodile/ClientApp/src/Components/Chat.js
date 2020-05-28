@@ -33,16 +33,19 @@ export class Chat extends Component {
                     .catch(err => console.error(err));
             }
             );
-            this.state.hubConnection.on('ReceiveMessage', (name, text, date) => {
+            this.state.hubConnection.on('ReceiveMessage', (id, name, text, date) => {
                 debugger;
                 let block = document.getElementById("chatBlock");
+                debugger;
                 let msg = {
+                    idMes: id,
                     user: {name: name, photo: photo},
                     text: text,
                     date: date
                 };
                 debugger;
                 messages.push(msg);
+                debugger;
                 this.setState({messages: messages});
                 let timer = setTimeout(() => {
                     block.scrollTop = block.scrollHeight;
@@ -64,7 +67,7 @@ export class Chat extends Component {
         return (
             <div style={{width: '20%'}}>
                 <div id='chatBlock' className='chat_Container'>
-                    {messages.map(x => <Message user={x.user} text={x.text} date={x.date} />)}
+                    {messages.map(x => <Message id={x.idMes} user={x.user} text={x.text} date={x.date} />)}
                 </div>
                 <Input sendMsg={this.sendMessage}/>
             </div>
