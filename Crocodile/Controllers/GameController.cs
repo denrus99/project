@@ -75,7 +75,7 @@ namespace Crocodile.Controllers
         /// <returns>A newly created Game</returns>
         /// <response code="200">Returns the newly created Game</response>
         /// <response code="404">If the Game  doesn't exist</response>
-        /// <response code="403">If the User is not authorized.</response>
+        /// <response code="401">If the User is not authorized.</response>
         /// <response code="400">If the User already in Game</response>
         [ProducesResponseType(typeof(string), 400)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -97,7 +97,7 @@ namespace Crocodile.Controllers
 
             if (game.Players.Contains(HttpContext.User.Identity.Name))
             {
-                return BadRequest(HttpContext.User.Identity.Name);
+                return Ok();
             }
             game.AddUser(HttpContext.User.Identity.Name);
             _gameRepository.UpdateGame(game);

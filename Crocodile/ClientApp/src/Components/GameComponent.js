@@ -57,7 +57,7 @@ class PaintArea extends Component {
             canvas.height = sizes.height;
             this.state.hubConnection.start().then(() => 
             {
-                console.log("Connection started!");
+                console.log("Connection started!(Canvas)");
                 this.state.hubConnection
                     .invoke('EnterGame', this.props.gameId)
                     .catch(err => console.error(err));
@@ -68,14 +68,18 @@ class PaintArea extends Component {
                     gameSetting = settings;
                     this.paint(arr.shift())
                 }
-            })
+            });
             this.state.hubConnection.on('ReceiveClear', () => {
                 debugger;
                 this.context.clearRect(0,0,10000,10000);
-            })
+            });
+            this.stopHub = ()=>{this.state.hubConnection.stop().then(()=>console.log("Connection terminated!(Canvas)"))};
         });        
         console.log(this.context);
     }
+    componentWillUnmount = () => {
+        this.stopHub();
+    };
 
     mouseDown({nativeEvent}) {
 

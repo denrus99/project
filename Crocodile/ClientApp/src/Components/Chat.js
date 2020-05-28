@@ -27,7 +27,7 @@ export class Chat extends Component {
         this.setState({hubConnection: hubConnection}, () => {
             this.state.hubConnection.start().then(() => 
             {
-                console.log("Connection started!")
+                console.log("Connection started!(Chat)")
                 this.state.hubConnection
                     .invoke('EnterChat', this.props.gameId)
                     .catch(err => console.error(err));
@@ -47,8 +47,13 @@ export class Chat extends Component {
                 let timer = setTimeout(() => {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
-            })
+            });
+            this.stopHub = ()=>{this.state.hubConnection.stop().then(()=>console.log("Connection terminated!(Chat)"))};
         });
+    };
+    
+    componentWillUnmount = () => {
+        this.stopHub();
     };
 
     sendMessage(text) {        
@@ -166,7 +171,7 @@ class Input extends Component {
     Send() {
         let input = this.inputRef.current;
         if (input.value !== '') {
-            this.props.sendMsg(input.value, { name: Cookies.get("login"), photo: photo });
+            this.props.sendMsg(input.value);
             input.value = '';
         }
     }
