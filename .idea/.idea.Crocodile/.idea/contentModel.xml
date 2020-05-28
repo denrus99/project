@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Денис\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Денис\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Crocodile.-820547290.00" t="ExcludeRecursive" />
-    <e p="D:\It's assemble time\Нечто\project" t="IncludeFlat">
+    <e p="C:\Users\dmitr\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\dmitr\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_Crocodile.99591107.00" t="ExcludeRecursive" />
+    <e p="C:\Users\dmitr\source\repos\Front\project" t="IncludeFlat">
+      <e p=".editorconfig" t="Include" />
       <e p="Crocodile" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
         <e p="appsettings.Development.json" t="Include" />
@@ -107,6 +108,9 @@
               <e p="game" t="Include">
                 <e p="account.svg" t="Include" />
                 <e p="cross.svg" t="Include" />
+                <e p="crown.svg" t="Include" />
+                <e p="fire.svg" t="Include" />
+                <e p="ice.svg" t="Include" />
               </e>
               <e p="Main" t="Include">
                 <e p="arrowNext.svg" t="Include" />
@@ -128,6 +132,7 @@
         <e p="Controllers" t="Include">
           <e p="AuthenticationController.cs" t="Include" />
           <e p="GameController.cs" t="Include" />
+          <e p="UserController.cs" t="Include" />
         </e>
         <e p="Crocodile.csproj" t="IncludeRecursive" />
         <e p="DataBase" t="Include">
@@ -181,6 +186,7 @@
       </e>
       <e p="Crocodile.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
+      <e p="Solution Items" t="Include" />
     </e>
   </component>
 </project>

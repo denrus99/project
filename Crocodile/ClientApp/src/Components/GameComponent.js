@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Chat} from './Chat'
 import { slide as Menu } from 'react-burger-menu';
 import { CirclePicker } from 'react-color';
+import Popup from "reactjs-popup";
 import photo from "../images/game/account.svg";
+import {Button} from "reactstrap";
+
 
 const signalR = require('@aspnet/signalr');
 
@@ -16,6 +19,16 @@ export class GameComponent extends Component {
         return (
             <div id='gameContainer' className='rowContainer'>
                 <PaintArea gameId={this.gameId} />
+                <Popup closeOnDocumentClick={false} closeOnEscape={false} open={true}>
+                    {close=>(
+                        <div className="gameWords">
+                            <h1>Выберите слово</h1>
+                            <button onClick={close}>Кукуруза</button>
+                            <button onClick={close}>Морковь</button>
+                            <button onClick={close}>Помидор</button>
+                        </div>
+                    )}                    
+                </Popup>
                 <Chat gameId={this.gameId} />
             </div>
         )

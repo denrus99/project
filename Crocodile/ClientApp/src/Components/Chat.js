@@ -41,17 +41,16 @@ export class Chat extends Component {
                     text: text,
                     date: date
                 };
-                messages.push({id <Message id={msg.idMes} user={msg.user} text={msg.text} date={msg.date} hub={this.state.hubConnection}/>});
+                messages.push({id:msg.id, msg: <Message id={msg.idMes} user={msg.user} text={msg.text} date={msg.date} hub={this.state.hubConnection}/>});
                 
                 this.setState({messages: messages});
-
-                
                 let timer = setTimeout(() => {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             })
             this.state.hubConnection.on('SendReaction', (color, id) => {
-                messages
+                debugger
+                messages.filter(x=>x.id===id)[0].msg.hubConnection(color);
             });
         });
     };
@@ -67,8 +66,11 @@ export class Chat extends Component {
     render() {
         return (
             <div style={{width: '20%'}}>
+                <h1>GameMaster : User </h1> 
+                <h2>Выбраное слово : Кукуруза</h2>
+                {/*TODO добавить пользователя и слово только для GM*/}
                 <div id='chatBlock' className='chat_Container'>
-                    {messages}
+                    {messages.map(x=>x.msg)}
                 </div>
                 <Input sendMsg={this.sendMessage}/>
             </div>
