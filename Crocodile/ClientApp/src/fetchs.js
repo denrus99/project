@@ -19,10 +19,9 @@ const createGame = async function (isOpen, roundsCount, roundTime) {
     return game;
 };
 
-const joinToGame = async function (gameId, userLogin) {
+const joinToGame = async function (gameId) {
     let gameForRequest = {
-        gameId,
-        userLogin
+        gameId
     };
     let response = await fetch("/game/join", {
         method: 'POST',
@@ -31,9 +30,8 @@ const joinToGame = async function (gameId, userLogin) {
         },
         body: JSON.stringify(gameForRequest)
     });
-    debugger;
-    let game = await response.json();
-    return game;
+    debugger
+    return await response.json();
 };
 
 const getWords = async function () {
@@ -42,12 +40,15 @@ const getWords = async function () {
 };
 
 const startGame = async function (gameId) {
+    let game = {
+        gameId
+    }
     let response = await fetch("/game/start", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
-        body: gameId
+        body: JSON.stringify(game)
     });
     return response.ok;
 };
@@ -72,6 +73,24 @@ const loginUser = async function (login, password) {
         password: btoa(password)
     };
     let response = await fetch("/authentication/login", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+    });
+    let userLogin = await response.text();
+    return {
+        status: response.ok, login: userLogin
+    };
+};
+
+const loginUserGoogle = async function (login, password) {
+    let user = {
+        login,
+        password: btoa(password)
+    };
+    let response = await fetch("/authentication/authenticateGoogle", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -122,4 +141,36 @@ const getLobbys = async function (pageNumber) {
     return lobbys;
 };
 
-export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys}
+const addScoresAlmostGuessed = async function(gameId, login){
+    let game = {
+        gameId,
+        login
+    }
+    let response = await fetch("/game/updateSingleUser", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(game)
+    });
+    debugger
+    return response.ok;
+}
+const andRound = async function(gameId, loginMaster, loginGuessed){
+    let game = {
+        gameId,
+        loginMaster,
+        loginGuessed
+    }
+    let response = await fetch("/game/update", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(game)
+    });
+    debugger
+    return await response.text();
+}
+
+export {createGame, joinToGame, getWords, startGame, getLeaderBoard, loginUser, register, logoutUser, getUser, getLobbys,addScoresAlmostGuessed, andRound}

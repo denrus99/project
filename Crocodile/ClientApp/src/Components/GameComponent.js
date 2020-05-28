@@ -24,7 +24,7 @@ export class GameComponent extends Component {
         return (
             <div id='gameContainer' className='rowContainer'>
                 <PaintArea gameId={this.gameId}/>
-                <Chat playerIsGameMaster={true} gameId={this.gameId}/>
+                <Chat gameId={this.gameId}/>
             </div>
         )
     }

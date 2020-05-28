@@ -86,6 +86,7 @@ class LobbyItem extends Component {
 
         if (response) {
             Cookies.set("gameId", this.props.info);
+            Cookies.set("master", response.players[response.indexPresenter]);
         } else {
             return false;
         }

@@ -101,6 +101,23 @@ namespace Crocodile.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
+        
+        [HttpPost("authentication/authenticateGoogle")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), 404)]
+        public async Task<IActionResult> AuthenticateGoogle([FromBody] UserDTO userDTO)
+        {
+            var user = userRepository.FindByLogin(userDTO.Login);
+            if (user == null)
+            {
+                var newUser = new UserEntity(userDTO.Login, DecodePassword(userDTO.Password));
+                userRepository.Insert(newUser);
+            }
+            await Authenticate(userDTO.Login);
+            return Ok(userDTO.Login);
+        }
+        
         private string DecodePassword(string codedPassword)
         {
             byte[] data = Convert.FromBase64String(codedPassword);

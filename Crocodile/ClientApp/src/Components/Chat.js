@@ -18,13 +18,17 @@ export class Chat extends Component {
     constructor(props) {
         super(props);
         this.raitingTable = [];
+        this.words = [];
         this.state = {
             messages: this.messages,
             hubConnection: null,
-            isLoad: false
+            isLoad: false,
+            currentWord: null
         };
         this.getRaitingTable = this.getRaitingTable.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.getWords = this.getWords.bind(this);
+        this.renderWords = this.renderWords.bind(this);
     }
 
     componentDidMount = () => {
@@ -53,9 +57,13 @@ export class Chat extends Component {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             });
-            this.state.hubConnection.on('ReceiveReaction', (grade, id) => {
+            this.state.hubConnection.on('ReceiveReaction', (grade, id, master) => {
                 if (this.refs["msg" + id] !== undefined) {
                     this.refs["msg" + id].ChooseGrade(grade);
+                }
+                if(master){
+                    Cookies.set("master", master.slice(1, master.length - 1));
+                    this.setState({currentWord: null})
                 }
             });
             this.stopHub = () => {
@@ -80,7 +88,7 @@ export class Chat extends Component {
         Fetchs.getLeaderBoard(this.props.gameId).then(res => {
             this.raitingTable = res.map((obj, i) => {
                 return {
-                    pos: i,
+                    pos: i + 1,
                     name: obj.login,
                     score: obj.record
                 };
@@ -90,13 +98,52 @@ export class Chat extends Component {
         });
     }
 
+    getWords() {
+        Fetchs.getWords().then(res => {
+            this.words = res;
+            this.setState({ isLoad: true });
+        });
+        Fetchs.startGame(this.props.gameId).then(()=>{console.log("Game started")})
+    }
+
+    selectWord(word){
+        this._closePopup();
+        this.setState({
+            currentWord: word
+        })
+    }
+    
+    renderWords(){
+        if(Cookies.get("master") === Cookies.get("login")) {
+            return  <Popup onOpen={this.getWords} modal closeOnDocumentClick={false} closeOnEscape={false}
+                          trigger={<button className='startGame'>Start Game</button>}>
+                {
+                    close =>( <div className="gameWords"><h1>Выберите слово</h1>
+                        {this._closePopup = close}
+                        <button onClick={() => {
+                            this.selectWord(this.words[0])
+                        }}>{this.words[0]}</button>
+                        <button onClick={() => {
+                            this.selectWord(this.words[1])
+                        }}>{this.words[1]}</button>
+                        <button onClick={() => {
+                            this.selectWord(this.words[2])
+                        }}>{this.words[2]}</button>
+                    </div>)
+                }
+            </Popup>
+        }
+        else return <Input sendMsg={this.sendMessage}/>;
+    }
+    
+    
     render() {
         return (
             <div style={{width: '20%'}}>
                 <div style={{display:'flex',flexDirection:"row"}}>
                     <div style={{margin:" 0 20px",textAlign: 'left'}}>
                         <h1>GameMaster : {Cookies.get("master")} </h1>
-                        <h2>Выбраное слово : Кукуруза</h2>
+                        <h2>Выбраное слово : {this.state.currentWord}</h2>
                     </div>
                     <Popup modal onOpen={this.getRaitingTable}
                         trigger={<img src={podium} style={{ margin: "5px auto", width: '60px', height: '60px' }} />}>
@@ -125,18 +172,7 @@ export class Chat extends Component {
                         gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
                         hub={this.state.hubConnection} />)}
                 </div>
-                {Cookies.get("master") === Cookies.get("login")
-                    ?<Popup modal closeOnDocumentClick={false} closeOnEscape={false} trigger={<button className='startGame'>Start Game</button>}>
-                    {close=>(
-                        <div className="gameWords">
-                            <h1>Выберите слово</h1>
-                            <button onClick={close}>Кукуруза</button>
-                            <button onClick={close}>Морковь</button>
-                            <button onClick={close}>Помидор</button>
-                        </div>
-                    )}
-                </Popup>
-                    :<Input sendMsg={this.sendMessage}/>} 
+                {this.renderWords()}
             </div>
         );
     }
@@ -168,11 +204,23 @@ class Message extends Component {
                 this.color = "#dae8ec"
                 break;
         }
+        if(grade === 2) {
+            Fetchs.addScoresAlmostGuessed(this.props.gameId, this.props.user.name)
+                .then(() => {
+                    this.props.hub
+                        .invoke('SendReaction', this.props.gameId, grade, this.props.id)
+                        .catch(err => console.error(err))
+                });
+        }
         debugger
-
-        this.props.hub
-            .invoke('SendReaction', this.props.gameId, grade, this.props.id)
-            .catch(err => console.error(err));
+        if(grade === 1) {
+            Fetchs.andRound(this.props.gameId, Cookies.get("master"), this.props.user.name)
+                .then((res) => {
+                    this.props.hub
+                        .invoke('SendReaction', this.props.gameId, grade, this.props.id, res)
+                        .catch(err => console.error(err))
+                });
+        }
         this.setState({ current: grade })
     }
 

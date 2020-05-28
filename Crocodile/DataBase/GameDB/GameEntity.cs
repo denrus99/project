@@ -44,7 +44,7 @@ namespace Crocodile.DataBase.GameDB
 
         public void ChangePresenter()
         {
-            IndexPresenter = rnd.Next(Players.Count - 1);
+            IndexPresenter = rnd.Next(Players.Count);
         }
 
         public void PlusRound()
@@ -89,7 +89,7 @@ namespace Crocodile.DataBase.GameDB
 
         public void CalculateRecord()
         {
-            Record += Guessed * (int) Points.Guessed + AlmostGuessed * (int) Points.AlmostGuessed;
+            Record = Guessed * (int) Points.Guessed + AlmostGuessed * (int) Points.AlmostGuessed;
         }
     }
 }

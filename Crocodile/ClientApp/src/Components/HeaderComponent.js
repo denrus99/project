@@ -100,7 +100,6 @@ export class HeaderComponent extends Component {
         let response = await Fetchs.createGame(isOpenGame.checked, roundsCount.value, roundMinutsCount.value);
         debugger
         if (typeof response.gameId === "string") {
-            debugger;
             Cookies.set("gameId", response.gameId);
             Cookies.set("master", response.players[response.indexPresenter]);
             this._closePopup();
@@ -114,8 +113,9 @@ export class HeaderComponent extends Component {
     joinToGame = async function() {
         let gameId = document.getElementById("gameIdForJoin");
 
-        let response = await Fetchs.joinToGame(gameId.value, Cookies.set("login"));
+        let response = await Fetchs.joinToGame(gameId.value);
 
+        
         if (response) {
             Cookies.set("gameId", gameId.value);
             Cookies.set("master", response.players[response.indexPresenter]);
