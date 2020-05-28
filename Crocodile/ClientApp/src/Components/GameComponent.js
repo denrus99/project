@@ -7,11 +7,16 @@ import photo from "../images/game/account.svg";
 const signalR = require('@aspnet/signalr');
 
 export class GameComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.gameId = this.props.match.params.id;
+    }
+
     render() {
         return (
             <div id='gameContainer' className='rowContainer'>
-                <PaintArea/>
-                <Chat/>
+                <PaintArea gameId={this.gameId} />
+                <Chat gameId={this.gameId} />
             </div>
         )
     }
@@ -58,7 +63,7 @@ class PaintArea extends Component {
             {
                 console.log("Connection started!");
                 this.state.hubConnection
-                    .invoke('EnterGame', "GAMEID")
+                    .invoke('EnterGame', this.props.gameId)
                     .catch(err => console.error(err));
             }
                 );
@@ -93,7 +98,7 @@ class PaintArea extends Component {
             }
             this.array.push(positionData);
             this.state.hubConnection
-                .invoke('SendLines', "GAMEID", this.array, gameSetting)
+                .invoke('SendLines', this.props.gameId, this.array, gameSetting)
                 .catch(err => console.error(err));
             this.array = [];
             //отправлять точки, можно заносить их в json например и потом после окончания рисования отправить всем весь пакет изменений
@@ -116,7 +121,7 @@ class PaintArea extends Component {
     clear(){
         debugger;
         this.state.hubConnection
-            .invoke('Clear', "GAMEID")
+            .invoke('Clear', this.props.gameId)
             .catch(err => console.error(err));
         this.context.clearRect(0,0,10000,10000);
     }

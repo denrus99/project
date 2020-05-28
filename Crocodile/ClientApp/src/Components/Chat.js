@@ -45,7 +45,7 @@ export class Chat extends Component {
             {
                 console.log("Connection started!")
                 this.state.hubConnection
-                    .invoke('EnterChat', "GAMEID")
+                    .invoke('EnterChat', this.props.gameId)
                     .catch(err => console.error(err));
             }
             );
@@ -71,7 +71,7 @@ export class Chat extends Component {
         let date = new Date(Date.now());
         debugger
         this.state.hubConnection
-            .invoke('SendMessage',"GAMEID", getCookie("login"), text, `${date.getHours()}:${date.getMinutes()}`)
+            .invoke('SendMessage', this.props.gameId, Cookies.get("login"), text, `${date.getHours()}:${date.getMinutes()}`)
             .catch(err => console.error(err));
         this.setState({message: ''});
     }
@@ -80,7 +80,7 @@ export class Chat extends Component {
         return (
             <div style={{width: '20%'}}>
                 <div id='chatBlock' className='chat_Container'>
-                    {messages.map(x => <Message user={x.user} text={x.text} date={x.date} id={122}/>)}
+                    {messages.map(x => <Message user={x.user} text={x.text} date={x.date} />)}
                 </div>
                 <Input sendMsg={this.sendMessage}/>
             </div>
@@ -117,7 +117,7 @@ class Message extends Component {
                     //trigger={<a href={'/Profile/'} style={{maxHeight: '40px'}}><img
                     //    style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
                     //    src={this.props.user.photo}/></a>}
-                    trigger={<Link to={`user/profile/${this.props.user.name}`}><img
+                    trigger={<Link to={`/user/profile/${this.props.user.name}`}><img
                         style={{minWidth: '40px', minHeight: '40px', maxHeight: '40px', maxWidth: '40px'}}
                         src={this.props.user.photo}/></Link>}
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
@@ -185,7 +185,7 @@ class Input extends Component {
     Send() {
         let input = this.inputRef.current;
         if (input.value !== '') {
-            this.props.sendMsg(input.value, {name: Cookies.get("login"), photo: photo});
+            this.props.sendMsg(input.value, { name: Cookies.get("login"), photo: photo });
             input.value = '';
         }
     }
@@ -193,13 +193,9 @@ class Input extends Component {
     render() {
         return (
             <div className='Input_Container'>
-                <input ref={this.inputRef} placeholder='Введите сообщение' className='Input'/>
+                <input ref={this.inputRef} placeholder='Введите сообщение' className='Input' />
                 <button className='sendButton' onClick={this.Send}>Send</button>
             </div>
         );
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> profile

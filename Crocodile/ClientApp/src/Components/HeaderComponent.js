@@ -102,7 +102,7 @@ export class HeaderComponent extends Component {
         if (typeof response === "string") {
             Cookies.set("gameId", response);
         } else {
-            alert("Error " + response.error);
+            return false;
         }
     }
 
@@ -114,7 +114,7 @@ export class HeaderComponent extends Component {
         if (response) {
             Cookies.set("gameId", gameId.value);
         } else {
-            alert("Error " + response);
+            return false;
         }
     }
 
@@ -141,14 +141,12 @@ export class HeaderComponent extends Component {
                         </tr>
                         <tr>
                             <td>
-                                <Link to="/Game/">
+                                <Link to={`/Game/${Cookies.get("gameId")}`}>
                                     <button onClick={this.createGame}>Создать</button>
                                 </Link>
                             </td>
                             <td>
-                                <Link to="/Game/">
-                                    <button onClick={close}>Назад</button>
-                                </Link>
+                                <button onClick={close}>Назад</button>
                             </td>
                         </tr>
                     </table>
@@ -170,7 +168,9 @@ export class HeaderComponent extends Component {
                         </tr>
                         <tr>
                             <td>
-                                <button onClick={this.joinToGame}>Join</button>
+                                <Link to={`/Game/${Cookies.get("gameId")}`}>
+                                    <button onClick={this.joinToGame}>Присоединиться</button>
+                                </Link>
                             </td>
                             <td>
                                 <button onClick={close}>Назад</button>

@@ -22,9 +22,9 @@ function App() {
                 <HeaderComponent />
                 <div className='container' style={{ width: '100%', marginTop: '8em' }}>
                     <Switch>
-                        <Redirect exact from="/Game" to="/" />
-                        <Route path="/Game/:id" component={Game} />
-                        <Route path="/user/profile/:id" component={Profile} />
+                        <Redirect exact from="/Game/user/profile/:id" to="/user/profile/:id" />
+                        <Route exact path="/Game/:id" component={Game} />
+                        <Route exact path="/user/profile/:id" component={Profile} />
                         <Route path="/GameMaster">
                             <GameMaster />
                         </Route>
