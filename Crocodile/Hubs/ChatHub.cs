@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace Crocodile.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
         }
-        public async Task SendReaction(string gameId)
+        public async Task SendReaction(string gameId, Object color, int id)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+            await Clients.Group(gameId).SendAsync("ReceiveReaction", color, id);
         }
         
         
