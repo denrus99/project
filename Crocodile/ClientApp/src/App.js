@@ -8,7 +8,7 @@ import { browserHistory } from 'react-router/lib';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
+    Route,
     Redirect
 } from "react-router-dom";
 import { MainComponent as Main } from "./Components/MainComponent";
@@ -23,14 +23,14 @@ function App() {
                 <div className='container' style={{ width: '100%', marginTop: '8em' }}>
                     <Switch>
                         <Redirect exact from="/Game" to="/" />
-                            <Route path="/Game/:id" component={Game} />
-                            <Route path="/user/profile/:id" component={Profile} />
-                            <Route path="/GameMaster">
-                                <GameMaster />
-                            </Route>
-                            <Route exact path='/'>
-                                <Main />
-                            </Route>
+                        <Route path="/Game/:id" component={Game} />
+                        <Route path="/user/profile/:id" component={Profile} />
+                        <Route path="/GameMaster">
+                            <GameMaster />
+                        </Route>
+                        <Route exact path='/'>
+                            <Main />
+                        </Route>
                     </Switch>
                 </div>
             </div>

@@ -56,3 +56,5 @@ packages/
 .idea/
 .idea/
 *.xml
+*.xml
+/.idea/.idea.Crocodile/.idea/contentModel.xml
