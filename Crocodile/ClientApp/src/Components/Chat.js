@@ -33,7 +33,6 @@ export class Chat extends Component {
                 }
             );
             this.state.hubConnection.on('ReceiveMessage', (id, name, text, date) => {
-                debugger;
                 let block = document.getElementById("chatBlock");
                 let msg = {
                     idMes: id,
@@ -42,7 +41,7 @@ export class Chat extends Component {
                     date: date
                 };
                 messages.push({id: msg.idMes,
-                    msg: <Message id={msg.idMes} user={msg.user} text={msg.text} date={msg.date}
+                    msg: <Message color={"#dae8ec"} gameId={this.props.gameId} id={msg.idMes} user={msg.user} text={msg.text} date={msg.date}
                                   hub={this.state.hubConnection}/>
                 });
 
@@ -51,13 +50,10 @@ export class Chat extends Component {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             });
-<<<<<<< HEAD
-            this.state.hubConnection.on('RecieveReaction', (color, id) => {
+
+            this.state.hubConnection.on('ReceiveReaction', (color, id) => {
                 debugger
-=======
-            this.state.hubConnection.on('SendReaction', (color, id) => {
->>>>>>> origin/master
-                messages.filter(x => x.id === id)[0].msg.hubConnection(color);
+                //messages.filter(x => x.id === id)[0].msg
             });
             this.stopHub = () => {
                 this.state.hubConnection.stop().then(() => console.log("Connection terminated!(Chat)"))
@@ -131,7 +127,6 @@ class Message extends Component {
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
                     <h1 style={{padding: '0 20px'}}>{this.props.user.name}</h1>
                 </Popup>
-
                 <div className='MessageContainer' style={{background: this.color}}>
                     <h2>{this.props.text}</h2>
                     <Grades chooseMsg={x => this.ChooseGrade(x)} currentGrade={this.state.current}/>
