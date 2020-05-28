@@ -19,7 +19,7 @@ function App() {
     return (
         <Router history={browserHistory}>
             <div className="App">
-                <HeaderComponent history={browserHistory}/>
+                <HeaderComponent history={browserHistory} />
                 <div className='container' style={{ width: '100%', marginTop: '8em' }}>
                     <Switch>
                         <Redirect exact from="/Game/user/profile/:id" to="/user/profile/:id" />

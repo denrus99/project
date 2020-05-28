@@ -5,7 +5,7 @@ import { CirclePicker } from 'react-color';
 import Popup from "reactjs-popup";
 import photo from "../images/game/account.svg";
 import {Button} from "reactstrap";
-
+import * as Cookies from 'js-cookie';
 
 const signalR = require('@aspnet/signalr');
 
@@ -14,6 +14,10 @@ export class GameComponent extends Component {
         super(props);
         this.gameId = this.props.match.params.id;
     }
+
+    componentWillUnmount = () => {
+        Cookies.remove("gameId");
+    };
 
     render() {
         return (
