@@ -33,7 +33,6 @@ export class Chat extends Component {
                 }
             );
             this.state.hubConnection.on('ReceiveMessage', (id, name, text, date) => {
-                debugger;
                 let block = document.getElementById("chatBlock");
                 let msg = {
                     idMes: id,
@@ -41,18 +40,17 @@ export class Chat extends Component {
                     text: text,
                     date: date
                 };
-                messages.push({id: msg.idMes,
-                    msg: <Message id={msg.idMes} user={msg.user} text={msg.text} date={msg.date}
-                                  hub={this.state.hubConnection}/>
-                });
+                messages.push(msg);
 
                 this.setState({messages: messages});
                 let timer = setTimeout(() => {
                     block.scrollTop = block.scrollHeight;
                 }, 10)
             });
-            this.state.hubConnection.on('RecieveReaction', (color, id) => {
-                messages.filter(x => x.id === id)[0].msg.hubConnection(color);
+
+            this.state.hubConnection.on('ReceiveReaction', (grade, id) => {
+                debugger
+                this.refs["msg"+id].ChooseGrade(grade);
             });
             this.stopHub = () => {
                 this.state.hubConnection.stop().then(() => console.log("Connection terminated!(Chat)"))
@@ -72,6 +70,8 @@ export class Chat extends Component {
         this.setState({message: ''});
     }
 
+    
+
     render() {
         return (
             <div style={{width: '20%'}}>
@@ -79,7 +79,8 @@ export class Chat extends Component {
                 <h2>Выбраное слово : Кукуруза</h2>
                 {/*TODO добавить пользователя и слово только для GM*/}
                 <div id='chatBlock' className='chat_Container'>
-                    {messages.map(x => x.msg)}
+                    {messages.map(x => <Message ref={"msg"+x.idMes} chooseGrade={this.ChooseGrade} id={x.idMes} gameId={this.props.gameId} user={x.user} text={x.text} date={x.date}
+                                                hub={this.state.hubConnection}/>)}
                 </div>
                 <Input sendMsg={this.sendMessage}/>
             </div>
@@ -96,6 +97,9 @@ class Message extends Component {
     }
 
     ChooseGrade(grade) {
+        if(grade === this.state.current){
+            return
+        }
         switch (grade) {
             case 1:
                 this.color = "#BBED89";
@@ -110,8 +114,10 @@ class Message extends Component {
                 this.color = "#dae8ec"
                 break;
         }
+        debugger
+        
         this.props.hub
-            .invoke('SendReaction', this.props.gameId, this.color, this.props.id)
+            .invoke('SendReaction', this.props.gameId, grade, this.props.id)
             .catch(err => console.error(err));
         this.setState({current: grade})
     }
@@ -126,7 +132,6 @@ class Message extends Component {
                     position='top center' contentStyle={{zIndex: 11, width: 'inherit'}} on='hover'>
                     <h1 style={{padding: '0 20px'}}>{this.props.user.name}</h1>
                 </Popup>
-
                 <div className='MessageContainer' style={{background: this.color}}>
                     <h2>{this.props.text}</h2>
                     <Grades chooseMsg={x => this.ChooseGrade(x)} currentGrade={this.state.current}/>
