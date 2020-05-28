@@ -10,18 +10,12 @@ import * as Cookies from 'js-cookie';
 export class MainComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = { isLoad: false }
-        this.games = [];
-        Fetchs.getLobbys(this.state.pageNum).then(res => {
-            this.games.push(...res);
-            this.setState({ isLoad: true });
-        });
     }
 
     render() {        
         return (
             <div className='rowContainer'>
-                {this.state.isLoad ? <OpenGames games={this.games} /> : <div className="middleContainer"><Roller color="black" /></div>}
+                <OpenGames games={this.games} />
             </div>
         );
     }
@@ -31,39 +25,53 @@ export class MainComponent extends Component {
 class OpenGames extends Component {
     constructor(props) {
         super(props);
-        this.state = {pageNum: 0};
+        this.state = { isLoad: false, pageNum: 0 };
         this.changePage = this.changePage.bind(this);
+        this.games = [];
+        Fetchs.getLobbys(this.state.pageNum).then(res => {
+            this.games.push(...res);
+            this.setState({ isLoad: true });
+        });
     }
 
     changePage(x) {
+        this.games = [];
+        Fetchs.getLobbys(this.state.pageNum + x).then(res => {
+            this.games.push(...res);
+            this.setState({ isLoad: true });
+        });
         this.setState({pageNum: this.state.pageNum + x});
     }
 
     render() {
         let openGames = [];
-        for (let i = 0; i < this.props.games.length; i++) {
-            openGames.push({ name: `Лобби ${i + 1}`, info: this.props.games[i], id: i + 1 });
+        for (let i = 0; i < this.games.length; i++) {
+            openGames.push({ name: `Лобби ${this.state.pageNum * 10 + i + 1}`, info: this.games[i], id: i + 1 });
         }
 
-        return (
-            <div className='OpenGamesContainer'>
-                <h1>Открытые игры</h1>
-                {openGames.map(x => <LobbyItem name={x.name} setterPageNum={this.props.setterPageNum} info={x.info}/>)}
-                <div style={{margin: '0 auto', justifyContent:'space-around', alignItems:'center'}} className='rowContainer'>
-                    {
-                        this.state.pageNum > 0 ?
-                            <img className='arrowImg' src={backArrow} onClick={() => this.changePage(-1)}/>
-                            :  <div className='arrowImg'/>
-                    }
-                    <h1>{this.state.pageNum}</h1>
-                    {
-                        openGames.length == 10 ?
-                            <img  className='arrowImg' src={nextArrow} onClick={() => this.changePage(1)}/>:
-                            <div className='arrowImg'/>
-                    }
+        if (this.state.isLoad) {
+            return (
+                <div className='OpenGamesContainer'>
+                    <h1>Открытые игры</h1>
+                    {openGames.map(x => <LobbyItem name={x.name} setterPageNum={this.props.setterPageNum} info={x.info} />)}
+                    <div style={{ margin: '0 auto', justifyContent: 'space-around', alignItems: 'center' }} className='rowContainer'>
+                        {
+                            this.state.pageNum > 0 ?
+                                <img className='arrowImg' src={backArrow} onClick={() => this.changePage(-1)} />
+                                : <div className='arrowImg' />
+                        }
+                        <h1>{this.state.pageNum}</h1>
+                        {
+                            openGames.length == 10 ?
+                                <img className='arrowImg' src={nextArrow} onClick={() => this.changePage(1)} /> :
+                                <div className='arrowImg' />
+                        }
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return <div className="middleContainer"><Roller color="black" /></div>;
+        }
     }
 }
 
