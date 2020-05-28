@@ -103,6 +103,7 @@ export class HeaderComponent extends Component {
             Cookies.set("gameId", response);
             this._closePopup();
             this.props.history.push(`/Game/${response}`);
+            this.props.history.go(`/Game/${response}`);
         } else {
             return false;
         }
@@ -117,6 +118,7 @@ export class HeaderComponent extends Component {
             Cookies.set("gameId", gameId.value);
             this._closePopup();
             this.props.history.push(`/Game/${gameId.value}`);
+            this.props.history.go(`/Game/${gameId.value}`);
         } else {
             return false;
         }
