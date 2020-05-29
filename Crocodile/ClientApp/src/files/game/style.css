@@ -147,7 +147,7 @@ tr {
 }
 
 .Input_Container {
-    margin: 15px;
+    margin: 5px 20px 0 5px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -159,7 +159,7 @@ tr {
     border-radius: 20px;
     border: none;
     cursor: pointer;
-    color: #ffffff;
+    color: #007c02;
     font-family: Arial, serif;
     font-size: 20px;
     text-decoration: none;

@@ -200,21 +200,24 @@ class Message extends Component {
                 this.color = "#dae8ec"
                 break;
         }
-        if(grade === 2) {
+        if (grade === 2) {
             Fetchs.addScoresAlmostGuessed(this.props.gameId, this.props.user.name)
                 .then(() => {
                     this.props.hub
-                        .invoke('SendReaction', this.props.gameId, grade, this.props.id)
+                        .invoke('SendReaction', this.props.gameId, grade, this.props.id, null)
                         .catch(err => console.error(err))
                 });
-        }
-        if(grade === 1) {
+        } else if (grade === 1) {
             Fetchs.andRound(this.props.gameId, Cookies.get("master"), this.props.user.name)
                 .then((res) => {
                     this.props.hub
                         .invoke('SendReaction', this.props.gameId, grade, this.props.id, res)
                         .catch(err => console.error(err))
                 });
+        } else {
+            this.props.hub
+                .invoke('SendReaction', this.props.gameId, grade, this.props.id, null)
+                .catch(err => console.error(err));
         }
         this.setState({ current: grade })
     }
